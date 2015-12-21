@@ -1,0 +1,12 @@
+version = '1.0'
+jar {
+    baseName = 'shoe-web-app'+"-$profile"
+    version = '0.1.0'
+}
+
+dependencies {
+    compile(
+            "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.boot:spring-boot-starter-thymeleaf"           
+    )
+}

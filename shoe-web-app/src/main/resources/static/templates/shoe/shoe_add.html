@@ -1,0 +1,57 @@
+<html>
+<head>
+<!-- Load CSS files-->
+    <link href="css/templateCss/shoe/shoeadd.css" rel="stylesheet" th:href="@{/css/templateCss/shoe/shoeadd.css}"/>
+</head>
+	<body>
+		<div class="container">
+			<div class="panel">
+			  <div class="panel-heading content-center">
+			        <h2>增加条目</h2>
+			  </div>
+			  <div class="panel-body">
+	          	<form>
+	               <div class="form-group biaodan">
+	                 <label for="name">企业名称：</label>
+	                 <input type="text" class="form-control" id="name" ng-model="name" placeholder="请输入企业名称"/>
+	               </div>
+	               <div class="form-group biaodan">
+	                 <label for="permit">营业执照：</label>
+	                 <input type="file" class="form-control clear-border" id="permit"/>
+	               </div>
+	              	<div class="form-group biaodan">
+	                 <label for="logo">企业形象照：</label>
+	                 <input type="file" class="form-control clear-border" id="logo"/>
+	               </div>
+	               <div class="form-group biaodan">
+	                 <label for="enterpriseLegalPerson">企业法人：</label>
+	                 <input type="text" class="form-control" ng-model="enterpriseLegalPerson" id="enterpriseLegalPerson" placeholder="请输入企业法人"/>
+	               </div>
+	               <div class="form-group biaodan">
+	                 <label for="address">企业地址：</label>
+	                 <input type="text" class="form-control" ng-model="address" id="address" placeholder="请输入企业地址"/>
+	               </div>
+	               <div class="form-group biaodan">
+	                 <label for="submitPerson">提交者姓名：</label>
+	                 <input type="text" class="form-control" ng-model="submitPerson" id="submitPerson" placeholder="请输入提交者姓名"/>
+	               </div>
+	               <div class="form-group biaodan">
+	                 <label for="tel">提交者手机：</label>
+	                 <input type="text" class="form-control" ng-model="tel" id="tel" placeholder="请输入提交者手机"/>
+	               </div>
+	               <div class="form-group biaodan">
+	                 <label for="checkCode">验证码：</label>
+	                 <input type="text" class="form-control" ng-model="checkCode" id="checkCode" placeholder="请输入验证码"/>
+	               </div>
+	             </form>
+                  <div class="row">
+                  	  <div class="col-md-12 content-center">
+			             <a href="javascript:void(0);" ui-sref="shoeList()" class="btn btn-lg btn-default">取消</a>
+		                  <button type="button" class="btn btn-lg btn-primary btn-margin" ng-click="submitShoeCompany()">提交</button>                 	  
+                  	  </div>
+                  </div>
+			  </div>
+			</div>
+		</div>
+	</body>
+</html>

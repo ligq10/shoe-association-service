@@ -1,0 +1,79 @@
+<html>
+<head>
+<!-- Load CSS files-->
+    <link href="css/templateCss/shoe/shoelist.css" rel="stylesheet" th:href="@{/css/templateCss/shoe/shoelist.css}"/>
+</head>
+	<body>
+		<div class="container-fluid">
+			<div class="panel">	
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-md-7">
+							<a class="navbar-brand" href="#"><img src="images/shoelogo.png" class="img-responsive" alt="Responsive image"></a>
+						</div>
+						<div class="col-md-5">
+				            <form class="searchbar navbar-form " role="search">
+					              <div class="form-group">
+					                <input type="text" class="form-control" placeholder="输入需要搜索的条目">
+					              </div>
+					              <button type="submit" class="btn btn-default">搜索</button>
+					              <a href="#/shoeAdd" ui-sref="shoeAdd()" class="btn btn-default">增加条目</a>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row row-search">
+						<div class="col-md-12 zimu">
+							 <a href="javascript:void(0);" class="letter" ng-repeat="item in letterList">{{item}}</a>
+							 <a href="javascript:void(0);" rel="all">全部</a>
+						</div>
+					</div>
+					<div class="row row-search">
+						<div class="col-md-12 xinyu">
+			              <a href="javascript:void(0);">信誉等级：</a>
+			              <a href="javascript:void(0);" class="letter" ng-repeat="item in creditList" ng-click="searchCredit(item.level)">{{item.desc}}</a>
+						</div>
+					</div>
+					<div class="row row-search">
+						<div class="col-md-12 paixu">
+			              <a href="javascript:void(0);">信誉排序：</a>
+			              <a href="javascript:void(0);" class="letter" ng-repeat="item in sortList" ng-click="searchSort(item.value)">{{item.desc}}</a>
+						</div>
+					</div>
+					
+					<div class="row" ng-repeat="item in companyRowList">
+						<div class="col-md-3" ng-repeat="subitem in item track by $index">
+			                <a class="tiaomu">			                	
+			                  <div class="row">
+			                  	<div class="col-md-12">
+			                      <img src="images/ceshilogo.png"/>
+			                     </div>
+			                  </div>
+			                  <div class="row">
+			                  	 <div class="col-md-12">
+       			                  <h5>名称：{{subitem.name}}</h5>
+       			                 </div>			                  
+			                  </div>
+			                  <div class="row">
+				                  <div class="col-md-12">
+				                    <a javascript:void(0); ui-sref="creditDetail({uuid:entry.uuid})">信誉分：{{subitem.totalScore}}分（优）</a>			                    			                    			                  				                    
+				                  </div>
+			                  </div>
+			                  <div class="row">
+			                  	<div class="col-md-5">
+                					<a javascript:void(0); ui-sref="shoeList()">评分详情</a>
+			                  	</div>
+			                  	<div class="col-md-5">
+                					<a javascript:void(0); ui-sref="feedbackAdd({uuid:entry.uuid})">我要评论</a>			                    			                    			                  	
+			                  	</div>			                  			                    
+			                  </div>
+			                </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class=""><company-list-page></company-list-page></div>
+	</body>
+</html>

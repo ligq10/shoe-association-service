@@ -1,0 +1,62 @@
+<html>
+<head>
+<!-- Load CSS files-->
+    <link href="css/templateCss/feedback/feedbackadd.css" rel="stylesheet" th:href="@{/css/templateCss/feedback/feedbackadd.css}"/>
+</head>
+	<body>
+		<div class="container">
+			<div class="panel">
+			  <div class="panel-heading content-center">
+			       <h2>添加评分信息</h2>
+			  </div>			
+			  <div class="panel-body">
+                   <form>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputName2">评分类型：</label>
+                        <select class="form-control">
+                          <option>加分</option>
+                          <option>减分</option>
+                        </select>
+                      </div>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputName3">分数：</label>
+                        <select class="form-control">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputName4">评分事由：</label>
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="请输入理由">
+                      </div>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputFile">评分证据：</label>
+                        <input type="file" class="form-control clear-border" id="exampleInputFile">
+                      </div>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputName5">提交者姓名：</label>
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="请输入提交者姓名">
+                      </div>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputName6">提交者手机：</label>
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="请输入提交者手机">
+                      </div>
+                      <div class="form-group biaodan">
+                        <label for="exampleInputName7">验证码：</label>
+                        <input type="text" class="form-control" id="exampleInputName2" placeholder="请输入验证码">
+                      </div>
+                  </form>
+                  <div class="row">
+                  	  <div class="col-md-12 content-center">
+			              <a href="javascript:void(0);" ui-sref="shoeList()" class="btn btn-lg btn-default btn-margin">取消</a>
+		                  <button type="button" class="btn btn-lg btn-primary btn-margin">提交</button>                 	  
+                  	  </div>
+                  </div>
+			  </div>
+			</div>
+		</div>
+	</body>
+</html>

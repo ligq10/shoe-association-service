@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="poiApp" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/> 
+    <title>运营商电子商务系统</title>
+    <!-- Load CSS files-->
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="../static/css/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}"/>
+    <link href="../static/css/font-awesome.css" rel="stylesheet" th:href="@{/css/font-awesome.css}"/>
+    <link href="../static/css/common.css" rel="stylesheet" th:href="@{/css/common.css}"/>   
+    <link href="../static/css/bootstrap-spinner.css" rel="stylesheet" th:href="@{/css/bootstrap-spinner.css}"/>
+    <link href="../static/css/angular/angular-ui-tree.min.css" rel="stylesheet" th:href="@{/css/angular/angular-ui-tree.min.css}"/>
+	<link rel="stylesheet" type="text/css" href="../static/arcgis_js_api/library/3.12/3.12/dijit/themes/tundra/tundra.css" th:href="@{/arcgis_js_api/library/3.12/3.12/dijit/themes/tundra/tundra.css}"/>
+	<link rel="stylesheet" type="text/css" href="../static/arcgis_js_api/library/3.12/3.12/dijit/themes/claro/claro.css" th:href="@{/arcgis_js_api/library/3.12/3.12/dijit/themes/claro/claro.css}"/>
+	<link rel="stylesheet" type="text/css" href="../static/arcgis_js_api/library/3.12/3.12/esri/css/esri.css" th:href="@{/arcgis_js_api/library/3.12/3.12/esri/css/esri.css}"/>
+
+</head>
+<body onload="setNavHeight();">
+    <div id="layout">
+    	<div id="childContent" data-ui-view="" style="width: 100%;height: 100%;"></div>
+    </div>    
+	<!-- 公共提示框 -->
+	<!-- 此处bs-example-modal-lg modal-lg 样式将模态框设置为大框 ，如果为bs-example-modal-sm modal-sm即为小框-->
+	<div class="modal fade bs-example-modal-sm" id="alert_dialog" role="dialog" aria-label="myModalLabel" aria-hidden="true">
+		<div id="modal_dialog" class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div id="dialog_header" class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>			
+					</button>
+					<h4 class="modal-title">[Title]</h4>
+				</div>
+				<div class="modal-body">
+				    <p>[Message]</p>
+	<!--              	<form>
+	             		<div class="form-group">
+	             			<label class="control-label">username</label>
+	             			<input type="text" class="form-control"/>
+	             		</div>
+	             		<div class="form-group">
+	             			<label class="control-label">password</label>
+	             			<input type="text" class="form-control"/>
+	             		</div>
+	             	</form> -->
+				</div>
+				<div class="modal-footer">
+				    <button type="button" id="dialog_ok_button" class="btn btn-primary ok" data-dismiss="modal">
+				    [BtnOk]
+				    </button>
+	 			    <button type="button" id="dialog_cancel_button" class="btn btn-default cancel" data-dismiss="modal">
+				    [BtnCancel]
+				    </button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Load plugin js file-->
+<script src="../static/js/plugin/jquery-1.min.js" th:src="@{/js/plugin/jquery-1.min.js}"></script>
+<script src="../static/js/plugin/bootstrap/bootstrap.min.js" th:src="@{/js/plugin/bootstrap/bootstrap.min.js}"></script>
+<script src="../static/js/plugin/bootstrap/bootstrap-datetimepicker.min.js" th:src="@{/js/plugin/bootstrap/bootstrap-datetimepicker.min.js}"></script>
+<script src="../static/js/plugin/angular/angular.js" th:src="@{/js/plugin/angular/angular.js}"></script>
+<script src="../static/js/plugin/angular/angular-route.js" th:src="@{/js/plugin/angular/angular-route.js}"></script>
+<script src="../static/js/plugin/angular/angular-resource.js" th:src="@{/js/plugin/angular/angular-resource.js}"></script>
+<script src="../static/js/plugin/angular/angular-ui-router.js" th:src="@{/js/plugin/angular/angular-ui-router.js}"></script>
+<script src="../static/js/plugin/angular/angular-ui-tree.js" th:src="@{/js/plugin/angular/angular-ui-tree.js}"></script>
+<script src="../static/js/plugin/angular/angular-ui-tree.min.js" th:src="@{/js/plugin/angular/angular-ui-tree.min.js}"></script>
+<script src="../static/js/plugin/angular/angular-file-upload-shim.min.js" th:src="@{/js/plugin/angular/angular-file-upload-shim.min.js}"></script>
+<script src="../static/js/plugin/angular/angular-file-upload.min.js" th:src="@{/js/plugin/angular/angular-file-upload.min.js}"></script>
+<script src="../static/js/plugin/angular/angular-base64-upload.min.js" th:src="@{/js/plugin/angular/angular-base64-upload.min.js}"></script>
+<script src="../static/js/plugin/bootstrap/ui-bootstrap-tpls.js" th:src="@{/js/plugin/bootstrap/ui-bootstrap-tpls.js}"></script>
+<!-- Load custom js file -->
+<script src="../static/js/app.js" th:src="@{/js/app.js}"></script>
+<script src="../static/js/common.js" th:src="@{/js/common.js}"></script>
+<script src="../static/js/style.js" th:src="@{/js/style.js}"></script>
+<script src="../static/arcgis_js_api/library/3.12/3.12/init.js" th:src="@{/arcgis_js_api/library/3.12/3.12/init.js}"></script>
+<script src="../static/js/service/serviceProviderService.js" th:src="@{/js/service/serviceProviderService.js}"></script>
+<script src="../static/js/service/serviceProviderCtrl.js" th:src="@{/js/service/serviceProviderCtrl.js}"></script>
+<script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+</body>
+</html>
