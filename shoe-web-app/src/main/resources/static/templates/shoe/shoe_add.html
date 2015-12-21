@@ -10,19 +10,19 @@
 			        <h2>增加条目</h2>
 			  </div>
 			  <div class="panel-body">
-	          	<form>
+	          	<form ng-submit="submitShoeCompany()" method="POST" enctype="multipart/form-data">
 	               <div class="form-group biaodan">
 	                 <label for="name">企业名称：</label>
 	                 <input type="text" class="form-control" id="name" ng-model="name" placeholder="请输入企业名称"/>
 	               </div>
 	               <div class="form-group biaodan">
-	                 <label for="permit">营业执照：</label>
-	                 <input type="file" class="form-control clear-border" id="permit"/>
+	                 <label for="permitimage">营业执照：</label>
+	                 <input type="file" class="form-control clear-border" id="permitimage" ng-model="permitimage"  name="permitimage" ng-file-select/>
 	               </div>
-	              	<div class="form-group biaodan">
-	                 <label for="logo">企业形象照：</label>
-	                 <input type="file" class="form-control clear-border" id="logo"/>
-	               </div>
+ 	               <div class="form-group biaodan">
+	                 <label for="logoimage">企业形象照：</label>
+	                 <input type="file" class="form-control clear-border" id="logoimage" ng-model="logoimage" name="logoimage" ng-file-select/>
+	               </div> 
 	               <div class="form-group biaodan">
 	                 <label for="enterpriseLegalPerson">企业法人：</label>
 	                 <input type="text" class="form-control" ng-model="enterpriseLegalPerson" id="enterpriseLegalPerson" placeholder="请输入企业法人"/>
@@ -43,13 +43,14 @@
 	                 <label for="checkCode">验证码：</label>
 	                 <input type="text" class="form-control" ng-model="checkCode" id="checkCode" placeholder="请输入验证码"/>
 	               </div>
-	             </form>
                   <div class="row">
                   	  <div class="col-md-12 content-center">
 			             <a href="javascript:void(0);" ui-sref="shoeList()" class="btn btn-lg btn-default">取消</a>
-		                  <button type="button" class="btn btn-lg btn-primary btn-margin" ng-click="submitShoeCompany()">提交</button>                 	  
+		                 <button type="submit" class="btn btn-lg btn-primary btn-margin">提交</button>                 	  
                   	  </div>
                   </div>
+	             </form>
+                  
 			  </div>
 			</div>
 		</div>

@@ -8,6 +8,14 @@ var shoeAddUrl = '';
 shoeAddService.factory('shoeAddFactory',function($resource){
     var shoeAddFactory;
     shoeAddFactory=$resource(shoeAddUrl,{},{
+    	saveShoeCompany:{
+            method:'POST',
+            url:'/shoecompanies',
+            headers:{
+                "Content-Type":"multipart/form-data",
+                Accept:'application/hal+json'
+            }
+    	}
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',

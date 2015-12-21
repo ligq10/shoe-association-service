@@ -1,5 +1,6 @@
 package com.ligq.shoe.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -15,7 +16,10 @@ public class ShoeCompanyAddRequest {
 	
 	private String tel;
 	
-
+	private String logoImageId;
+	
+	private String permitImageId;
+	
 	public String getName() {
 		return name;
 	}
@@ -54,6 +58,22 @@ public class ShoeCompanyAddRequest {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public String getLogoImageId() {
+		return logoImageId;
+	}
+
+	public void setLogoImageId(String logoImageId) {
+		this.logoImageId = logoImageId;
+	}
+
+	public String getPermitImageId() {
+		return permitImageId;
+	}
+
+	public void setPermitImageId(String permitImageId) {
+		this.permitImageId = permitImageId;
 	}
 	
 }

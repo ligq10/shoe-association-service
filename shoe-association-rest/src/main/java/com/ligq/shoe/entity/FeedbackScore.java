@@ -30,13 +30,13 @@ public class FeedbackScore {
 	private String scoreReason;
 	
 	@Column(name = "submit_person")
-	private String submit_person;
+	private String submitPerson;
 	
 	@Column(name = "submit_tel")
 	private String submitTel;
 
 	@Column(name="create_time")
-	private Date create_time;
+	private Date createTime;
 	
 	@Column(name = "remark")
 	private String remark;
@@ -73,14 +73,6 @@ public class FeedbackScore {
 		this.scoreReason = scoreReason;
 	}
 
-	public String getSubmit_person() {
-		return submit_person;
-	}
-
-	public void setSubmit_person(String submit_person) {
-		this.submit_person = submit_person;
-	}
-
 	public String getSubmitTel() {
 		return submitTel;
 	}
@@ -89,12 +81,20 @@ public class FeedbackScore {
 		this.submitTel = submitTel;
 	}
 	
-	public Date getCreate_time() {
-		return create_time;
+	public String getSubmitPerson() {
+		return submitPerson;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setSubmitPerson(String submitPerson) {
+		this.submitPerson = submitPerson;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 	public String getRemark() {

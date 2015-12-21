@@ -44,7 +44,7 @@ public class FeedbackService {
 		FeedbackScore feedbackScore = new FeedbackScore();		
 		BeanUtils.copyProperties(feedBackAddRequest, feedbackScore);
 		feedbackScore.setUuid(UUID.randomUUID().toString());
-		feedbackScore.setCreate_time(new Date());
+		feedbackScore.setCreateTime(new Date());
 		feedbackScore = feedbackScoreRepository.save(feedbackScore);
 		HttpHeaders headers = new HttpHeaders();
 

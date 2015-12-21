@@ -1,8 +1,12 @@
 package com.ligq.shoe.model;
 
+import java.util.Date;
+
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ligq.shoe.utils.DateUtils;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class FeedbackResponse extends ResourceSupport{
@@ -13,13 +17,19 @@ public class FeedbackResponse extends ResourceSupport{
 	
 	private String scoreReason;
 	
-	private String submit_person;
+	private String submitPerson;
 	
 	private String submitTel;
 
 	private String remark;
+	
+	private String createTime;
+
 
 	public String getUuid() {
+		if(StringUtils.isEmpty(uuid)){
+			uuid = "";
+		}
 		return uuid;
 	}
 
@@ -28,6 +38,9 @@ public class FeedbackResponse extends ResourceSupport{
 	}
 
 	public String getScoreType() {
+		if(StringUtils.isEmpty(scoreType)){
+			scoreType = "";
+		}
 		return scoreType;
 	}
 
@@ -36,22 +49,42 @@ public class FeedbackResponse extends ResourceSupport{
 	}
 
 	public String getScoreReason() {
+		if(StringUtils.isEmpty(scoreReason)){
+			scoreReason = "";
+		}
 		return scoreReason;
 	}
 
 	public void setScoreReason(String scoreReason) {
 		this.scoreReason = scoreReason;
 	}
-
-	public String getSubmit_person() {
-		return submit_person;
+	
+	public String getSubmitPerson() {
+		if(StringUtils.isEmpty(submitPerson)){
+			submitPerson = "";
+		}
+		return submitPerson;
 	}
 
-	public void setSubmit_person(String submit_person) {
-		this.submit_person = submit_person;
+	public void setSubmitPerson(String submitPerson) {
+		this.submitPerson = submitPerson;
+	}
+
+	public String getCreateTime() {
+		if(StringUtils.isEmpty(createTime)){
+			createTime = "";
+		}
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = DateUtils.composeUTCTime(createTime);
 	}
 
 	public String getSubmitTel() {
+		if(StringUtils.isEmpty(submitTel)){
+			submitTel = "";
+		}
 		return submitTel;
 	}
 
@@ -60,6 +93,9 @@ public class FeedbackResponse extends ResourceSupport{
 	}
 
 	public String getRemark() {
+		if(StringUtils.isEmpty(remark)){
+			remark = "";
+		}
 		return remark;
 	}
 

@@ -42,11 +42,11 @@ public class ShoeCompany {
 	@Column(name = "serve_score")
 	private Integer serveScore;
 	
-	@Column(name = "logo_url")
-	private String logoUrl;
+	@Column(name = "logo_image_id")
+	private String logoImageId;
 	
-	@Column(name = "permit_id")
-	private String permitId;
+	@Column(name = "permit_image_id")
+	private String permitImageId;
 	
 	@Column(name = "enterprise_legal_person")
 	private String enterpriseLegalPerson;
@@ -124,21 +124,21 @@ public class ShoeCompany {
 	public void setServeScore(Integer serveScore) {
 		this.serveScore = serveScore;
 	}
-	
-	public String getLogoUrl() {
-		return logoUrl;
+
+	public String getLogoImageId() {
+		return logoImageId;
 	}
 
-	public void setLogoUrl(String logoUrl) {
-		this.logoUrl = logoUrl;
+	public void setLogoImageId(String logoImageId) {
+		this.logoImageId = logoImageId;
 	}
 
-	public String getPermitId() {
-		return permitId;
+	public String getPermitImageId() {
+		return permitImageId;
 	}
 
-	public void setPermitId(String permitId) {
-		this.permitId = permitId;
+	public void setPermitImageId(String permitImageId) {
+		this.permitImageId = permitImageId;
 	}
 
 	public String getEnterpriseLegalPerson() {

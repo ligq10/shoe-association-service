@@ -12,7 +12,7 @@ public class FeedbackAddRequest {
 	
 	private String scoreReason;
 	
-	private String submit_person;
+	private String submitPerson;
 	
 	private String submitTel;
 
@@ -41,13 +41,13 @@ public class FeedbackAddRequest {
 	public void setScoreReason(String scoreReason) {
 		this.scoreReason = scoreReason;
 	}
-
-	public String getSubmit_person() {
-		return submit_person;
+	
+	public String getSubmitPerson() {
+		return submitPerson;
 	}
 
-	public void setSubmit_person(String submit_person) {
-		this.submit_person = submit_person;
+	public void setSubmitPerson(String submitPerson) {
+		this.submitPerson = submitPerson;
 	}
 
 	public String getSubmitTel() {
