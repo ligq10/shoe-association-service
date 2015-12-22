@@ -48,6 +48,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 
 	private String creditDesc;
 	
+	private String namePhoneticize;
+
+	
 	public String getName() {
 		if(StringUtils.isEmpty(name)){
 			name = "";
@@ -245,5 +248,18 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	public void setCreditDesc(String creditDesc) {
 		this.creditDesc = creditDesc;
 	}
+
+	public String getNamePhoneticize() {
+		if(StringUtils.isEmpty(namePhoneticize)){
+			namePhoneticize = "";
+		}
+		return namePhoneticize;
+	}
+
+	public void setNamePhoneticize(String namePhoneticize) {
+		this.namePhoneticize = namePhoneticize;
+	}
+	
+	
 	
 }

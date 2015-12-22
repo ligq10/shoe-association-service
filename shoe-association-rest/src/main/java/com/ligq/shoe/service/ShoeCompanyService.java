@@ -145,7 +145,7 @@ public class ShoeCompanyService {
 
 	public Page<ShoeCompany> findAllShoeCompanyByName(String name,
 			Pageable pageable) {
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByNameLike(name, pageable);
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByName(name, pageable);
 		return shoeCompanyPage;
 	}
 
