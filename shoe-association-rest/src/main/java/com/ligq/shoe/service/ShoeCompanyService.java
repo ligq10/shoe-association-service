@@ -4,7 +4,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +26,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +38,13 @@ import org.springframework.util.StringUtils;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import com.ligq.shoe.controller.DataDictController;
+import com.ligq.shoe.controller.FileController;
 import com.ligq.shoe.controller.ShoeCompanyController;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.User;
+import com.ligq.shoe.model.CreditLevel;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
+import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.repository.ShoeCompanyRepository;
 import com.ligq.shoe.repository.UserRepository;
 
@@ -143,7 +151,78 @@ public class ShoeCompanyService {
 
 	public Page<ShoeCompany> findAllShoeCompanybyPhoneticize(
 			String phoneticize, Pageable pageable) {
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByNamePhoneticizeLike(phoneticize, pageable);
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByNamePhoneticize(phoneticize, pageable);
 		return shoeCompanyPage;
 	}
+	
+	public Page<ShoeCompany> findAllShoeCompanyByCreditLevel(String level, Pageable pageable) {
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByCreditLevel(level, pageable);
+		return shoeCompanyPage;
+	}
+	
+	public ResponseEntity getResponseEntityConvertShoeCompanyPage(String pathParams,Page<ShoeCompany> shoeCompanyResult,
+			Pageable pageable,HttpServletRequest request,HttpServletResponse response)throws Exception{
+
+		List<Link> list = prepareLinks(pageable.getPageNumber(),
+				pageable.getPageSize(), request, shoeCompanyResult,pathParams);
+		List<ShoeCompanyResponse> content = new ArrayList<ShoeCompanyResponse>();
+		
+		if(null != shoeCompanyResult){
+			for (ShoeCompany shoeCompany : shoeCompanyResult.getContent()) {
+
+				User user = userRepository.findOne(shoeCompany.getSubmitPersonId());		
+				ShoeCompanyResponse shoeCompanyResponse = new ShoeCompanyResponse();
+				BeanUtils.copyProperties(shoeCompany, shoeCompanyResponse);
+			    Link selfLink = linkTo(methodOn(ShoeCompanyController.class).findOneShoeCompanyById(shoeCompany.getUuid(), request, response)).withSelfRel();	    
+			    String logoImageUrl = getHost(request)+"/images/show/"+shoeCompany.getLogoImageId();
+			    shoeCompanyResponse.setLogoImageUrl(logoImageUrl);
+			    String permitImageUrl = getHost(request)+"/images/show/"+shoeCompany.getPermitImageId();
+			    shoeCompanyResponse.setPermitImageUrl(permitImageUrl);;
+			    shoeCompanyResponse.setTotalScore(shoeCompany.getCreditScore()+shoeCompany.getQualityScore()+shoeCompany.getServeScore());
+			    shoeCompanyResponse.setSubmitPerson(user.getName());
+			    shoeCompanyResponse.setTel(user.getTel());
+			    shoeCompanyResponse.setCreditDesc(CreditLevel.getCreditDesc(shoeCompany.getCreditLevel()).getDesc());
+
+			    shoeCompanyResponse.add(selfLink);
+				content.add(shoeCompanyResponse);
+			}			
+		}
+		
+		PagedResources<ShoeCompanyResponse> pagedResources = new PagedResources<ShoeCompanyResponse>(
+				content, new PageMetadata(shoeCompanyResult.getSize(), shoeCompanyResult.getNumber(),
+						shoeCompanyResult.getTotalElements(), shoeCompanyResult.getTotalPages()),
+				list);
+		return new ResponseEntity(pagedResources, HttpStatus.OK); 
+	}
+
+	private List<Link> prepareLinks(int page, int size,
+			HttpServletRequest request, Page result,String pathParams) {
+		List<Link> list = new ArrayList<>();
+		if (result.hasNext()) {
+			list.add(new Link(getHost(request) + request.getRequestURI()
+					+  "?page=" + (page + 1) + "&size=" + size+pathParams,
+					Link.REL_NEXT));
+		}
+		if (result.hasPrevious()) {
+			list.add(new Link(getHost(request) + request.getRequestURI()
+					+ "?page=" + (page - 1) + "&size=" + size+pathParams,
+					Link.REL_PREVIOUS));
+		}
+		list.add(new Link(getHost(request) + request.getRequestURI()
+				+  "?page=" + page + "&size=" + size+pathParams, Link.REL_SELF));
+		return list;
+	}
+	
+	public String getHost(HttpServletRequest request) {
+		int port = request.getServerPort();
+		String host = request.getServerName();
+		String header = request.getHeader("X-Forwarded-Host");
+		if (!StringUtils.isEmpty(header)) {
+			return "http://" + header;
+		}
+		return "http://" + host + ":" + port;
+	}
+
+
+	
 }

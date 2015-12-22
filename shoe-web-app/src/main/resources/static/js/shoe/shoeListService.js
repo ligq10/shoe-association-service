@@ -8,6 +8,13 @@ var shoeListUrl = '';
 shoeListService.factory('shoeListFactory',function($resource){
     var shoeListFactory;
     shoeListFactory=$resource(shoeListUrl,{},{
+    	queryShoesByMultipleConditions:{	   		 
+	   		 url:"/shoecompanies",
+	         method:"GET",
+	         headers:{
+	                Accept:'application/hal+json'
+	         }
+	    }
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',

@@ -33,20 +33,13 @@ import org.springframework.web.multipart.MultipartFile;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-
-
-
-
-
-
-
 import com.ligq.shoe.entity.Image;
 import com.ligq.shoe.model.ImageResponse;
 import com.ligq.shoe.service.ImageService;
+import com.ligq.shoe.service.ShoeCompanyService;
 
 
 @Controller
-@MultipartConfig(location = "/tmp", fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 20, maxRequestSize = 1024 * 1024 * 200)
 public class FileController {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);

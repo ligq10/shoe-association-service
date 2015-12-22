@@ -7,6 +7,11 @@ var shoeListControllers=angular.module('shoeListControllers',['shoeListServices'
 shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
     function($scope,shoeListFactory) {
 
+	var searchInputTemp = "";
+	$scope.phoneticizeTemp = "";
+	$scope.creditLevelTemp = "";
+	$scope.sortTemp = ""; 
+	
 	$scope.letterList=['A','B','C','D','E','F','G','H','I','J','K','L',
 	               'M','N','O','P','Q','R','S','T','U','V','W','X',
 	               'Y','Z'];
@@ -20,6 +25,10 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 	                   {value:"asc",desc:"升序"},
 	                   {value:"desc",desc:"降序"}
 	                  ];
+	
+    $scope.pageSize=PAGESIZE_DEFAULT;
+	$scope.currentPage=CURRENTPAGE_INIT;
+	
 	$scope.company = {
 			name : "雪松",
 			address : "成都市高新区",
@@ -37,21 +46,8 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 			creditLevel : "0"
 	};
 	
-	$scope.companyList = [
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-			$scope.company,
-	                      ];
+	$scope.companyList = [];
+	
 	$scope.companyRowList = [];
 	
 	var initCompanyList= function(companyList) {
@@ -72,7 +68,154 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
         }
 	}
 	
-	initCompanyList($scope.companyList);
+	//initCompanyList($scope.companyList);
+	
+
+	/**
+	 * 刷新订单列表
+	 */
+	var refreshShoesList = function(queryEntity){
+		
+		shoeListFactory.queryShoesByMultipleConditions(queryEntity,function(response){
+			
+			if(response.$resolved){
+                if(response._embedded==undefined){
+                	$scope.companyList = [];
+                	$scope.currentPage = 0;
+                	$scope.numPages = 0;	                	
+                	return false;
+                }else{
+                	$scope.companyList=[];
+                	$scope.page=response.page;
+                    $scope.numPages = function () {
+                        return response.page.totalPages;
+                    };
+/*                    for(var i=0;i< response._embedded.orderSummaryResponses.length;i++){
+                    	$scope.orders[i]= response._embedded.orderSummaryResponses[i];
+                    }*/
+                    initCompanyList(response._embedded.shoeCompanyResponses);
+                }
+
+			}else{
+            	$scope.companyList = [];
+            	$scope.currentPage = 0;
+            	$scope.numPages = 0;
+			}
+		});
+	}					
+
+	//初始化页面
+	refreshShoesList();
+	
+	/**
+	 * 查询输入框条目列表
+	 */
+	$scope.queryShoes = function(){
+		searchInputTemp = $scope.searchInput;
+		$scope.phoneticizeTemp = "";
+		$scope.creditLevelTemp = "";
+		$scope.sortTemp = ""; 
+		var queryEntity = {
+				name : searchInputTemp,	
+				phoneticize : "",
+				level : "",
+				sort : "",
+				page:$scope.currentPage,
+				size:$scope.pageSize
+		}
+		refreshShoesList(queryEntity);
+	}
+	
+	/**
+	 * 字母查询
+	 */
+	$scope.phoneticizeSearch = function(phoneticize){
+		$scope.searchInput = "";
+		searchInputTemp = $scope.searchInput;
+		$scope.phoneticizeTemp = phoneticize;
+		$scope.creditLevelTemp = "";
+		$scope.sortTemp = ""; 
+		var queryEntity = {
+				name : searchInputTemp,	
+				phoneticize : phoneticize,
+				level : $scope.creditLevelTemp,
+				sort : $scope.sortTemp,
+				page:$scope.currentPage,
+				size:$scope.pageSize
+		}
+		refreshShoesList(queryEntity);
+	}
+	
+	/**
+	 * 字母查询
+	 */
+	$scope.searchAll = function(){
+		$scope.currentPage = 0;
+		$scope.pageSize = 20;
+		$scope.searchInput = "";
+		searchInputTemp = $scope.searchInput;
+		$scope.phoneticizeTemp = "";
+		$scope.creditLevelTemp = "";
+		$scope.sortTemp = ""; 
+		var queryEntity = {
+				name : searchInputTemp,	
+				phoneticize : $scope.phoneticizeTemp,
+				level : $scope.creditLevelTemp,
+				sort : $scope.sortTemp,
+				page:$scope.currentPage,
+				size:$scope.pageSize
+		}
+		refreshShoesList(queryEntity);
+	}
+	
+	/**
+	 * 信誉等级
+	 */
+	$scope.searchCredit = function(level){
+		$scope.currentPage = 0;
+		$scope.pageSize = 20;
+		$scope.searchInput = "";
+		searchInputTemp = $scope.searchInput;
+		$scope.phoneticizeTemp = "";
+		$scope.creditLevelTemp = level;
+		$scope.sortTemp = "";
+		var queryEntity = {
+				name : searchInputTemp,	
+				phoneticize : $scope.phoneticizeTemp,
+				level : level,
+				sort : $scope.sortTemp,
+				page:$scope.currentPage,
+				size:$scope.pageSize
+		}
+		refreshShoesList(queryEntity);
+	}
+	
+	$scope.searchSort = function(value){
+		$scope.searchInput = "";
+		$scope.sortTemp = value;
+		var queryEntity = {
+				name : searchInputTemp,	
+				phoneticize : $scope.phoneticizeTemp,
+				level : $scope.creditLevelTemp,
+				sort : $scope.sortTemp,
+				page:$scope.currentPage,
+				size:$scope.pageSize
+		}
+		refreshShoesList(queryEntity);
+	}
+	
+    //order翻页 点击下一页，上一页，首页，尾页按钮
+    $scope.pageChanged=function(){
+		var queryEntity = {
+				name : searchInputTemp,	
+				phoneticize : $scope.phoneticizeTemp,
+				level : $scope.creditLevelTemp,
+				sort : $scope.sortTemp,
+				page:$scope.currentPage,
+				size:$scope.pageSize
+		}
+		refreshShoesList(queryEntity);
+    }
 }]);
 
 shoeListControllers.directive("deletegroupdialog",

@@ -14,9 +14,9 @@
 						<div class="col-md-5">
 				            <form class="searchbar navbar-form " role="search">
 					              <div class="form-group">
-					                <input type="text" class="form-control" placeholder="输入需要搜索的条目">
+					                <input type="text" class="form-control" ng-model="searchInput" placeholder="输入需要搜索的条目">
 					              </div>
-					              <button type="submit" class="btn btn-default">搜索</button>
+					              <button type="submit" class="btn btn-default" ng-click="queryShoes()">搜索</button>
 					              <a href="#/shoeAdd" ui-sref="shoeAdd()" class="btn btn-default">增加条目</a>
 							</form>
 						</div>
@@ -25,8 +25,8 @@
 				<div class="panel-body">
 					<div class="row row-search">
 						<div class="col-md-12 zimu">
-							 <a href="javascript:void(0);" class="letter" ng-repeat="item in letterList">{{item}}</a>
-							 <a href="javascript:void(0);" rel="all">全部</a>
+							 <a href="javascript:void(0);" class="letter" ng-repeat="item in letterList" ng-click="phoneticizeSearch(item)">{{item}}</a>
+							 <a href="javascript:void(0);" rel="all" ng-click="searchAll()">全部</a>
 						</div>
 					</div>
 					<div class="row row-search">
@@ -47,7 +47,7 @@
 			                <a class="tiaomu">			                	
 			                  <div class="row">
 			                  	<div class="col-md-12">
-			                      <img src="images/ceshilogo.png"/>
+			                      <img ng-src="{{subitem.logoImageUrl}}"/>
 			                     </div>
 			                  </div>
 			                  <div class="row">
@@ -57,7 +57,7 @@
 			                  </div>
 			                  <div class="row">
 				                  <div class="col-md-12">
-				                    <a javascript:void(0); ui-sref="creditDetail({uuid:entry.uuid})">信誉分：{{subitem.totalScore}}分（优）</a>			                    			                    			                  				                    
+				                    <a javascript:void(0); ui-sref="creditDetail({uuid:entry.uuid})">信誉分：{{subitem.totalScore}}分（{{subitem.creditDesc}}）</a>			                    			                    			                  				                    
 				                  </div>
 			                  </div>
 			                  <div class="row">
@@ -74,6 +74,6 @@
 				</div>
 			</div>
 		</div>
-		<div class=""><company-list-page></company-list-page></div>
+		<div class="" ng-hide="currentPage == 0"><company-list-page></company-list-page></div>
 	</body>
 </html>

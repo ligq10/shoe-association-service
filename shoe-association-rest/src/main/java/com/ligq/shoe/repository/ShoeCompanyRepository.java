@@ -13,6 +13,8 @@ public interface ShoeCompanyRepository extends
 
 	public Page<ShoeCompany> findByNameLike(String name,Pageable pageable);
 	
-	public Page<ShoeCompany> findByNamePhoneticizeLike(String namePhoneticize,Pageable pageable);
+	public Page<ShoeCompany> findByNamePhoneticize(String namePhoneticize,Pageable pageable);
 	
+	public Page<ShoeCompany> findByCreditLevel(String creditLevel,Pageable pageable);
+
 }

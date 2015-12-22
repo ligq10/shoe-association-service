@@ -3,7 +3,7 @@
 // 默认pageSize=10
 
 //分页
-var  PAGESIZE_DEFAULT=10;
+var  PAGESIZE_DEFAULT=20;
 var  PAGESIZE_GROUP=15;
 var CURRENTPAGE_INIT=0;
 var SAVE_SUCCESS_MESSAGE="保存成功！";

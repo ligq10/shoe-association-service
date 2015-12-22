@@ -4,8 +4,10 @@ package com.ligq.shoe.model;
 import java.util.Date;
 
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ligq.shoe.utils.DateUtils;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ShoeCompanyResponse extends ResourceSupport{
@@ -20,13 +22,19 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	
 	private String tel;
 	
-	private Date createTime;
+	private String createTime;
 
-	private Date updateTime;
+	private String updateTime;
 	
 	private Integer comprehensiveScore;
 
-	private String logoUrl;
+	private String logoImageUrl;
+	
+	private String logoImageId;
+
+	private String permitImageId;
+
+	private String permitImageUrl;
 	
 	private Integer totalScore;
 	
@@ -38,8 +46,12 @@ public class ShoeCompanyResponse extends ResourceSupport{
 
 	private Integer creditLevel;
 
+	private String creditDesc;
 	
 	public String getName() {
+		if(StringUtils.isEmpty(name)){
+			name = "";
+		}
 		return name;
 	}
 
@@ -48,6 +60,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public String getAddress() {
+		if(StringUtils.isEmpty(address)){
+			address = "";
+		}
 		return address;
 	}
 
@@ -56,6 +71,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public String getEnterpriseLegalPerson() {
+		if(StringUtils.isEmpty(enterpriseLegalPerson)){
+			enterpriseLegalPerson = "";
+		}
 		return enterpriseLegalPerson;
 	}
 
@@ -64,6 +82,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public String getSubmitPerson() {
+		if(StringUtils.isEmpty(submitPerson)){
+			submitPerson = "";
+		}
 		return submitPerson;
 	}
 
@@ -72,22 +93,20 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public String getTel() {
+		if(StringUtils.isEmpty(tel)){
+			tel = "";
+		}
 		return tel;
 	}
 
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	
-	public String getLogoUrl() {
-		return logoUrl;
-	}
-
-	public void setLogoUrl(String logoUrl) {
-		this.logoUrl = logoUrl;
-	}
 
 	public Integer getComprehensiveScore() {
+		if(StringUtils.isEmpty(comprehensiveScore)){
+			comprehensiveScore = 0;
+		}
 		return comprehensiveScore;
 	}
 
@@ -95,23 +114,32 @@ public class ShoeCompanyResponse extends ResourceSupport{
 		this.comprehensiveScore = comprehensiveScore;
 	}
 	
-	public Date getCreateTime() {
+	public String getCreateTime() {
+		if(StringUtils.isEmpty(createTime)){
+			createTime = "";
+		}
 		return createTime;
 	}
 
 	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+		this.createTime = DateUtils.composeUTCTime(createTime);
 	}
 
-	public Date getUpdateTime() {
+	public String getUpdateTime() {
+		if(StringUtils.isEmpty(updateTime)){
+			updateTime = "";
+		}
 		return updateTime;
 	}
 
 	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+		this.updateTime = DateUtils.composeUTCTime(updateTime);
 	}
 
 	public Integer getTotalScore() {
+		if(StringUtils.isEmpty(totalScore)){
+			totalScore = 0;
+		}
 		return totalScore;
 	}
 
@@ -120,6 +148,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public Integer getCreditScore() {
+		if(StringUtils.isEmpty(creditScore)){
+			creditScore = 0;
+		}
 		return creditScore;
 	}
 
@@ -128,6 +159,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public Integer getQualityScore() {
+		if(StringUtils.isEmpty(qualityScore)){
+			qualityScore = 0;
+		}
 		return qualityScore;
 	}
 
@@ -136,6 +170,9 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public Integer getServeScore() {
+		if(StringUtils.isEmpty(serveScore)){
+			serveScore = 0;
+		}
 		return serveScore;
 	}
 
@@ -144,11 +181,69 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	}
 
 	public Integer getCreditLevel() {
+		if(StringUtils.isEmpty(creditLevel)){
+			creditLevel = 0;
+		}
 		return creditLevel;
 	}
 
 	public void setCreditLevel(Integer creditLevel) {
 		this.creditLevel = creditLevel;
 	}
-		
+
+	public String getLogoImageUrl() {
+		if(StringUtils.isEmpty(logoImageUrl)){
+			logoImageUrl = "";
+		}
+		return logoImageUrl;
+	}
+
+	public void setLogoImageUrl(String logoImageUrl) {
+		this.logoImageUrl = logoImageUrl;
+	}
+
+	public String getLogoImageId() {
+		if(StringUtils.isEmpty(logoImageId)){
+			logoImageId = "";
+		}
+		return logoImageId;
+	}
+
+	public void setLogoImageId(String logoImageId) {
+		this.logoImageId = logoImageId;
+	}
+
+	public String getPermitImageId() {
+		if(StringUtils.isEmpty(permitImageId)){
+			permitImageId = "";
+		}
+		return permitImageId;
+	}
+
+	public void setPermitImageId(String permitImageId) {
+		this.permitImageId = permitImageId;
+	}
+
+	public String getPermitImageUrl() {
+		if(StringUtils.isEmpty(permitImageUrl)){
+			permitImageUrl = "";
+		}
+		return permitImageUrl;
+	}
+
+	public void setPermitImageUrl(String permitImageUrl) {
+		this.permitImageUrl = permitImageUrl;
+	}
+
+	public String getCreditDesc() {
+		if(StringUtils.isEmpty(creditDesc)){
+			creditDesc = "";
+		}
+		return creditDesc;
+	}
+
+	public void setCreditDesc(String creditDesc) {
+		this.creditDesc = creditDesc;
+	}
+	
 }
