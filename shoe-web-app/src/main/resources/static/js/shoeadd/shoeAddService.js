@@ -12,7 +12,6 @@ shoeAddService.factory('shoeAddFactory',function($resource){
             method:'POST',
             url:'/shoecompanies',
             headers:{
-                "Content-Type":"multipart/form-data",
                 Accept:'application/hal+json'
             }
     	}

@@ -81,7 +81,7 @@ public class ImageService {
 			image = imageRepository.save(image);
 	        HttpHeaders headers = new HttpHeaders();
 			headers.setLocation(linkTo(methodOn(FileController.class).findOneImage(image.getUuid(), request,response)).toUri());
-			responseEntity = new ResponseEntity<Object>(headers,HttpStatus.CREATED);				
+			responseEntity = new ResponseEntity<Object>(image,headers,HttpStatus.CREATED);				
 
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage(),e);
