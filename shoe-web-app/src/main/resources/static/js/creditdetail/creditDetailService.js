@@ -1,5 +1,5 @@
 /**
- * Created by  on 2015-12-02.
+ * Created by ligq on 2015-12-02.
  */
 /* Services */
 'use strict';
@@ -8,6 +8,13 @@ var creditDetailUrl = '';
 creditDetailService.factory('creditDetailFactory',function($resource){
     var creditDetailFactory;
     creditDetailFactory=$resource(creditDetailUrl,{},{
+    	getShoeComapnyDetailById:{
+            url:'/shoecompanies/:uuid',
+            method:'GET',
+            headers:{
+            	Accept:'application/hal+json'
+            }
+        }
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',

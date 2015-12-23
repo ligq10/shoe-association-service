@@ -11,6 +11,8 @@ import com.ligq.shoe.utils.DateUtils;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ShoeCompanyResponse extends ResourceSupport{
+	
+	private String uuid;
 
 	private String name;
 	
@@ -48,9 +50,16 @@ public class ShoeCompanyResponse extends ResourceSupport{
 
 	private String creditDesc;
 	
-	private String namePhoneticize;
-
+	private String namePhoneticize;	
 	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
 	public String getName() {
 		if(StringUtils.isEmpty(name)){
 			name = "";

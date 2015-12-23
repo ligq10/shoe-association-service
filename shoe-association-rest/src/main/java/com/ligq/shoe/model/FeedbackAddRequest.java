@@ -1,6 +1,8 @@
 package com.ligq.shoe.model;
 
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -10,11 +12,15 @@ public class FeedbackAddRequest {
 	
 	private String scoreType;
 	
+	private Integer score;
+	
 	private String scoreReason;
 	
 	private String submitPerson;
 	
 	private String submitTel;
+	
+	private List<String> proofFileIds;
 
 	private String remark;	
 	
@@ -32,6 +38,14 @@ public class FeedbackAddRequest {
 
 	public void setScoreType(String scoreType) {
 		this.scoreType = scoreType;
+	}	
+	
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 
 	public String getScoreReason() {
@@ -64,6 +78,14 @@ public class FeedbackAddRequest {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public List<String> getProofFileIds() {
+		return proofFileIds;
+	}
+
+	public void setProofFileIds(List<String> proofFileIds) {
+		this.proofFileIds = proofFileIds;
 	}
 	
 	

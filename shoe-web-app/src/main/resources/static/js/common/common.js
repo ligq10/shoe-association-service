@@ -346,3 +346,6 @@ format = format.replace(RegExp.$1, RegExp.$1.length == 1
 }  
 return format;  
 }
+$("#setscore").TouchSpin({
+    verticalbuttons: true
+});
