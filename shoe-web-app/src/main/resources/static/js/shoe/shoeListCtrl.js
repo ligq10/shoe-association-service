@@ -1,5 +1,5 @@
 /**
- * Created by wangjingxue@changhongit.com 2015-02-02.
+ * Created by ligq 2015-02-02.
  */
 'use strict';
 var shoeListControllers=angular.module('shoeListControllers',['shoeListServices']);

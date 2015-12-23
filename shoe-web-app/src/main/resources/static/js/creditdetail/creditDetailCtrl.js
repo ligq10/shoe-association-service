@@ -4,25 +4,20 @@
 'use strict';
 var creditDetailControllers=angular.module('creditDetailControllers',['creditDetailServices']);
 
-creditDetailControllers.controller('creditDetailCtrl',['$scope','creditDetailFactory',
-    function($scope,creditDetailFactory) {
-	$scope.letterList=['A','B','C','D','E','F','G','H','I','J','K','L',
-	               'M','N','O','P','Q','R','S','T','U','V','W','X',
-	               'Y','Z'];
-	$scope.creditList = [
-	                     {level:'0',desc:"优"},
-	                     {level:'1',desc:"良"},
-	                     {level:'2',desc:"中"},
-	                     {level:'3',desc:"差"}
-	                     ];
-	$scope.sortList = [
-	                   {value:"asc",desc:"升序"},
-	                   {value:"desc",desc:"降序"}
-	                   ];
+creditDetailControllers.controller('creditDetailCtrl',['$scope','$stateParams','$upload','$rootScope','creditDetailFactory',
+    function($scope,$stateParams,$upload,$rootScope,creditDetailFactory) {
+    $scope.shoeComapnyId = $stateParams.uuid;
+    
+    creditDetailFactory.getShoeComapnyDetailById({uuid:$scope.shoeComapnyId},function(response){
+    	debugger;
+    	if(response.$resolved){
+    		$scope.shoeComapny = response;
+    	}
+	});
 	
 }]);
 
-shoeListControllers.directive("deletegroupdialog",
+/*creditDetailControllers.directive("deletegroupdialog",
     function (){
         var option={
             restrict:"AEC",
@@ -31,4 +26,4 @@ shoeListControllers.directive("deletegroupdialog",
             templateUrl:"templates/commonTemplate/delete-group-dialog.html"
         };
         return option;
-    });
+    });*/

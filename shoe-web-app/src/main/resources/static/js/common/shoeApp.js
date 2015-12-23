@@ -24,12 +24,12 @@ shoeApp.config(function($stateProvider,$urlRouterProvider){
             controller:'shoeAddCtrl'
         }).
         state('feedbackAdd',{
-            url:'/feedbackAdd',
+            url:'/feedbackAdd/:uuid',
             templateUrl:'templates/shoe/feedback_add.html',
             controller:'feedBackAddCtrl'
         }).
         state('creditDetail',{
-            url:"/creditDetail",
+            url:'/creditDetail/:uuid',
             templateUrl:'templates/shoe/credit_detail.html',
             controller:'creditDetailCtrl'
         });
