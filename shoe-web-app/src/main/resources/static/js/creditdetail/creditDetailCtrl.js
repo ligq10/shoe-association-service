@@ -9,7 +9,7 @@ creditDetailControllers.controller('creditDetailCtrl',['$scope','$stateParams','
     $scope.shoeComapnyId = $stateParams.uuid;
     
     creditDetailFactory.getShoeComapnyDetailById({uuid:$scope.shoeComapnyId},function(response){
-    	debugger;
+    	
     	if(response.$resolved){
     		$scope.shoeComapny = response;
     	}
