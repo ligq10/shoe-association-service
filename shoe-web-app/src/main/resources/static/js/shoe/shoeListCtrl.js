@@ -76,11 +76,15 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 	 */
 	var refreshShoesList = function(queryEntity){
 		
+		$scope.companyList = [];		
+		$scope.companyRowList = [];
+		
 		shoeListFactory.queryShoesByMultipleConditions(queryEntity,function(response){
 			
 			if(response.$resolved){
                 if(response._embedded==undefined){
-                	$scope.companyList = [];
+                	$scope.companyList = [];              	
+                	$scope.companyRowList = [];
                 	$scope.currentPage = 0;
                 	$scope.numPages = 0;	                	
                 	return false;
@@ -97,7 +101,9 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
                 }
 
 			}else{
-            	$scope.companyList = [];
+				$scope.companyList = [];				
+				$scope.companyRowList = [];
+				
             	$scope.currentPage = 0;
             	$scope.numPages = 0;
 			}
