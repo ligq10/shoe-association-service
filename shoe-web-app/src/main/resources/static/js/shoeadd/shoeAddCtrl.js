@@ -53,7 +53,7 @@ shoeAddControllers.controller('shoeAddCtrl',['$scope','$state','$upload','shoeAd
 				$state.go('shoeList');
 				Message.alert({
 					msg : "新增成功!",
-					title : "警告:",
+					title : "提示:",
 					btnok : '确定',btncl : '取消'
 				}, "warn", "small");
 				

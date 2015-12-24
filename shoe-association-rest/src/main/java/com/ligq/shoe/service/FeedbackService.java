@@ -3,7 +3,9 @@ package com.ligq.shoe.service;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.ligq.shoe.controller.FeedbackController;
+import com.ligq.shoe.entity.FeedbackFile;
 import com.ligq.shoe.entity.FeedbackScore;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.model.FeedbackAddRequest;
+import com.ligq.shoe.model.FeedbackResponse;
 import com.ligq.shoe.repository.FeedbackFileRepository;
 import com.ligq.shoe.repository.FeedbackScoreRepository;
 
@@ -41,11 +46,28 @@ public class FeedbackService {
 	public ResponseEntity<Object> save(FeedbackAddRequest feedBackAddRequest,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		List<String> proofFileIds = feedBackAddRequest.getProofFileIds();
+		if(null == proofFileIds || proofFileIds.isEmpty()){
+			logger.error("proof file is empty");
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}		
+		Date createTime = new Date();
 		FeedbackScore feedbackScore = new FeedbackScore();		
 		BeanUtils.copyProperties(feedBackAddRequest, feedbackScore);
 		feedbackScore.setUuid(UUID.randomUUID().toString());
-		feedbackScore.setCreateTime(new Date());
+		feedbackScore.setCreateTime(createTime);
+		//0代表初始化状态
+		feedbackScore.setApproveStatus(0);
 		feedbackScore = feedbackScoreRepository.save(feedbackScore);
+		for(String proofFileId : proofFileIds){
+			FeedbackFile feedbackFile = new FeedbackFile();
+			feedbackFile.setUuid(UUID.randomUUID().toString());
+			feedbackFile.setFileId(proofFileId);
+			feedbackFile.setFeedbackId(feedbackScore.getUuid());
+			feedbackFile.setCreateTime(createTime);
+			feedbackFileRepository.save(feedbackFile);			
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
 
 		URI selfUrl = linkTo(methodOn(FeedbackController.class).findOneFeedbackById(feedbackScore.getUuid(), request, response)).toUri();
@@ -53,10 +75,34 @@ public class FeedbackService {
 		return new ResponseEntity<Object>(headers,HttpStatus.CREATED);
 	}
 
-	public FeedbackScore findOneFeedbackById(String uuid) {
+	public FeedbackResponse findOneFeedbackById(
+			String uuid,
+			HttpServletRequest request,
+			HttpServletResponse response) {
 		// TODO Auto-generated method stub
+		FeedbackResponse feedbackResponse = new FeedbackResponse();
 		FeedbackScore feedbackScore = feedbackScoreRepository.findOne(uuid);
-		return feedbackScore;
+		if(null == feedbackScore ){
+			return null;
+		}
+
+		List<FeedbackFile> feedbackFileList = feedbackFileRepository.findByFeedbackId(feedbackScore.getUuid());
+		if(null != feedbackFileList && feedbackFileList.isEmpty() == false){
+			List<String> proofFileIds = new ArrayList<String>();
+			List<String> proofFileUrls = new ArrayList<String>();
+
+			for(FeedbackFile feedbackFile: feedbackFileList){
+				proofFileIds.add(feedbackFile.getFileId());
+			    String proofFileUrl = getHost(request)+"/images/show/"+feedbackFile.getFileId();
+			    proofFileUrls.add(proofFileUrl);
+			}
+			feedbackResponse.setProofFileIds(proofFileIds);
+			feedbackResponse.setProofFileUrls(proofFileUrls);
+		}
+		BeanUtils.copyProperties(feedbackScore, feedbackResponse);
+	    Link selfLink = linkTo(methodOn(FeedbackController.class).findOneFeedbackById(feedbackScore.getUuid(), request, response)).withSelfRel();	    
+	    feedbackResponse.add(selfLink);
+		return feedbackResponse;
 	}
 
 	public Page<FeedbackScore> findFeedbackByCompanyId(String uuid,
@@ -65,5 +111,13 @@ public class FeedbackService {
 		return feedbackScorePage;
 	}
 	
-	
+	public String getHost(HttpServletRequest request) {
+		int port = request.getServerPort();
+		String host = request.getServerName();
+		String header = request.getHeader("X-Forwarded-Host");
+		if (!StringUtils.isEmpty(header)) {
+			return "http://" + header;
+		}
+		return "http://" + host + ":" + port;
+	}
 }

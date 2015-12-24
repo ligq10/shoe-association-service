@@ -57,7 +57,28 @@ public class FileController {
 			logger.error("image is empty");
             return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
-		ResponseEntity<Object> responseEntity =  null;		
+		ResponseEntity<?> responseEntity =  null;		
+		try{
+			responseEntity = imageService.save(file,request,response);
+	    } catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage(),e);
+            return new ResponseEntity<HttpStatus>( HttpStatus.BAD_REQUEST);
+		}
+		return responseEntity;
+	}
+	
+	@RequestMapping(value="/images/multipartfile", method=RequestMethod.POST)
+	public HttpEntity<?> imagesUpLoad(
+			@RequestParam(value = "file") MultipartFile[] file,
+			HttpServletRequest request,
+			HttpServletResponse response){
+				
+		if(null == file || file.length < 1){
+			logger.error("image is empty");
+            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		ResponseEntity<?> responseEntity =  null;		
 		try{
 			responseEntity = imageService.save(file,request,response);
 	    } catch (Exception e) {

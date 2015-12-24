@@ -73,14 +73,11 @@ public class FeedbackController {
 			 @PathVariable String uuid,
 			 HttpServletRequest request,
 			 HttpServletResponse response){
-		FeedbackScore feedbackScore = feedbackService.findOneFeedbackById(uuid);
-		if(null == feedbackScore){
+		FeedbackResponse feedbackResponse = feedbackService.findOneFeedbackById(uuid,request,response);
+		if(null == feedbackResponse){
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
-		FeedbackResponse feedbackResponse = new FeedbackResponse();
-		BeanUtils.copyProperties(feedbackScore, feedbackResponse);
-	    Link selfLink = linkTo(methodOn(this.getClass()).findOneFeedbackById(feedbackScore.getUuid(), request, response)).withSelfRel();	    
-	    feedbackResponse.add(selfLink);
+		
         return new ResponseEntity<Resource>(new Resource<FeedbackResponse>(feedbackResponse), HttpStatus.OK);
 		
 	}

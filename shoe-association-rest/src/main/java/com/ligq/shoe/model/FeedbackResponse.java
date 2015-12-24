@@ -1,6 +1,7 @@
 package com.ligq.shoe.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.util.StringUtils;
@@ -24,6 +25,10 @@ public class FeedbackResponse extends ResourceSupport{
 	private String remark;
 	
 	private String createTime;
+	
+	private List<String> proofFileIds;
+	
+	private List<String> proofFileUrls;
 
 
 	public String getUuid() {
@@ -102,5 +107,24 @@ public class FeedbackResponse extends ResourceSupport{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-		
+
+	public List<String> getProofFileIds() {
+		return proofFileIds;
+	}
+
+	public void setProofFileIds(List<String> proofFileIds) {
+		this.proofFileIds = proofFileIds;
+	}
+
+	public List<String> getProofFileUrls() {
+		return proofFileUrls;
+	}
+
+	public void setProofFileUrls(List<String> proofFileUrls) {
+		this.proofFileUrls = proofFileUrls;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
 }
