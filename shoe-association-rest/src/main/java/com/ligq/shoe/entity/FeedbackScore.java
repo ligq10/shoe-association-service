@@ -29,6 +29,12 @@ public class FeedbackScore {
 	@Column(name = "score_reason")
 	private String scoreReason;
 	
+	@Column(name = "score")
+	private Integer score;
+	
+	@Column(name = "approve_status")
+	private Integer approveStatus;
+	
 	@Column(name = "submit_person")
 	private String submitPerson;
 	
@@ -95,6 +101,22 @@ public class FeedbackScore {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public Integer getApproveStatus() {
+		return approveStatus;
+	}
+
+	public void setApproveStatus(Integer approveStatus) {
+		this.approveStatus = approveStatus;
 	}
 
 	public String getRemark() {

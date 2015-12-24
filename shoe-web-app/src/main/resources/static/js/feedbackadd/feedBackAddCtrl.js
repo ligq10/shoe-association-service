@@ -7,23 +7,20 @@ var feedBackAddControllers=angular.module('feedBackAddControllers',['feedBackAdd
 feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$stateParams','$upload','$rootScope','feedBackAddFactory',
     function($scope,$stateParams,$upload,$rootScope,feedBackAddFactory) {
     $scope.shoeComapnyId = $stateParams.uuid;
-
-	$scope.letterList=['A','B','C','D','E','F','G','H','I','J','K','L',
-	               'M','N','O','P','Q','R','S','T','U','V','W','X',
-	               'Y','Z'];
 	
-	$scope.creditList = [
-	                     {level:'0',desc:"优"},
-	                     {level:'1',desc:"良"},
-	                     {level:'2',desc:"中"},
-	                     {level:'3',desc:"差"}
-	                     ];
-	$scope.sortList = [
-	                   {value:"asc",desc:"升序"},
-	                   {value:"desc",desc:"降序"}
-	                   ];
+	$scope.score = 0;
 	
-
+	$scope.plusScore = function(){
+		if($scope.score < 20){
+			$scope.score = $scope.score+1;
+		}
+	}
+	
+	$scope.reduceScore = function(){
+		if($scope.score >= 1){
+			$scope.score = $scope.score-1;
+		}
+	}
 }]);
 
 /*feedBackAddControllers.directive("deletegroupdialog",
