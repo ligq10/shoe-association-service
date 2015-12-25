@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,12 +40,25 @@ public class ImageService {
 	@Autowired
 	private ImageRepository imageRepository;
 	
-	public ResponseEntity<Object> save(
+	public ResponseEntity<?> save(
 			MultipartFile file,
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		ResponseEntity<Object> responseEntity = null;
+		Image image = saveFile(file);
+		if(null == image){
+			return  new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);				
+		}
+        HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(linkTo(methodOn(FileController.class).findOneImage(image.getUuid(), request,response)).toUri());
+		responseEntity = new ResponseEntity<Object>(image,headers,HttpStatus.CREATED);				
+
+		return responseEntity;  
+	}
+
+	private Image saveFile(MultipartFile file){
+		Image image = new Image();
 		//获取存储路径
 		File fileBaseDir = FileUtils.createTempDir();
 		//获取文件名
@@ -52,7 +67,7 @@ public class ImageService {
         String ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length());  
         if(isImage(ext)==false){
 			logger.error("image type is not support");
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			      	
+			return null;			      	
         }
         //重新命名文件名
         String newFileName = System.currentTimeMillis()+Math.round(Math.random()*9)+"."+ext;
@@ -72,24 +87,20 @@ public class ImageService {
 			    os.write(b);  
 			}
 			
-			Image image = new Image();
 			image.setUuid(UUID.randomUUID().toString());
 			image.setPath(newFilePath);
 			image.setCreateTime(new Date());
 			image.setMimeType(file.getContentType());
 			image.setName(fileName);
 			image = imageRepository.save(image);
-	        HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(linkTo(methodOn(FileController.class).findOneImage(image.getUuid(), request,response)).toUri());
-			responseEntity = new ResponseEntity<Object>(image,headers,HttpStatus.CREATED);				
-
+			return image;
 		} catch (FileNotFoundException e) {
 			logger.error(e.getMessage(),e);
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			      	
+			return null;			      	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage(),e);
-			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			      	
+			return null;			      	
 		}finally{
 			if(null != os){
 		        try {
@@ -110,9 +121,8 @@ public class ImageService {
 				} 					
 			}
 		}
-		return responseEntity;  
 	}
-
+	
 	private boolean isImage(String mimeType){
 		
 		for(ImageType imagetype : ImageType.values()){
@@ -128,5 +138,17 @@ public class ImageService {
 		Image image = imageRepository.findOne(uuid);
 
 		return image;
+	}
+
+	public ResponseEntity<?> save(MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		List<String> fileIds = new ArrayList<String>();
+		for(MultipartFile file : files){
+			Image image = this.saveFile(file);
+			if(null != image){
+				fileIds.add(image.getUuid());
+			}
+		}
+		return new ResponseEntity<Object>(fileIds,HttpStatus.CREATED);				
 	}
 }

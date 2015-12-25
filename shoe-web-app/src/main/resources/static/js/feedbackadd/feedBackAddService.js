@@ -8,6 +8,13 @@ var feedBackAddUrl = '';
 feedBackAddService.factory('feedBackAddFactory',function($resource){
     var feedBackAddFactory;
     feedBackAddFactory=$resource(feedBackAddUrl,{},{
+    	saveFeedback:{
+            method:'POST',
+            url:'/shoecompanies/:uuid/feedbacks',
+            headers:{
+                Accept:'application/hal+json'
+            }
+    	}
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',

@@ -28,7 +28,9 @@ public class FeedbackResponse extends ResourceSupport{
 	private Integer score;
 	
 	private String createTime;
-
+	
+	private List<String> proofImageIds;
+	
 	private List<String> proofImageUrls;
 
 	public String getUuid() {
@@ -129,6 +131,13 @@ public class FeedbackResponse extends ResourceSupport{
 	public void setProofImageUrls(List<String> proofImageUrls) {
 		this.proofImageUrls = proofImageUrls;
 	}
-	
+
+	public List<String> getProofImageIds() {
+		return proofImageIds;
+	}
+
+	public void setProofImageIds(List<String> proofImageIds) {
+		this.proofImageIds = proofImageIds;
+	}
 	
 }

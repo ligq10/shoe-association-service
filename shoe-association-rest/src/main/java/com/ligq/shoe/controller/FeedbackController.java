@@ -73,11 +73,10 @@ public class FeedbackController {
 			 @PathVariable String uuid,
 			 HttpServletRequest request,
 			 HttpServletResponse response){
-		FeedbackScore feedbackScore = feedbackService.findOneFeedbackById(uuid);
-		if(null == feedbackScore){
+		FeedbackResponse feedbackResponse = feedbackService.findOneFeedbackById(uuid,request,response);
+		if(null == feedbackResponse){
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
-		}
-		FeedbackResponse feedbackResponse = feedbackService.getFeedbackResponseByFeedbackScore(feedbackScore, request, response);
+		}		
         return new ResponseEntity<Resource>(new Resource<FeedbackResponse>(feedbackResponse), HttpStatus.OK);
 		
 	}

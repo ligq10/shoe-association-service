@@ -13,4 +13,5 @@ public interface FeedbackFileRepository extends
 	
 	@Query("SELECT n from FeedbackFile n where n.feedbackId = ?1")
 	public List<FeedbackFile> findByFeedbackId(String feedbackId);
+
 }
