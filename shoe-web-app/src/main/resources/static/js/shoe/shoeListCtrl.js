@@ -210,7 +210,7 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 		refreshShoesList(queryEntity);
 	}
 	
-    //order翻页 点击下一页，上一页，首页，尾页按钮
+    //shoe翻页 点击下一页，上一页，首页，尾页按钮
     $scope.pageChanged=function(){
 		var queryEntity = {
 				name : searchInputTemp,	

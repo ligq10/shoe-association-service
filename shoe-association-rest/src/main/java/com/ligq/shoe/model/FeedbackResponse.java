@@ -1,6 +1,8 @@
 package com.ligq.shoe.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.util.StringUtils;
@@ -23,8 +25,11 @@ public class FeedbackResponse extends ResourceSupport{
 
 	private String remark;
 	
+	private Integer score;
+	
 	private String createTime;
 
+	private List<String> proofImageUrls;
 
 	public String getUuid() {
 		if(StringUtils.isEmpty(uuid)){
@@ -102,5 +107,28 @@ public class FeedbackResponse extends ResourceSupport{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-		
+
+	public Integer getScore() {
+		if(StringUtils.isEmpty(score)){
+			score = 0;
+		}
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public List<String> getProofImageUrls() {
+		if(null == proofImageUrls){
+			proofImageUrls = new ArrayList<String>();
+		}
+		return proofImageUrls;
+	}
+
+	public void setProofImageUrls(List<String> proofImageUrls) {
+		this.proofImageUrls = proofImageUrls;
+	}
+	
+	
 }

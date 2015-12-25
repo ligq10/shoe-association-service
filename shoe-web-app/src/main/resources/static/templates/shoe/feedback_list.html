@@ -1,0 +1,58 @@
+<html>
+<head>
+<!-- Load CSS files-->
+    <link href="css/templateCss/creditdetail/creditdetail.css" rel="stylesheet" th:href="@{/css/templateCss/creditdetail/creditdetail.css}"/>
+</head>
+	<body>
+		<div class="container">
+			<div class="panel row">
+			  <div class="panel-heading content-center">
+			        <h2>评论详情</h2>
+			  </div>
+			  <div class="panel-body col-md-offset-3 col-sm-8">
+				  <div class="row">
+				  	  <table class="table">
+						<thead>
+							<tr>
+								<th style="text-align:center" width="10%">序号</th>
+								<th style="text-align:center" width="10%">评分类型</th>
+								<th style="text-align:center" width="20%">评分分数</th>
+								<th style="text-align:center" width="20%">评分原因</th>
+								<th style="text-align:center" width="20%">提交者姓名</th>
+								<th style="text-align:center" width="20%">提交者时间</th>								
+							</tr>
+						</thead>
+						<tbody ng-repeat="entry in feedbackList">
+						  <tr class="tbody_less_border">
+							  <td align="center">
+								 {{$index+1}}
+							  </td>
+							  <td align="center">
+							  	 {{entry.scoreType =='plus'?'加分':'减分'}}																				  
+							  </td>
+							  <td align="center">
+							  	 {{entry.score}}																				  
+							  </td>
+							  <td align="center">
+							  	 {{entry.scoreReason}}																				  
+							  </td>
+							  <td align="center">
+							  	 {{entry.submitPerson}}																				  
+							  </td>
+							  <td align="center">
+							  	 {{entry.createTime}}																				  
+							  </td>
+						  </tr>		
+						</tbody>						
+				  	  </table>
+				  </div>
+			  </div>
+		      <div class="row">
+                 	  <div class="col-md-12 content-center">
+		              <a href="javascript:void(0);" ui-sref="shoeList()" class="btn btn-lg btn-default btn-margin">返回</a>
+                 	  </div>
+              </div>
+			</div>
+		</div>
+	</body>
+</html>

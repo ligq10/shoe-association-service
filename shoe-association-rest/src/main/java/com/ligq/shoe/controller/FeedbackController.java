@@ -77,10 +77,7 @@ public class FeedbackController {
 		if(null == feedbackScore){
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
-		FeedbackResponse feedbackResponse = new FeedbackResponse();
-		BeanUtils.copyProperties(feedbackScore, feedbackResponse);
-	    Link selfLink = linkTo(methodOn(this.getClass()).findOneFeedbackById(feedbackScore.getUuid(), request, response)).withSelfRel();	    
-	    feedbackResponse.add(selfLink);
+		FeedbackResponse feedbackResponse = feedbackService.getFeedbackResponseByFeedbackScore(feedbackScore, request, response);
         return new ResponseEntity<Resource>(new Resource<FeedbackResponse>(feedbackResponse), HttpStatus.OK);
 		
 	}
@@ -93,10 +90,18 @@ public class FeedbackController {
 			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
 			HttpServletRequest request,
 			HttpServletResponse response){
-
+		ResponseEntity responseEntity = null;
 		Pageable pageable = new PageRequest(page, size);
 		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByCompanyId(uuid,pageable);
-				
-        return new ResponseEntity<>(feedbackScorePage, HttpStatus.OK);
+		
+		try {
+			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;	
+		
 	}
 }

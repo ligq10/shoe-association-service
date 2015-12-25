@@ -24,10 +24,10 @@ public class FeedbackFile {
 	private String fileId;
 	
 	@Column(name="feedback_id")
-	private String feedback_id;
+	private String feedbackId;
 	
 	@Column(name="create_time")
-	private Date create_time;
+	private Date createTime;
 
 	public String getUuid() {
 		return uuid;
@@ -45,20 +45,20 @@ public class FeedbackFile {
 		this.fileId = fileId;
 	}
 
-	public String getFeedback_id() {
-		return feedback_id;
+	public String getFeedbackId() {
+		return feedbackId;
 	}
 
-	public void setFeedback_id(String feedback_id) {
-		this.feedback_id = feedback_id;
+	public void setFeedbackId(String feedbackId) {
+		this.feedbackId = feedbackId;
 	}
 
-	public Date getCreate_time() {
-		return create_time;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 		
 }

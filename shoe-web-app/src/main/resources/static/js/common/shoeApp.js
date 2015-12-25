@@ -2,7 +2,8 @@
  * Created by Administrator on 15-1-28.
  */
 'use strict';
-var shoeApp=angular.module('shoeApp',['ui.router','ui.tree','angularFileUpload',,'shoeListControllers','shoeAddControllers','creditDetailControllers','feedBackAddControllers']);
+var shoeApp=angular.module('shoeApp',['ui.router','ui.tree','angularFileUpload',,'shoeListControllers',
+              'shoeAddControllers','creditDetailControllers','feedBackAddControllers','feedBackListControllers']);
 shoeApp.config(function($stateProvider,$urlRouterProvider){
 // For any unmatched url, redirect to /index
     $urlRouterProvider.otherwise("/index");
@@ -27,6 +28,11 @@ shoeApp.config(function($stateProvider,$urlRouterProvider){
             url:'/feedbackAdd/:uuid',
             templateUrl:'templates/shoe/feedback_add.html',
             controller:'feedBackAddCtrl'
+        }).
+        state('feedbackList',{
+            url:'/feedbackList/:uuid',
+            templateUrl:'templates/shoe/feedback_list.html',
+            controller:'feedBackListCtrl'
         }).
         state('creditDetail',{
             url:'/creditDetail/:uuid',
