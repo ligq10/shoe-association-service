@@ -2,7 +2,7 @@
  * Created by Administrator on 15-1-28.
  */
 'use strict';
-var shoeApp=angular.module('shoeApp',['ui.router','ui.tree','angularFileUpload',,'shoeListControllers',
+var shoeApp=angular.module('shoeApp',['ui.router','ui.tree','angularFileUpload','shoeListControllers',
               'shoeAddControllers','creditDetailControllers','feedBackAddControllers','feedBackListControllers']);
 shoeApp.config(function($stateProvider,$urlRouterProvider){
 // For any unmatched url, redirect to /index
