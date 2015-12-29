@@ -17,4 +17,8 @@ public class ViewController {
 		return "shoe_index";
 	}
 
+	@RequestMapping(value= "/admin")
+	public String admin(){
+		return "admin_index";
+	}
 }
