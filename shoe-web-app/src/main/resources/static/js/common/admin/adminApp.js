@@ -10,6 +10,6 @@ adminApp.config(function($stateProvider,$urlRouterProvider){
     $stateProvider.
         state('index', {
             url: "/index",
-            template:"欢迎使用长虹佳华关护通平台"
+            template:"欢迎使用中国鞋材供应网"
         });
 });

@@ -1,113 +1,75 @@
 <!DOCTYPE html>
-<html ng-app="adminApp" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html ng-app="adminApp" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" id="html">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>长虹佳华服务商</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>长虹佳华关护通平台</title>
+    <link rel="shortcut icon" href="image/logo.png"/>
     <!-- Load CSS files-->
-    <link href="css/common/bootstrap.min.css" rel="stylesheet" th:href="@{/css/common/bootstrap.min.css}"/>
-    <link href="css/common/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/css/common/bootstrap-datetimepicker.min.css}"/>
-    <link href="css/common/font-awesome.css" rel="stylesheet" th:href="@{/css/common/font-awesome.css}"/>
-    <link href="css/common/bootstrap-spinner.css" rel="stylesheet" th:href="@{/css/common/bootstrap-spinner.css}"/>
-    <link href="css/angular/angular-ui-tree.min.css" rel="stylesheet" th:href="@{/css/angular/angular-ui-tree.min.css}"/>
-    <link href="css/common/common.css" rel="stylesheet" th:href="@{/css/common/common.css}"/>
-    <link href="css/common/style.css" rel="stylesheet" th:href="@{/css/common/style.css}"/>
-    <link href="css/common/jquery.bootstrap-touchspin.min.css" rel="stylesheet" th:href="@{/css/common/jquery.bootstrap-touchspin.min.css}"/>
-    
-    <link href="css/templateCss/header/header.css" rel="stylesheet" th:href="@{/css/templateCss/header/header.css}"/>
-	
-</head>
-<body>  
-    <div id="header" th:include="shoe_header::shoe-header"></div> 
-	<div role="navigation">
-	    <!--<div class="container-fluid">-->
-	    <div class="col-md-2 left_side_nav" id="left_side_nav">
-		    <div class="left_nav_menu"  id="setNavHeight">		    
-				<div class="firstTitle" data-target="#termianl-navbar-collapse" data-toggle="collapse">
-		            <a href="javascript:void(0);" class="">
-						<span class="glyphicon glyphicon-chevron-down">&nbsp;</span>终端管理
-					</a>
-		        </div>
-		        <div class="collapse bar-list bar_list_two" id="termianl-navbar-collapse">
-		            <ul class="nav">
-		                <li ui-sref="main.terminalList"><a href="/admin/#/main/termianlList">终端列表</a></li>
-		                <li ui-sref="main.terminalAdd"><a href="/admin/#/main/termianlAdd">终端新增</a></li>
-		            </ul>
-		        </div>
-				<div class="firstTitle no_child" ui-sref="main.groupList">
-		            <a href="/admin/#/main/groupList" class="" >
-		            	<span class="transparent glyphicon glyphicon-chevron-down">&nbsp;</span>终端分组
-		            </a>
-		        </div>
-		        
-		        
-		       	<div class="firstTitle no_child" ui-sref="main.manageList">
-		        	<a href="/admin/#/main/manageList" >
-		        		<span class="transparent glyphicon glyphicon-chevron-down">&nbsp;</span>运营管理
-		        	</a>
-		        </div>
-		        
 
-		        
-		        <div class="firstTitle"  data-target="#facilitator-navbar-collapse" data-toggle="collapse">
-		        	<a href="javascript:void(0);" class="">
-						<span class="glyphicon glyphicon-chevron-down">&nbsp;</span>服务商管理
-					</a>
-		        </div>
-		        <div class="collapse bar-list bar_list_two" id="facilitator-navbar-collapse">
-		            <ul class="nav">
-		                <li><a href="javascript:void(0);">服务商连接</a></li>
-		            </ul>
-		        </div>
-		        
-		        <div class="firstTitle"  data-target="#termianluser-navbar-collapse" data-toggle="collapse">
-		        	<a href="javascript:void(0);" class="">
-						<span class="glyphicon glyphicon-chevron-down">&nbsp;</span>终端使用
-					</a>
-		        </div>
-		        <div class="collapse bar-list bar_list_two" id="termianluser-navbar-collapse">
-		            <ul class="nav">
-		                <li ui-sref="main.terminalSet"><a href="/admin/#/main/termianlSet">终端设置</a></li>
-		                <li ui-sref="main.voiceReminder"><a href="/admin/#/main/voiceReminder">语音提醒</a></li>
-		                <li ui-sref="main.electronicFence"><a href="/admin/#/main/electronicFence;">电子围栏</a></li>
-		                <li ui-sref="main.trailPlayback"><a href="/admin/#/main/trailPlayback">轨迹回放</a></li>
-		            </ul>
-		        </div>
-		        <div class="firstTitle"  data-target="#personnel-navbar-collapse" data-toggle="collapse">
-		        	<a href="javascript:void(0);" class="">
-						<span class="glyphicon glyphicon-chevron-down">&nbsp;</span>人员管理
-					</a>
-		        </div>
-		        <div class="collapse bar-list bar_list_two" id="personnel-navbar-collapse">
-		            <ul class="nav">
-		                <li ui-sref="main.personnelList"><a href="/admin/#/main/personnelList">人员列表</a></li>
-		            </ul>
-		        </div>
-		        <div class="nav_hide clear_float" id="nav_hide">
-		        	<span class="hide_left_icon" id="hide_left_icon">
-		        		<span class="hide_left_icon_first glyphicon glyphicon-chevron-left"></span>
-		        		<span class="glyphicon glyphicon-chevron-left"></span>
-		        	</span>
-		        </div>
-		    </div>
+    <link href="../static/css/common/bootstrap.min.css" rel="stylesheet" th:href="@{/css/common/bootstrap.min.css}"/>
+    <link href="../static/css/common/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/css/common/bootstrap-datetimepicker.min.css}"/>
+    <link href="../static/css/common/font-awesome.css" rel="stylesheet" th:href="@{/css/common/font-awesome.css}"/>
+    <link href="../static/css/common/bootstrap-spinner.css" rel="stylesheet" th:href="@{/css/common/bootstrap-spinner.css}"/>
+    <link href="../static/css/angular/angular-ui-tree.min.css" rel="stylesheet" th:href="@{/css/angular/angular-ui-tree.min.css}"/>
+    <link href="../static/css/common/common.css" rel="stylesheet" th:href="@{/css/common/common.css}"/>
+    <link href="../static/css/common/common-admin.css" rel="stylesheet" th:href="@{/css/common/common-admin.css}"/>
+    <link href="../static/css/common/style.css" rel="stylesheet" th:href="@{/css/common/style.css}"/>
+    <link href="../static/css/common/jquery.bootstrap-touchspin.min.css" rel="stylesheet" th:href="@{/css/common/jquery.bootstrap-touchspin.min.css}"/>
+
+</head>
+<body id="body">
+	<header>
+	    <!--顶部导航-->
+	    <div class="top_nav">
+	        <!--name and logo-->
+	        <div class="fl nav_brand">
+	        <img src="images/shoelogo.png" class="brand_logo" th:src="@{/images/shoelogo.png}"/>
+<!-- 	            <h4 class="fl brand_name"><img src="images/shoelogo.png" class="brand_logo" th:src="@{/images/shoelogo.png}"/>长虹佳华关护通平台</h4>
+ -->	        
+ 			</div>
+	        <!--the login information of user-->
+	        <div class="fr user_info">
+	            <form id="logoutForm" th:action="${@environment.getProperty('logout.url')}" method="post" class="logout">
+	                <span>您好,
+	                        <span id="login_nickname" uisref="profile"
+                                  class="login-account-span" ng-bind="loginUser_nickName"></span>
+	                </span>
+	                <span class="" th:inline="text"></span>
+	                <img id="logout_img" title="退出" onclick="clearCookiesAndLogout();" src="images/exit_icon.png"/>
+	            </form>
+	        </div>
 	    </div>
-	    <div id="replace_left_side_nav">
-		    <!-- replace the space of 'left_side_nav',and controlled by javascript 
-		    <div class="col-md-2 fl"  id="replace_left_side_nav"></div>-->
-    		<div class="panel-body panel-center-content" data-ui-view=""></div>	    
-		    <div class="clear_float"></div>
+	    <div class="clear_float"></div>
+	</header>
+	<div class="index_Layout">
+		<div style="width:15%" class="left_side_nav" id="left_side_nav">
+			<div class="left_side_nav_div">
+			
+	        	<!-- 左侧导航菜单栏 -->
+	        	<div class="left_side_nav_div_div">
+	            	<leftnav><div class="width:0px;"><img style="position:absolute;display:none;" class="" src="../static/image/loading.gif"  th:src="@{/image/loading.gif}"  id="firstAccessLoading"/></div></leftnav>
+	            </div>
+				<div class="clear_float"></div>
+		        <div class="nav_hide" id="nav_hide">
+					<span class="hide_left_icon" id="hide_left_icon">
+			   			<span class="hide_left_icon_first glyphicon glyphicon-chevron-left"></span>
+			   			<span class="glyphicon glyphicon-chevron-left"></span>
+					</span>
+					<div class="clear_float"></div>
+				</div>
+			</div>
 	    </div>
-	</div>
-<!--     <div id="footer" th:include="home_footer::home-footer"></div>                  
- -->	
- 	<!-- 公共提示框 -->
+		<div class="clear_float"></div>
+			<div style="width:85%"  class="child-content fr" id="childContent" data-ui-view=""></div>
+		</div>
+	<!-- 公共提示框 -->
 	<!-- 此处bs-example-modal-lg modal-lg 样式将模态框设置为大框 ，如果为bs-example-modal-sm modal-sm即为小框-->
 	<div class="modal fade bs-example-modal-sm" id="alert_dialog" role="dialog" aria-label="myModalLabel" aria-hidden="true">
 		<div id="modal_dialog" class="modal-dialog modal-sm">
-			<div class="modal-content">
+			<div class="modal-content commom-modal-dialog">
 				<div id="dialog_header" class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>			
@@ -116,16 +78,6 @@
 				</div>
 				<div class="modal-body">
 				    <p>[Message]</p>
-	<!--              	<form>
-	             		<div class="form-group">
-	             			<label class="control-label">username</label>
-	             			<input type="text" class="form-control"/>
-	             		</div>
-	             		<div class="form-group">
-	             			<label class="control-label">password</label>
-	             			<input type="text" class="form-control"/>
-	             		</div>
-	             	</form> -->
 				</div>
 				<div class="modal-footer">
 				    <button type="button" id="dialog_ok_button" class="btn btn-primary ok" data-dismiss="modal">
@@ -138,7 +90,8 @@
 			</div>
 		</div>
 	</div>
-<!-- Load plugin js file-->
+	<div class="clear_float"></div>
+
 <!-- Load plugin js file-->
 <script src="../static/js/plugin/jquery-1.min.js" th:src="@{/js/plugin/jquery-1.min.js}"></script>
 <script src="../static/js/plugin/bootstrap/bootstrap.min.js" th:src="@{/js/plugin/bootstrap/bootstrap.min.js}"></script>
@@ -155,11 +108,15 @@
 <script src="../static/js/plugin/angular/angular-base64-upload.min.js" th:src="@{/js/plugin/angular/angular-base64-upload.min.js}"></script>
 <script src="../static/js/plugin/bootstrap/ui-bootstrap-tpls.js" th:src="@{/js/plugin/bootstrap/ui-bootstrap-tpls.js}"></script>
 <script src="../static/js/plugin/bootstrap/jquery.bootstrap-touchspin.min.js" th:src="@{/js/plugin/bootstrap/jquery.bootstrap-touchspin.min.js}"></script>
-
+<!-- <script src="http://api.map.baidu.com/api?v=2.0&amp;ak=GRaPtLAZFqPgc6GrghXbQ3qG"></script>
+ -->
 <!-- Load custom js file -->
 
-<script src="../static/js/common/common.js" th:src="@{/js/common/common.js}"></script>
-<script src="../static/js/common/adminApp.js" th:src="@{/js/common/adminApp.js}"></script>
-<script src="../static/js/common/style.js" th:src="@{/js/common/style.js}"></script>
+<script src="../static/js/common/admin/common.js" th:src="@{/js/common/admin/common.js}"></script>
+<script src="../static/js/common/admin/adminApp.js" th:src="@{/js/common/admin/adminApp.js}"></script>
+<script src="../static/js/common/admin/adminDirective.js" th:src="@{/js/common/admin/adminDirective.js}"></script>
+<script src="../static/js/common/admin/style.js" th:src="@{/js/common/admin/style.js}"></script>
+
+
 </body>
 </html>
