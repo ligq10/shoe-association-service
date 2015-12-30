@@ -68,7 +68,7 @@ public class SendMsgUtil {
       * @ModifyUser：ligq
       * @ModifyDate: 2015年12月12日  下午7:26:36
      */
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         System.out.println(sendMsg("18123456789,15123456789", "尊敬的用户，您的验证码为" + SendMsgUtil.createRandomVcode() + "，有效期为60秒，如有疑虑请详询400-069-2886（客服电话）【XXX中心】"));
-    }
+    }*/
 }

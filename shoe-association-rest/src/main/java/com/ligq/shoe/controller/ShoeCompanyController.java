@@ -116,7 +116,7 @@ public class ShoeCompanyController {
 
 		Pageable pageable = null;
 		Page<ShoeCompany> shoeCompanyPage = null;
-		Sort sort = null;
+		Sort sort = new Sort(Direction.ASC, "namePhoneticize");
 		if(StringUtils.isEmpty(sortStr) == false){
 			if(sortStr.equalsIgnoreCase("desc")){
 				sort = new Sort(Direction.DESC, "namePhoneticize");
@@ -138,7 +138,7 @@ public class ShoeCompanyController {
 		
 		}else if(StringUtils.isEmpty(level) ==false){
 			pageable = new PageRequest(page, size,sort);
-			shoeCompanyPage = shoeCompanyService.findAllShoeCompanyByCreditLevel(level,pageable);
+			shoeCompanyPage = shoeCompanyService.findAllShoeCompanyByCreditLevel(Integer.valueOf(level),pageable);
 			pathParams.append("&level="+level);
 
 		}else{

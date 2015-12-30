@@ -18,8 +18,10 @@ public interface ShoeCompanyRepository extends
 	@Query(value = "select t from ShoeCompany t where t.name like %:name%")
 	public Page<ShoeCompany> findByName(@Param("name") String name,Pageable pageable);
 	
-	public Page<ShoeCompany> findByNamePhoneticize(String namePhoneticize,Pageable pageable);
+	@RestResource(exported = false)
+	@Query(value = "select t from ShoeCompany t where t.namePhoneticize like %:namePhoneticize%")
+	public Page<ShoeCompany> findByNamePhoneticize(@Param("name") String namePhoneticize,Pageable pageable);
 	
-	public Page<ShoeCompany> findByCreditLevel(String creditLevel,Pageable pageable);
+	public Page<ShoeCompany> findByCreditLevel(Integer creditLevel,Pageable pageable);
 
 }

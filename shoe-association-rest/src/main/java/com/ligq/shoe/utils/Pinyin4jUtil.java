@@ -66,7 +66,30 @@ public class Pinyin4jUtil {
     public static String getPinyinFirstToUpperCase(String chinese) {  
         return getPinyin(chinese);  
     }  
-  
+
+    /*************************************************************************** 
+     * 首字母大写输出 
+     *  
+     * @Name: Pinyin4jUtil.java 
+     * @Description: TODO 
+     * @author: wang_chian@foxmail.com 
+     * @version: Jan 13, 2012 10:00:54 AM 
+     * @param chinese 
+     * @return 
+     */  
+    public static String getFirstPinyinAndUpperCase(String chinese) {
+    	StringBuilder str = new StringBuilder();
+        String pingyin = getPinyin(chinese);
+        String[] pingyinArr = pingyin.split(",");
+        for(String s : pingyinArr){
+        	s = s.toUpperCase();
+            char[] chars = s.toCharArray();  
+            str.append(chars[0]+",");
+        }
+        String firstStr = str.toString();
+    	return firstStr.substring(0, firstStr.length()-1);  
+    } 
+    
     /*************************************************************************** 
      * 拼音简拼输出 
      *  

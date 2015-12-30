@@ -43,10 +43,12 @@ import com.ligq.shoe.controller.ShoeCompanyController;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.User;
 import com.ligq.shoe.model.CreditLevel;
+import com.ligq.shoe.model.NumberToChinese;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.repository.ShoeCompanyRepository;
 import com.ligq.shoe.repository.UserRepository;
+import com.ligq.shoe.utils.Pinyin4jUtil;
 
 @Service
 public class ShoeCompanyService {
@@ -107,19 +109,22 @@ public class ShoeCompanyService {
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);  
         String Char = String.valueOf(nameChar[0]);
     	if (isChineseChar(Char)) {              	
-            try {
-            	String pinyinName = PinyinHelper.toHanyuPinyinStringArray(nameChar[0], defaultFormat)[0];
-                char[] pinyinChar = pinyinName.toCharArray();  
-                firstPinyin = String.valueOf(pinyinChar[0]);
-            } catch (BadHanyuPinyinOutputFormatCombination e) {
-            	logger.error(e.getMessage(),e);
-            	firstPinyin="";
-			}
+            //String pinyinName = PinyinHelper.toHanyuPinyinStringArray(nameChar[0], defaultFormat)[0];
+			//char[] pinyinChar = pinyinName.toCharArray();  
+			firstPinyin = Pinyin4jUtil.getFirstPinyinAndUpperCase(Char);
+        }else if(isNumber(Char)){
+        	String chineseNumber = NumberToChinese.getNumberToChineseByValue(Integer.valueOf(Char)).getChinese();
+        	firstPinyin = Pinyin4jUtil.getFirstPinyinAndUpperCase(chineseNumber);;
         }else{
-        	firstPinyin = Char;
+        	firstPinyin = Char.toUpperCase();
         }  
 	    return firstPinyin;
 	             		        
+	}
+	
+	public boolean isNumber(String str){
+	    Pattern pattern = Pattern.compile("[0-9]*"); 
+	    return pattern.matcher(str).matches();  
 	}
 	
     public boolean isChineseChar(String str){
@@ -155,7 +160,7 @@ public class ShoeCompanyService {
 		return shoeCompanyPage;
 	}
 	
-	public Page<ShoeCompany> findAllShoeCompanyByCreditLevel(String level, Pageable pageable) {
+	public Page<ShoeCompany> findAllShoeCompanyByCreditLevel(Integer level, Pageable pageable) {
 		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByCreditLevel(level, pageable);
 		return shoeCompanyPage;
 	}
