@@ -1,4 +1,4 @@
-package com.ligq.shoe.model;
+package com.ligq.shoe.constants;
 
 public enum NumberToChinese {
 	ZERO(0,"零"),

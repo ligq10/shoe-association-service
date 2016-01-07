@@ -25,10 +25,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ligq.shoe.constants.ImageType;
 import com.ligq.shoe.controller.FileController;
 import com.ligq.shoe.controller.ShoeCompanyController;
 import com.ligq.shoe.entity.Image;
-import com.ligq.shoe.model.ImageType;
 import com.ligq.shoe.repository.ImageRepository;
 import com.ligq.shoe.utils.FileUtils;
 

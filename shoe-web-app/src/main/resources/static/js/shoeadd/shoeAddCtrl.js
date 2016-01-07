@@ -4,8 +4,8 @@
 'use strict';
 var shoeAddControllers=angular.module('shoeAddControllers',['shoeAddServices']);
 
-shoeAddControllers.controller('shoeAddCtrl',['$scope','$state','$upload','shoeAddFactory',
-    function($scope,$state,$upload,shoeAddFactory) {
+shoeAddControllers.controller('shoeAddCtrl',['$scope','$timeout','$state','$upload','shoeAddFactory',
+    function($scope,$timeout,$state,$upload,shoeAddFactory) {
 	
 	$scope.letterList=['A','B','C','D','E','F','G','H','I','J','K','L',
 	               'M','N','O','P','Q','R','S','T','U','V','W','X',
@@ -20,8 +20,39 @@ shoeAddControllers.controller('shoeAddCtrl',['$scope','$state','$upload','shoeAd
 	                   {value:"asc",desc:"升序"},
 	                   {value:"desc",desc:"降序"}
 	                   ];
+	
+	$scope.checkCodeTitle = "获取验证码";
+	$scope.isValidCheckCodeButton = true;
+	
 	$scope.logoImageId = "";
 	$scope.permitImageId = "";
+	var i =60; //验证码重新获取
+	var checkmobile = function (string) { 
+		if(string == null || string == undefined || string == ''){
+			return false;
+		}
+	    var pattern = /^1[34578]\d{9}$/;  
+	    if (pattern.test(string)) {  
+	        return true;  
+	    }   
+	    return false;  
+	}; 
+	
+	
+	var updateTime = function(){
+		
+		i--;
+		$scope.checkCodeTitle = "距离下次获取还有" + i + "秒";
+		if(i>0){
+			$timeout(function(){
+				updateTime();
+			},1000);
+		}else{
+			$scope.isValidCheckCodeButton = false;
+			$scope.checkCodeTitle = "获取验证码";
+			i =60;
+		}
+	}
 	
 	var submit = function(){
   		if($scope.name == null || $scope.name == undefined || $scope.name == ''){
@@ -156,6 +187,24 @@ shoeAddControllers.controller('shoeAddCtrl',['$scope','$state','$upload','shoeAd
 	    })
 	}
 	
+	$scope.checkTel = function(){
+		var result = checkmobile($scope.tel);
+		if(result){
+			$scope.isValidCheckCodeButton = false;
+		}else{
+			$scope.isValidCheckCodeButton = true;
+		}
+	}
+	
+	$scope.getCheckCode = function(){
+		$scope.checkCodeTitle = "距离下次获取还有秒";
+		$scope.isValidCheckCodeButton = true;
+     
+        // 1秒后显示  
+        updateTime();
+
+        
+	}	
 	
 	
 	$scope.submitShoeCompany = function(){

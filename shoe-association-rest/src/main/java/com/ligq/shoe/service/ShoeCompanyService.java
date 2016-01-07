@@ -37,13 +37,13 @@ import org.springframework.util.StringUtils;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
+import com.ligq.shoe.constants.CreditLevel;
+import com.ligq.shoe.constants.NumberToChinese;
 import com.ligq.shoe.controller.DataDictController;
 import com.ligq.shoe.controller.FileController;
 import com.ligq.shoe.controller.ShoeCompanyController;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.User;
-import com.ligq.shoe.model.CreditLevel;
-import com.ligq.shoe.model.NumberToChinese;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.repository.ShoeCompanyRepository;

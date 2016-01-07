@@ -35,16 +35,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 
+
 import com.ligq.shoe.entity.DataDictType;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.User;
-import com.ligq.shoe.model.CreditLevel;
 import com.ligq.shoe.model.DataDictAddRequest;
 import com.ligq.shoe.model.DataDictTypeResponse;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.ShoeCompanyService;
 import com.ligq.shoe.service.UserService;
+import com.ligq.shoe.constants.CreditLevel;
 import com.ligq.shoe.controller.FileController;;
 @Controller
 public class ShoeCompanyController {

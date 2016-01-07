@@ -1,4 +1,4 @@
-package com.ligq.shoe.model;
+package com.ligq.shoe.constants;
 
 public enum ImageType {
 	PNG("png"),

@@ -1,10 +1,28 @@
 package com.ligq.shoe.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.google.common.collect.Lists;
+import com.ligq.shoe.config.SendMsgConfig;
+import com.ligq.shoe.model.SendMsg;
+import com.ligq.shoe.model.SendMsgProperties;
 
 public class SendMsgUtil {
+	
+	private final static Logger logger = LoggerFactory.getLogger(SendMsgUtil.class); 
 
+	
     /**
      * 发送短信消息
       * 方法说明
@@ -18,12 +36,28 @@ public class SendMsgUtil {
       * @ModifyUser：ligq
       * @ModifyDate: 2015年12月12日  下午7:18:08
      */
-    public static String sendMsg(String phones,String content){
-        //短信接口URL提交地址
-        String url = "";
- 
-        Map<String, String> params = new HashMap<String, String>();
- 
+    public static String sendMsg(String url,RestTemplate restTemplate){
+
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.put("Content-Type",
+				Lists.newArrayList(MediaType.TEXT_HTML_VALUE));
+		headers.put("Accept",
+				Lists.newArrayList(MediaType.TEXT_XML_VALUE));
+		ResponseEntity responseBody;
+		try {
+			responseBody = restTemplate.exchange(url,
+					HttpMethod.POST, new HttpEntity<>(
+							headers), String.class);
+			return responseBody.getStatusCode().name();
+
+		} catch (RestClientException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage(),e);
+			return "";
+		}
+/*		if(responseBody.getStatusCode().equals(HttpStatus.OK)){
+			return responseBody.getStatusCode()headers.toString();
+		}*/
         //params.put(zh, 用户账号);
         //params.put(mm, 用户密码);
         //params.put(dxlbid, 短信类别编号);
@@ -34,7 +68,7 @@ public class SendMsgUtil {
         //将短信内容进行URLEncoder编码
         //params.put(nr, URLEncoder.encode(content));
  
-        return HttpRequestUtil.getRequest(url, params);
+       // return HttpRequestUtil.getRequest(url, params);
     }
  
     /**

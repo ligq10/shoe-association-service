@@ -10,13 +10,13 @@ public class DateUtils {
 			return "";
 		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss");
+				"yyyy-MM-dd HH:mm:ss");
 		return dateFormat.format(date);
 	}
 	
 	public static Date composeUTCTime(String dateString) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss");
+				"yyyy-MM-dd HH:mm:ss");
 		Date date;
 		try {
 			date = dateFormat.parse(dateString);
@@ -32,7 +32,18 @@ public class DateUtils {
 		}
 		Long lDate=date.getTime();
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss");
+				"yyyy-MM-dd HH:mm:ss");
+		
+		return dateFormat.format(lDate);
+	}
+	
+	public static String composeDropSec(Date date) {
+		if(date==null){
+			return null;
+		}
+		Long lDate=date.getTime();
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
 		
 		return dateFormat.format(lDate);
 	}
