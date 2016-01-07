@@ -38,16 +38,14 @@ public class SendMsgUtil {
      */
     public static String sendMsg(String url,RestTemplate restTemplate){
 
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.put("Content-Type",
-				Lists.newArrayList(MediaType.TEXT_HTML_VALUE));
-		headers.put("Accept",
-				Lists.newArrayList(MediaType.TEXT_XML_VALUE));
-		ResponseEntity responseBody;
+    	// HttpHeaders headers = new HttpHeaders();
+    	// headers.setContentType(MediaType.APPLICATION_JSON);
+    	   
+    	 HttpEntity<String> entity = new HttpEntity<String>("");
+    	 ResponseEntity<String> responseBody =null;
+    	//ResponseEntity<String> output = temp.postForEntity(target, entity, String.class);		ResponseEntity<String> responseBody;
 		try {
-			responseBody = restTemplate.exchange(url,
-					HttpMethod.POST, new HttpEntity<>(
-							headers), String.class);
+			responseBody = restTemplate.postForEntity(url, entity, String.class);
 			return responseBody.getStatusCode().name();
 
 		} catch (RestClientException e) {
