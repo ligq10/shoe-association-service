@@ -43,7 +43,7 @@ public enum SendMsgResponseFlag {
 		this.desc = desc;
 	}
 	
-	public SendMsgResponseFlag getSendMsgResponseFlagByValue(Integer value){
+	public static SendMsgResponseFlag getSendMsgResponseFlagByValue(Integer value){
 		if(null == value){
 			return null;
 		}

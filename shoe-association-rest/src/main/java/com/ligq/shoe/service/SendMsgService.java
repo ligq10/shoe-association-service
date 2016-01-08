@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +15,7 @@ import com.ligq.shoe.config.SendMsgConfig;
 import com.ligq.shoe.controller.SendMsgController;
 import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.model.SendMsgProperties;
+import com.ligq.shoe.utils.BeanUtils;
 import com.ligq.shoe.utils.SendMsgUtil;
 
 @Service
@@ -25,10 +28,12 @@ public class SendMsgService {
 	@Autowired
 	private  SendMsgConfig sendMsgConfig;
 	
-	public String sendCheckMsg(SendMsg sendMsg,HttpServletRequest request){
+	public ResponseEntity<?> sendCheckMsg(SendMsg sendMsg,HttpServletRequest request){
 		RestTemplate restTemplate = new RestTemplate();
 		StringBuffer url = new StringBuffer();
-		
+		BeanUtils.copyPropertiesIgnoreNull(sendMsgProperties, sendMsg);
+		String checkCode = SendMsgUtil.createRandomVcode();
+		sendMsg.setContent(checkCode);
         //短信接口URL提交地址
 		url.append(sendMsgConfig.getSendMsgUrl()); 
 		url.append("?ac="+sendMsgProperties.getAc());
@@ -36,11 +41,15 @@ public class SendMsgService {
         url.append("&pwd="+sendMsgProperties.getPwd());
         url.append("&encode="+sendMsgProperties.getEncode());
         url.append("&mobile="+sendMsg.getMobile());
-        url.append("&content=尊敬的用户,您的验证码为:"+SendMsgUtil.createRandomVcode()+",有效期为60秒");
-		String result = SendMsgUtil.sendMsg(url.toString(),restTemplate);
-		HttpSession session = request.getSession(); 
+        url.append("&content=尊敬的用户,您的验证码为:"+checkCode+",有效期为60秒");
+        //ResponseEntity<?> result = SendMsgUtil.sendMsg(url.toString(),restTemplate);
+        HttpSession session = request.getSession(); 
 		session.setAttribute(sendMsg.getMobile(), sendMsg);
-		logger.info(result);
-		return "200";
+		session.setMaxInactiveInterval(5*60);
+		SendMsg sendMsgObject = (SendMsg) session.getAttribute(sendMsg.getMobile());
+		logger.info("发送号码:"+sendMsgObject.getMobile()+"发送验证码:"+sendMsgObject.getContent());
+		//return result;
+        return new ResponseEntity<String>("发送成功",HttpStatus.OK);
+
 	}
 }

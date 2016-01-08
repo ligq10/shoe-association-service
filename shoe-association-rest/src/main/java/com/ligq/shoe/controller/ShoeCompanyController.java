@@ -34,25 +34,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-
-
-
-
-
-import com.ligq.shoe.entity.DataDictType;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.User;
-import com.ligq.shoe.model.DataDictAddRequest;
-import com.ligq.shoe.model.DataDictTypeResponse;
 import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.ShoeCompanyService;
 import com.ligq.shoe.service.UserService;
+import com.ligq.shoe.validator.AddShoeCompanyValidator;
+import com.ligq.shoe.constants.CheckCodeType;
 import com.ligq.shoe.constants.CreditLevel;
-import com.ligq.shoe.controller.FileController;;
+
 @Controller
 public class ShoeCompanyController {
 
@@ -64,6 +57,9 @@ public class ShoeCompanyController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AddShoeCompanyValidator addShoeCompanyValidator;
+	
 	@RequestMapping(value="/shoecompanies",method=RequestMethod.POST, produces = "application/hal+json")
 	public HttpEntity<?> saveShoeCompany(
 			@RequestBody ShoeCompanyAddRequest shoeCompanyAddRequest,
@@ -71,6 +67,7 @@ public class ShoeCompanyController {
 			HttpServletResponse response,
 			BindingResult result){
 		
+		addShoeCompanyValidator.validate(shoeCompanyAddRequest, result);
 		if(result.hasErrors()){
 			logger.error("Add Shoe Company validation failed:"+result);
 			throw new RepositoryConstraintViolationException(result);
@@ -80,10 +77,12 @@ public class ShoeCompanyController {
 		if(null == sendMsg){
 			return new ResponseEntity<Object>("验证码无效，请检查!",HttpStatus.BAD_REQUEST);			
 		}
-		String checkCode = sendMsg.getContent().substring(sendMsg.getContent().lastIndexOf(":"), sendMsg.getContent().lastIndexOf(":")+6);
-		if(checkCode.equals(shoeCompanyAddRequest.getCheckCode()) == false){
+		String checkCode = sendMsg.getContent();
+		if(sendMsg.getType().equals(CheckCodeType.REGISTER.getValue()) == false 
+				|| checkCode.equals(shoeCompanyAddRequest.getCheckCode()) == false){
 			return new ResponseEntity<Object>("验证码错误，请检查!",HttpStatus.BAD_REQUEST);			
 		}
+		session.removeAttribute(shoeCompanyAddRequest.getTel());
 		ResponseEntity<Object> responseEntity =  null;		
 		try {	        
 	        responseEntity=shoeCompanyService.save(shoeCompanyAddRequest,request,response);			

@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
@@ -38,6 +39,7 @@ import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.FeedbackService;
 import com.ligq.shoe.service.ShoeCompanyService;
+import com.ligq.shoe.validator.AddFeedbackValidator;
 
 @Controller
 public class FeedbackController {
@@ -46,6 +48,8 @@ public class FeedbackController {
 
 	@Autowired
 	private FeedbackService feedbackService;
+	@Autowired
+	private AddFeedbackValidator addFeedbackValidator;
 	
 	@RequestMapping(value="/shoecompanies/{uuid}/feedbacks",method=RequestMethod.POST, produces = "application/hal+json")
 	public HttpEntity<?> saveFeedback(
@@ -54,7 +58,11 @@ public class FeedbackController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			BindingResult result){
-		
+		addFeedbackValidator.validate(feedBackAddRequest, result);
+		if(result.hasErrors()){
+			logger.error("Add Feedback validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
 		feedBackAddRequest.setCompanyId(uuid);
 		ResponseEntity<Object> responseEntity =  null;		
 		try {	        

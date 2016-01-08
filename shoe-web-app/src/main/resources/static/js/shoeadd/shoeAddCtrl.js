@@ -78,7 +78,7 @@ shoeAddControllers.controller('shoeAddCtrl',['$scope','$timeout','$state','$uplo
 		postEntity.tel=$scope.tel;
 		postEntity.logoImageId = $scope.logoImageId;
 		postEntity.permitImageId = $scope.permitImageId;
-		
+		postEntity.checkCode = $scope.checkCode;
 		shoeAddFactory.saveShoeCompany(postEntity,function(response){				
 			if(response.$resolved){
 				$state.go('shoeList');
@@ -197,13 +197,30 @@ shoeAddControllers.controller('shoeAddCtrl',['$scope','$timeout','$state','$uplo
 	}
 	
 	$scope.getCheckCode = function(){
-		$scope.checkCodeTitle = "距离下次获取还有秒";
 		$scope.isValidCheckCodeButton = true;
-     
-        // 1秒后显示  
-        updateTime();
-
-        
+		var postEntity = {
+				mobile:$scope.tel,
+				type:"1"
+		}
+		shoeAddFactory.getCheckCode(postEntity,function(response){
+			
+			if(response.$resolved){
+		        // 1秒后显示  
+		        updateTime();
+			}else{
+				Message.alert({
+					msg : "获取验证码失败!",
+					title : "警告:",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+			}
+		},function(error){	
+			Message.alert({
+				msg : "获取验证码失败!",
+				title : "警告:",
+				btnok : '确定',btncl : '取消'
+			}, "warn", "small");
+ 	    });       
 	}	
 	
 	
