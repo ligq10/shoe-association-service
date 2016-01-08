@@ -3,6 +3,8 @@ package com.ligq.shoe.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,8 @@ import com.ligq.shoe.service.SendMsgService;
 @Controller
 public class SendMsgController {
 	
+	private final static Logger logger = LoggerFactory.getLogger(SendMsgController.class); 
+	
 	@Autowired
 	private SendMsgService sendMsgService;
 	
@@ -26,8 +30,9 @@ public class SendMsgController {
 			@RequestBody SendMsg sendMsg,
 			HttpServletRequest request,
 			HttpServletResponse response){
+		
 		ResponseEntity<Object> responseEntity =  null;	
-		sendMsgService.sendCheckMsg(sendMsg);
+		sendMsgService.sendCheckMsg(sendMsg,request);
 		responseEntity=new ResponseEntity<Object>(HttpStatus.OK);			
 
 		return responseEntity;

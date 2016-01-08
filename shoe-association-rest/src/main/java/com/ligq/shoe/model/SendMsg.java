@@ -20,6 +20,8 @@ public class SendMsg extends SendMsgProperties{
 	private String mobile;
 	
 	private String content;
+	
+	private Integer type;
 
 	public String getMobile() {
 		return mobile;
@@ -42,6 +44,13 @@ public class SendMsg extends SendMsgProperties{
 			this.content = content;
 		}
 	}
-	
-	
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+		
 }

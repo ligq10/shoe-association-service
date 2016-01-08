@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
@@ -36,11 +38,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
+
+
+
 import com.ligq.shoe.entity.DataDictType;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.User;
 import com.ligq.shoe.model.DataDictAddRequest;
 import com.ligq.shoe.model.DataDictTypeResponse;
+import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.ShoeCompanyService;
@@ -62,7 +68,22 @@ public class ShoeCompanyController {
 	public HttpEntity<?> saveShoeCompany(
 			@RequestBody ShoeCompanyAddRequest shoeCompanyAddRequest,
 			HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response,
+			BindingResult result){
+		
+		if(result.hasErrors()){
+			logger.error("Add Shoe Company validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
+		HttpSession session = request.getSession();
+		SendMsg sendMsg = (SendMsg) session.getAttribute(shoeCompanyAddRequest.getTel());
+		if(null == sendMsg){
+			return new ResponseEntity<Object>("验证码无效，请检查!",HttpStatus.BAD_REQUEST);			
+		}
+		String checkCode = sendMsg.getContent().substring(sendMsg.getContent().lastIndexOf(":"), sendMsg.getContent().lastIndexOf(":")+6);
+		if(checkCode.equals(shoeCompanyAddRequest.getCheckCode()) == false){
+			return new ResponseEntity<Object>("验证码错误，请检查!",HttpStatus.BAD_REQUEST);			
+		}
 		ResponseEntity<Object> responseEntity =  null;		
 		try {	        
 	        responseEntity=shoeCompanyService.save(shoeCompanyAddRequest,request,response);			
