@@ -20,6 +20,8 @@ public class ShoeCompanyAddRequest {
 	
 	private String permitImageId;
 	
+	private String checkCode;
+	
 	public String getName() {
 		return name;
 	}
@@ -74,6 +76,14 @@ public class ShoeCompanyAddRequest {
 
 	public void setPermitImageId(String permitImageId) {
 		this.permitImageId = permitImageId;
+	}
+
+	public String getCheckCode() {
+		return checkCode;
+	}
+
+	public void setCheckCode(String checkCode) {
+		this.checkCode = checkCode;
 	}
 	
 }
