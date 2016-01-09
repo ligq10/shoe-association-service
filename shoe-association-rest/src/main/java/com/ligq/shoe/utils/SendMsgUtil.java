@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.common.collect.Lists;
 import com.ligq.shoe.config.SendMsgConfig;
+import com.ligq.shoe.constants.SendMsgResponseFlag;
 import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.model.SendMsgProperties;
 
@@ -36,37 +38,36 @@ public class SendMsgUtil {
       * @ModifyUser：ligq
       * @ModifyDate: 2015年12月12日  下午7:18:08
      */
-    public static String sendMsg(String url,RestTemplate restTemplate){
+    public static ResponseEntity<?> sendMsg(String url,RestTemplate restTemplate){
 
     	// HttpHeaders headers = new HttpHeaders();
     	// headers.setContentType(MediaType.APPLICATION_JSON);
     	   
     	 HttpEntity<String> entity = new HttpEntity<String>("");
     	 ResponseEntity<String> responseBody =null;
-    	//ResponseEntity<String> output = temp.postForEntity(target, entity, String.class);		ResponseEntity<String> responseBody;
 		try {
 			responseBody = restTemplate.postForEntity(url, entity, String.class);
-			return responseBody.getStatusCode().name();
+			HttpStatus responseStatus = responseBody.getStatusCode();
+			if(responseStatus.equals(HttpStatus.OK)){
+				String result = responseBody.getBody();
+				try {
+					Integer resultValue = Integer.valueOf(result);
+					String desc = SendMsgResponseFlag.getSendMsgResponseFlagByValue(resultValue).getDesc();
+					return new ResponseEntity<String>(desc,HttpStatus.OK);
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					return new ResponseEntity<String>(result,HttpStatus.OK);
+				}
+			}else{
+				return new ResponseEntity<String>("验证码发送失败",HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 
 		} catch (RestClientException e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage(),e);
-			return "";
+			return new ResponseEntity<String>("验证码发送失败",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-/*		if(responseBody.getStatusCode().equals(HttpStatus.OK)){
-			return responseBody.getStatusCode()headers.toString();
-		}*/
-        //params.put(zh, 用户账号);
-        //params.put(mm, 用户密码);
-        //params.put(dxlbid, 短信类别编号);
-       // params.put(extno, 扩展编号);
- 
-        //手机号码，多个号码使用英文逗号进行分割
-        //params.put(hm, phones);
-        //将短信内容进行URLEncoder编码
-        //params.put(nr, URLEncoder.encode(content));
- 
-       // return HttpRequestUtil.getRequest(url, params);
+
     }
  
     /**

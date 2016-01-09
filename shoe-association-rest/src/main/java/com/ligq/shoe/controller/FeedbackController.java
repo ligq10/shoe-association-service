@@ -5,6 +5,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
@@ -30,14 +32,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ligq.shoe.constants.CheckCodeType;
 import com.ligq.shoe.entity.FeedbackScore;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.model.FeedbackAddRequest;
 import com.ligq.shoe.model.FeedbackResponse;
+import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.FeedbackService;
 import com.ligq.shoe.service.ShoeCompanyService;
+import com.ligq.shoe.validator.AddFeedbackValidator;
 
 @Controller
 public class FeedbackController {
@@ -46,6 +51,8 @@ public class FeedbackController {
 
 	@Autowired
 	private FeedbackService feedbackService;
+	@Autowired
+	private AddFeedbackValidator addFeedbackValidator;
 	
 	@RequestMapping(value="/shoecompanies/{uuid}/feedbacks",method=RequestMethod.POST, produces = "application/hal+json")
 	public HttpEntity<?> saveFeedback(
@@ -54,7 +61,23 @@ public class FeedbackController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			BindingResult result){
-		
+		addFeedbackValidator.validate(feedBackAddRequest, result);
+		if(result.hasErrors()){
+			logger.error("Add Feedback validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
+		HttpSession session = request.getSession();
+		SendMsg sendMsg = (SendMsg) session.getAttribute(feedBackAddRequest.getSubmitTel());
+		if(null == sendMsg){
+			return new ResponseEntity<Object>("验证码无效，请检查!",HttpStatus.BAD_REQUEST);			
+		}
+		String checkCode = sendMsg.getContent();
+		if(sendMsg.getType().equals(CheckCodeType.REGISTER.getValue()) == false 
+				|| checkCode.equals(feedBackAddRequest.getCheckCode()) == false){
+			return new ResponseEntity<Object>("验证码错误，请检查!",HttpStatus.BAD_REQUEST);			
+		}
+		session.removeAttribute(feedBackAddRequest.getSubmitTel());
+
 		feedBackAddRequest.setCompanyId(uuid);
 		ResponseEntity<Object> responseEntity =  null;		
 		try {	        

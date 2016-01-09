@@ -85,6 +85,7 @@ public class ShoeCompanyService {
 		shoeCompany.setServeScore(30);
 		shoeCompany.setCreditLevel(0);
 		shoeCompany.setSubmitPersonId(userEntity.getUuid());
+		shoeCompany.setAuditStatus(0);
 		String firstPinyin = getfirstSpellByChineseCharacter(shoeCompanyAddRequest.getName());
 		shoeCompany.setNamePhoneticize(firstPinyin);
 		shoeCompany = shoeCompanyRepository.save(shoeCompany);
