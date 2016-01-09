@@ -186,3 +186,8 @@ body {
 .modal{
 	z-index: 1060 !important;
 }
+
+.admin-header-logo{
+	background-color: rgb(255, 255, 255);
+	margin-top: 2px;
+}

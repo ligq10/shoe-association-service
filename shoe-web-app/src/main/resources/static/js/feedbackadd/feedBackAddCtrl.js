@@ -4,8 +4,8 @@
 'use strict';
 var feedBackAddControllers=angular.module('feedBackAddControllers',['feedBackAddServices']);
 
-feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$state','$stateParams','$upload','$rootScope','feedBackAddFactory',
-    function($scope,$state,$stateParams,$upload,$rootScope,feedBackAddFactory) {
+feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$timeout','$state','$stateParams','$upload','$rootScope','feedBackAddFactory',
+    function($scope,$timeout,$state,$stateParams,$upload,$rootScope,feedBackAddFactory) {
     $scope.shoeComapnyId = $stateParams.uuid;
 	
     $scope.scoreTypeList = [
@@ -19,7 +19,37 @@ feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$state','$statePa
             }
     ];
     
+	$scope.checkCodeTitle = "获取验证码";
+	$scope.isValidCheckCodeButton = true;
+    
 	$scope.score = 0;
+	
+	var i =60; //验证码重新获取
+	var checkmobile = function (string) { 
+		if(string == null || string == undefined || string == ''){
+			return false;
+		}
+	    var pattern = /^1[34578]\d{9}$/;  
+	    if (pattern.test(string)) {  
+	        return true;  
+	    }   
+	    return false;  
+	}; 
+	
+	var updateTime = function(){
+		
+		i--;
+		$scope.checkCodeTitle = "距离下次获取还有" + i + "秒";
+		if(i>0){
+			$timeout(function(){
+				updateTime();
+			},1000);
+		}else{
+			$scope.isValidCheckCodeButton = false;
+			$scope.checkCodeTitle = "获取验证码";
+			i =60;
+		}
+	}
 	
 	$scope.plusScore = function(){
 		if($scope.score < 20){
@@ -30,6 +60,15 @@ feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$state','$statePa
 	$scope.reduceScore = function(){
 		if($scope.score >= 1){
 			$scope.score = $scope.score-1;
+		}
+	}
+	
+	$scope.checkTel = function(){
+		var result = checkmobile($scope.submitTel);
+		if(result){
+			$scope.isValidCheckCodeButton = false;
+		}else{
+			$scope.isValidCheckCodeButton = true;
 		}
 	}
 	
@@ -81,7 +120,7 @@ feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$state','$statePa
 		postEntity.submitPerson=$scope.submitPerson;
 		postEntity.submitTel=$scope.submitTel;
 		postEntity.proofFileIds = proofFileIds;
-		
+		postEntity.checkCode = $scope.checkCode;
 		feedBackAddFactory.saveFeedback({uuid: $scope.shoeComapnyId},postEntity,function(response){				
 			if(response.$resolved){
 				$state.go('shoeList');
@@ -152,6 +191,35 @@ feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$state','$statePa
 		var proofFiles = $scope.proofFile;
 		fileUpload(proofFiles);
 	}
+	
+	$scope.getCheckCode = function(){
+		$scope.isValidCheckCodeButton = true;
+		var postEntity = {
+				mobile:$scope.submitTel,
+				type:"2"
+		}
+		feedBackAddFactory.getCheckCode(postEntity,function(response){
+			
+			if(response.$resolved){
+
+		        // 1秒后显示  
+		        updateTime();
+			}else{
+				Message.alert({
+					msg : "获取验证码失败!",
+					title : "警告:",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+			}
+		},function(error){	
+			Message.alert({
+				msg : "获取验证码失败!",
+				title : "警告:",
+				btnok : '确定',btncl : '取消'
+			}, "warn", "small");
+ 	    });       
+	}	
+
 }]);
 
 

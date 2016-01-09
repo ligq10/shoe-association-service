@@ -14,7 +14,14 @@ feedBackAddService.factory('feedBackAddFactory',function($resource){
             headers:{
                 Accept:'application/hal+json'
             }
-    	}
+    	},
+        getCheckCode:{
+            url:'/sendcheckcode',
+            method:"POST",
+            headers:{
+                Accept:'application/hal+json'
+            }
+        }      	
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',

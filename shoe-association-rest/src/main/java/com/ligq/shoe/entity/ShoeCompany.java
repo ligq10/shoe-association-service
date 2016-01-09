@@ -60,6 +60,9 @@ public class ShoeCompany {
 	@Column(name = "credit_level")
 	private Integer creditLevel;
 
+	@Column(name = "audit_status")
+	private Integer auditStatus;
+	
 
 	public String getUuid() {
 		return uuid;
@@ -171,6 +174,14 @@ public class ShoeCompany {
 
 	public void setCreditLevel(Integer creditLevel) {
 		this.creditLevel = creditLevel;
+	}
+
+	public Integer getAuditStatus() {
+		return auditStatus;
+	}
+
+	public void setAuditStatus(Integer auditStatus) {
+		this.auditStatus = auditStatus;
 	}
 	
 	

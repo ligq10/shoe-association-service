@@ -20,6 +20,8 @@ public class FeedbackAddRequest {
 	
 	private String submitTel;
 	
+	private String checkCode;
+	
 	private List<String> proofFileIds;
 
 	private String remark;	
@@ -70,6 +72,15 @@ public class FeedbackAddRequest {
 
 	public void setSubmitTel(String submitTel) {
 		this.submitTel = submitTel;
+	}
+
+	
+	public String getCheckCode() {
+		return checkCode;
+	}
+
+	public void setCheckCode(String checkCode) {
+		this.checkCode = checkCode;
 	}
 
 	public String getRemark() {

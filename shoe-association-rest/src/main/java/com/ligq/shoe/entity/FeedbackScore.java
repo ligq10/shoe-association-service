@@ -40,7 +40,7 @@ public class FeedbackScore {
 	
 	@Column(name = "submit_tel")
 	private String submitTel;
-
+	
 	@Column(name="create_time")
 	private Date createTime;
 	

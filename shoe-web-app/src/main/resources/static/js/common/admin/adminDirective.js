@@ -2,13 +2,13 @@
  * 监听路由
  * 
  */
-adminApp.run(['$rootScope', 'loginSession', '$state', '$q',function ($rootScope, loginSession, $state, $q) {
+adminApp.run(['$rootScope', '$state', '$q',function ($rootScope, $state, $q) {
 	//用户昵称显示
 /*	var loginUser = loginSession.loginUser().userInfo;
 	$rootScope.loginUser_nickName=loginUser.nickName;*/
 	
 	//路由发生改变时 权限判断
-	$rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
+/*	$rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
 		if(loginUser.permissions != undefined) {
 			var permissions = loginUser.permissions;
 			if(toState.permission == 'PASS'){
@@ -26,7 +26,7 @@ adminApp.run(['$rootScope', 'loginSession', '$state', '$q',function ($rootScope,
 				}
 			}
 		}
-	});
+	});*/
 	
 	//菜单添加 active 样式
 	$rootScope.$on('$stateChangeSuccess',function (event, toState, toParams, fromState, fromParams) {
@@ -64,7 +64,7 @@ adminApp.run(['$rootScope', 'loginSession', '$state', '$q',function ($rootScope,
 /**
  * 权限控制菜单显示
  */
-adminApp.directive('hasPermission', function(loginSession) {
+/*adminApp.directive('hasPermission', function(loginSession) {
 	var loginUser = loginSession.loginUser().userInfo;
 	return {
 		link: function(scope, element, attrs) {
@@ -98,7 +98,7 @@ adminApp.directive('hasPermission', function(loginSession) {
             });
     }
   };
-});
+});*/
 
 /**
  * 处理ng-repeat渲染完毕后执行
@@ -160,7 +160,7 @@ adminApp.filter('decimalPrecision', function() {
 /**
  * 获取登录用户数据 uuid,loginName,nickName,role,group
  */
-adminApp.factory('loginSession', function() { 
+/*adminApp.factory('loginSession', function() { 
     var obj = {userInfo:null};
     obj.loginUser = function (){
     	var loginName = $.cookie("userName");
@@ -237,7 +237,7 @@ adminApp.factory('loginSession', function() {
     	return obj;
     }
     return obj;    
-});
+});*/
 
 /**
  * 搜索input清空
