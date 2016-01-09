@@ -41,8 +41,8 @@ public class SendMsgService {
         url.append("&pwd="+sendMsgProperties.getPwd());
         url.append("&encode="+sendMsgProperties.getEncode());
         url.append("&mobile="+sendMsg.getMobile());
-        url.append("&content=尊敬的用户,您的验证码为:"+checkCode+",有效期为60秒");
-        //ResponseEntity<?> result = SendMsgUtil.sendMsg(url.toString(),restTemplate);
+        url.append("&content=尊敬的用户,您的验证码为:"+checkCode+",有效期为3分钟");
+        ResponseEntity<?> result = SendMsgUtil.sendMsg(url.toString(),restTemplate);
         HttpSession session = request.getSession(); 
 		session.setAttribute(sendMsg.getMobile(), sendMsg);
 		session.setMaxInactiveInterval(5*60);
