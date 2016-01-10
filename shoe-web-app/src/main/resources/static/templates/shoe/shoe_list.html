@@ -42,12 +42,12 @@
 						</div>
 					</div>
 					
-					<div class="row" ng-repeat="item in companyRowList">
+					<div class="row div-row-margin" ng-repeat="item in companyRowList">
 						<div class="col-md-3" ng-repeat="subitem in item track by $index">
 			                <a class="tiaomu">			                	
 			                  <div class="row">
 			                  	<div class="col-md-12">
-			                      <img ng-src="{{subitem.logoImageUrl}}"/>
+			                      <img class="img-scale" ng-src="{{subitem.logoImageUrl}}"/>
 			                     </div>
 			                  </div>
 			                  <div class="row">
