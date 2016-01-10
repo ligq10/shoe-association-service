@@ -1,0 +1,43 @@
+<div class="modal fade authority-distribution" id="authority_distribution" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">分配权限基础</h4>
+         </div>
+         <div class="modal-body">
+         
+         	<div ui-tree id="tree-root">
+				<ol ui-tree-nodes ng-model="authorities" data-nodrag>
+					<li ui-tree-node  ng-repeat="node in authorities" on-finish-render-filters>
+						<span class="tree-node tree-node-content">
+							<span ng-if="node.items && node.items.length > 0" ng-click="toggle(this)" class="fl authority_distribution_tree_down_icon glyphicon" ng-class="{'glyphicon-chevron-down': !collapsed,'glyphicon-chevron-up': collapsed}"></span>
+							<img ng-if="node.items && node.items.length == 0" class="fl tree_dot" src="image/tree_dot.png">
+							<input type="checkbox" value="{{node.roleId}}" children="{{node.children}}" rank="parent" class="fl authority_distribution_checkbox" onclick="clickTreeCheckbox(this)">
+							<span>{{node.title}}</span>
+						</span>
+						<ol ui-tree-nodes ng-model="node.items" ng-class="{hidden: !collapsed}">
+							<li ng-repeat="item in node.items" ui-tree-node>
+								<span class="tree-node tree-node-content">
+									<span ng-if="item.items && item.items.length > 0">
+										<span ng-click="toggle(this)" class="fl authority_distribution_tree_down_icon glyphicon" ng-class="{'glyphicon-chevron-down': collapsed,'glyphicon-chevron-up': !collapsed}"></span>
+									</span>
+									<span ng-if="item.items && item.items.length == 0">
+										<img class="fl tree_dot" src="image/dot_icon.png">
+									</span>
+										<input type="checkbox" uuid="{{item.uuid}}" value="{{item.roleId}}" parent="{{item.parent}}" rank="children" class="fl authority_distribution_checkbox" onclick="clickTreeCheckbox(this)">
+									<span>{{item.title}}</span>
+								</span>
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</div>
+         </div>
+		 <div class="modal-footer">
+		 	<button type="button" class="btn btn-primary" id="authorityDistributeBtn" ng-click="saveAuthorityDistribution()">保存</button>
+		 	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		 </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
