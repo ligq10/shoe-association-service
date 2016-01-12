@@ -12,18 +12,20 @@ auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope',
 	//var loginUser = loginSession.loginUser().userInfo;
        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
        $scope.pageSize=PAGESIZE_DEFAULT;
+       $scope.shoecompanyList = [];
        //分页
        var refreshAuditShoeCompanyListList=function(){
+    	    $scope.shoecompanyList = [];
 	    	var search_keyword="";
 	    	if($scope.search_keyword != undefined){
 	    		search_keyword = $scope.search_keyword;
 	    	}
-	    	auditShoeCompanyListFactory.queryList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize,sort:'createDate,desc'},function(response){
+	    	auditShoeCompanyListFactory.queryAuditList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize},function(response){
     		   if(response._embedded==undefined && $scope.currentPage>0){
     			   --($scope.currentPage);
     			   refreshPersonnelList();
     		   }else{
-    			   //makeEntry(response);
+    			   $scope.shoecompanyList = response._embedded.shoeCompanyResponses;
 				   $scope.numPages = function () {
 					   if(response._embedded){
 						   return $scope.page.totalPages;//总页数

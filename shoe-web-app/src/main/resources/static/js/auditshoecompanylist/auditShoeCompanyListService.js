@@ -8,9 +8,9 @@ var auditShoeCompanyListUrl = '';
 auditShoeCompanyListServices.factory('auditShoeCompanyListFactory',function($resource){
    var auditShoeCompanyListFactory;
    auditShoeCompanyListFactory=$resource(auditShoeCompanyListUrl,{},{
-        // 无条件查询终端列表
-        queryList:{
-        	url:'/users/search/byKeyword',
+        // 无条件查询审核列表
+	   queryAuditList:{
+        	url:'/shoecompanies/audit',
             method:'GET',
             headers:{
                 Accept:'application/hal+json'

@@ -29,10 +29,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="entry in personnels" class="terminal-table-data-tr">
-	            			<td>{{entry.loginName}}</td>
-	            			<td>{{entry.nickName}}</td>
-	            			<td>{{entry.tel}}</td>
+						<tr ng-repeat="entry in shoecompanyList" class="terminal-table-data-tr">
+	            			<td>{{$index+1}}</td>
+	            			<td>{{entry.name}}</td>
+	            			<td>{{entry.submitPerson}}</td>
 	            			<td>{{entry.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 	            			<td>
 	                			<a href="javascript:void(0);" ui-sref="auditshoecompany({uuid:entry.uuid})"  has-permission="USER_MANAGER_UPDATE" class="personnel_list_set not_menu">审核</a>
