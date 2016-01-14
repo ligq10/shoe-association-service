@@ -6,9 +6,9 @@
      </div>
      <div class="collapse bar-list bar_list_two" id="sc-navbar-collapse">
          <ul class="nav">
-             <li has-permission="SERVICER_MANAGER_QUERY"><a href="javascript:void(0);">审核条目</a></li>
+             <li has-permission="SERVICER_MANAGER_QUERY"><a href="javascript:void(0);" ui-sref="auditshoecompanylist">审核条目</a></li>
              <li has-permission="SERVICER_MANAGER_ADD"><a href="javascript:void(0);">增加条目</a></li>
-             <li has-permission="SERVICER_MANAGER_TYPE"><a href="/serviceprovider/sp#/categoryManager">条目查询</a></li>
+             <li has-permission="SERVICER_MANAGER_TYPE"><a href="javascript:void(0);">条目查询</a></li>
          </ul>
      </div>
      <div class="firstTitle no_child" data-target="#feedback-navbar-collapse" data-toggle="collapse">
@@ -20,7 +20,7 @@
          <ul class="nav">
              <li has-permission="SERVICER_MANAGER_QUERY"><a href="javascript:void(0);">审核评分</a></li>
              <li has-permission="SERVICER_MANAGER_ADD"><a href="javascript:void(0);">添加评分</a></li>
-             <li has-permission="SERVICER_MANAGER_TYPE"><a href="/serviceprovider/sp#/categoryManager">评分查询</a></li>
+             <li has-permission="SERVICER_MANAGER_TYPE"><a href="javascript:void(0);">评分查询</a></li>
          </ul>
      </div>
      <div class="firstTitle no_child" data-target="#setting-navbar-collapse" data-toggle="collapse">
@@ -32,7 +32,8 @@
          <ul class="nav">
              <li has-permission="SERVICER_MANAGER_QUERY"><a href="javascript:void(0);">站点设置</a></li>
              <li has-permission="SERVICER_MANAGER_ADD"><a href="javascript:void(0);">信誉参数设置</a></li>
-             <li has-permission="SERVICER_MANAGER_TYPE"><a href="/serviceprovider/sp#/categoryManager">系统管理用户设置</a></li>
+             <li has-permission="SERVICER_MANAGER_TYPE"><a href="#/personnellist" ui-sref="personnellist">系统管理用户设置</a></li>
+             <li has-permission="SERVICER_MANAGER_TYPE"><a href="javascript:void(0);">数据库备份</a></li>
          </ul>
      </div>
 <!--      <div class="firstTitle no_child" ui-sref="personnelList" has-permission="USER_MANAGER">

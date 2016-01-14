@@ -311,7 +311,7 @@ margin: 0;
 }
 /*弹出框样式*/
 .modal-content{
-    margin-top: 50%;
+    margin-top: 20%;
 }
 .modal-title{
 	font-weight:bold;
@@ -509,6 +509,13 @@ a{
 .clear_float{
 	clear: both;
 }
+.clearfloat:after{
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0;
+} 
 .text_center{
 	text-align: center;
 }
@@ -636,4 +643,26 @@ a{
      white-space:nowrap;
      overflow:hidden;
      text-overflow:ellipsis;
+}
+.loading-opacity{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1000;
+	height:100%;
+	width:100%;
+	background-color: #454545;
+	filter:alpha(opacity=50);       /* IE */
+	-moz-opacity:0.5;              /* 老版Mozilla */
+	-khtml-opacity:0.5;              /* 老版Safari */
+	opacity: 0.5;
+	display:table;
+}
+.loading-opacity>div{
+	color:white;
+	font-size:20px;
+	margin:auto auto;
+	display:table-cell;
+	vertical-align: middle;
+	text-align:center;
 }

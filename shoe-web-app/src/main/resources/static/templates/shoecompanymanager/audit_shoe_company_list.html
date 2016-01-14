@@ -1,0 +1,51 @@
+<html>
+<head>
+</head>
+	<body>
+		<div class="main">
+			<div class="list-title">
+				<span><img class="home-img" ng-src="images/home_icon.png"/></span>
+				<span class="navigate-header">条目管理>>审核条目列表</span>
+			</div>
+			<iframe name="my_iframe" src="about:blank" ng-hide="true"></iframe>
+			<form  target="my_iframe" action="about:blank" class="form-horizontal" name="searchFrom" role="form" ng-submit="search()" autocomplete="on" >
+				<div class="serch">
+					<input class="fl input-search form-control" id="search_input" type="text" ng-model="search_keyword" onkeypress="if (event.which==13) document.getElementById('search_button').click()" placeholder="名称/提交者">
+					<div class="clear_div" ng-show="search_keyword">
+						<a href="javascript:void(0);" clear-search class="delete_search" id="clear_search"></a>
+					</div>
+		            <button type="submit" id="search_button" class="search_btn btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+				</div>
+			</form>
+			<div class="terminal-list-table">
+				<table class="table table-bordered table-hover">
+					<thead class="table_thead">
+						<tr>
+							<th width="10%">序号</th>
+							<th width="20%">名称</th>
+							<th width="15%">提交者</th>
+							<th width="15%">提交时间</th>
+							<th width="15%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="entry in shoecompanyList" class="terminal-table-data-tr">
+	            			<td>{{$index+1}}</td>
+	            			<td>{{entry.name}}</td>
+	            			<td>{{entry.submitPerson}}</td>
+	            			<td>{{entry.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	            			<td>
+	                			<a href="javascript:void(0);" ui-sref="auditshoecompany({uuid:entry.uuid})"  has-permission="USER_MANAGER_UPDATE" class="personnel_list_set not_menu">审核</a>
+	            			</td>
+	        			</tr>
+        			</tbody>
+				</table>
+			</div>
+		</div>
+		<div>
+            <pagetemplate></pagetemplate>
+        </div>
+		<resetpassword></resetpassword>
+		<deletepersonneldialog></deletepersonneldialog>
+	</body>
+</html>

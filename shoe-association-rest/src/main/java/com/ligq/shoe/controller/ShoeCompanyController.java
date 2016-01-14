@@ -176,4 +176,32 @@ public class ShoeCompanyController {
 		}
 		return  responseEntity;			
 	}
+	
+	
+	@RequestMapping(value="/shoecompanies/audit",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findShoeCompanyAudit(
+			@RequestParam(value = "keyword", required = true, defaultValue = "") String keyword,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+
+		Page<ShoeCompany> shoeCompanyPage = null;
+		Sort sort = new Sort(Direction.DESC, "createTime");
+
+		
+		Pageable pageable = new PageRequest(page, size,sort);
+		shoeCompanyPage = shoeCompanyService.findAllShoeCompanyAudit(keyword,pageable);
+		
+		ResponseEntity responseEntity = null;
+		try {
+			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage("",shoeCompanyPage, pageable, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;			
+	}
 }

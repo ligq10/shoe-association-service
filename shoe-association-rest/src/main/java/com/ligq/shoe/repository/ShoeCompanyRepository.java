@@ -23,5 +23,9 @@ public interface ShoeCompanyRepository extends
 	public Page<ShoeCompany> findByNamePhoneticize(@Param("namePhoneticize") String namePhoneticize,Pageable pageable);
 	
 	public Page<ShoeCompany> findByCreditLevel(Integer creditLevel,Pageable pageable);
+	
+	@RestResource(exported = false)
+	@Query(value = "select t from ShoeCompany t where  (t.name like %:keyword% or t.submitPerson like %:keyword%) and t.auditStatus = :auditstatus")
+	public Page<ShoeCompany> findByKeywordAndAuditStatus(@Param("keyword") String keyword,@Param("auditstatus") Integer auditstatus,Pageable pageable);
 
 }

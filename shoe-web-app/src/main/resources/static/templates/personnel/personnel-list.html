@@ -1,0 +1,60 @@
+<html>
+<head>
+</head>
+	<body>
+		<div class="main">
+			<div class="list-title">
+				<span><img class="home-img" ng-src="images/home_icon.png"/></span>
+				<span class="navigate-header">人员管理>>人员列表</span>
+			</div>
+			<iframe name="my_iframe" src="about:blank" ng-hide="true"></iframe>
+			<form  target="my_iframe" action="about:blank" class="form-horizontal" name="searchFrom" role="form" ng-submit="search()" autocomplete="on" >
+				<div class="serch">
+					<input class="fl input-search form-control" id="search_input" type="text" ng-model="search_keyword" onkeypress="if (event.which==13) document.getElementById('search_button').click()" placeholder="登录账号/用户名/角色/电话/邮箱">
+					<div class="clear_div" ng-show="search_keyword">
+						<a href="javascript:void(0);" clear-search class="delete_search" id="clear_search"></a>
+					</div>
+		            <button type="submit" id="search_button" class="search_btn btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+		           <span class="btn_group">
+		            	<button type="button" class="btn btn-warning" ui-sref="personneladd"  has-permission="USER_MANAGER_ADD">新增</button>
+				   </span>
+				</div>
+			</form>
+			<div class="terminal-list-table">
+				<table class="table table-bordered table-hover">
+					<thead class="table_thead">
+						<tr>
+							<th width="10%">登录账号</th>
+							<th width="10%">用户名</th>
+							<th width="13%">角色</th>
+							<th width="12%">联系电话</th>
+							<th width="15%">联系邮箱</th>
+							<th width="15%">创建时间</th>
+							<th width="15%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="entry in personnels" class="terminal-table-data-tr">
+	            			<td>{{entry.loginName}}</td>
+	            			<td>{{entry.nickName}}</td>
+	            			<td>{{entry.roleName}}</td>
+	            			<td>{{entry.tel}}</td>
+	            			<td>{{entry.email}}</td>
+	            			<td>{{entry.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	            			<td>
+	                			<a ng-click="resetPasswordModal(entry.loginName)" data-toggle="modal"  class="personnel_list_set">重置密码</a>
+	                			<a ui-sref="personnelUpdate({uuid:entry.uuid})"  has-permission="USER_MANAGER_UPDATE" class="personnel_list_set not_menu">修改</a>
+	                			<a ng-click="deletePersonnel(entry.loginName,entry.uuid)" class="personnel_list_set"  data-toggle="delete-personnel-dialog">删除</a>
+	            			</td>
+	        			</tr>
+        			</tbody>
+				</table>
+			</div>
+		</div>
+		<div>
+            <pagetemplate></pagetemplate>
+        </div>
+		<resetpassword></resetpassword>
+		<deletepersonneldialog></deletepersonneldialog>
+	</body>
+</html>

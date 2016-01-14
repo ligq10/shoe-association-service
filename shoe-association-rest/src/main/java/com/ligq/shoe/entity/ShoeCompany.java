@@ -54,6 +54,9 @@ public class ShoeCompany {
 	@Column(name = "submit_person_id")
 	private String submitPersonId;
 	
+	@Column(name = "submit_person")
+	private String submitPerson;
+	
 	@Column(name = "name_phoneticize")
 	private String namePhoneticize;
 	
@@ -183,6 +186,12 @@ public class ShoeCompany {
 	public void setAuditStatus(Integer auditStatus) {
 		this.auditStatus = auditStatus;
 	}
-	
-	
+
+	public String getSubmitPerson() {
+		return submitPerson;
+	}
+
+	public void setSubmitPerson(String submitPerson) {
+		this.submitPerson = submitPerson;
+	}		
 }

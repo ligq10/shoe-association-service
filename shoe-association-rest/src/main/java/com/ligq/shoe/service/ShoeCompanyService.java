@@ -39,6 +39,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import com.ligq.shoe.constants.CreditLevel;
 import com.ligq.shoe.constants.NumberToChinese;
+import com.ligq.shoe.constants.ShoeCompanyAuditStatus;
 import com.ligq.shoe.controller.DataDictController;
 import com.ligq.shoe.controller.FileController;
 import com.ligq.shoe.controller.ShoeCompanyController;
@@ -85,7 +86,7 @@ public class ShoeCompanyService {
 		shoeCompany.setServeScore(30);
 		shoeCompany.setCreditLevel(0);
 		shoeCompany.setSubmitPersonId(userEntity.getUuid());
-		shoeCompany.setAuditStatus(0);
+		shoeCompany.setAuditStatus(ShoeCompanyAuditStatus.WAITING_AUDIT.getValue());
 		String firstPinyin = getfirstSpellByChineseCharacter(shoeCompanyAddRequest.getName());
 		shoeCompany.setNamePhoneticize(firstPinyin);
 		shoeCompany = shoeCompanyRepository.save(shoeCompany);
@@ -149,6 +150,12 @@ public class ShoeCompanyService {
 		return shoeCompanyPage;
 	}
 
+	public Page<ShoeCompany> findAllShoeCompanyAudit(String name,Pageable pageable) {
+		// TODO Auto-generated method stub
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByKeywordAndAuditStatus(name,ShoeCompanyAuditStatus.WAITING_AUDIT.getValue(),pageable);
+		return shoeCompanyPage;
+	}
+	
 	public Page<ShoeCompany> findAllShoeCompanyByName(String name,
 			Pageable pageable) {
 		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByName(name, pageable);
