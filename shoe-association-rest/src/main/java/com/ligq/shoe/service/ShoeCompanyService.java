@@ -44,11 +44,11 @@ import com.ligq.shoe.controller.DataDictController;
 import com.ligq.shoe.controller.FileController;
 import com.ligq.shoe.controller.ShoeCompanyController;
 import com.ligq.shoe.entity.ShoeCompany;
-import com.ligq.shoe.entity.User;
+import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.repository.ShoeCompanyRepository;
-import com.ligq.shoe.repository.UserRepository;
+import com.ligq.shoe.repository.EmployeeRepository;
 import com.ligq.shoe.utils.Pinyin4jUtil;
 
 @Service
@@ -59,7 +59,7 @@ public class ShoeCompanyService {
 	@Autowired
 	private ShoeCompanyRepository shoeCompanyRepository;
 	@Autowired
-	private UserRepository userRepository;
+	private EmployeeRepository userRepository;
 	
 	public ResponseEntity<Object> save(
 			ShoeCompanyAddRequest shoeCompanyAddRequest,
@@ -69,7 +69,7 @@ public class ShoeCompanyService {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 		
-		User userEntity = new User();
+		Employee userEntity = new Employee();
 		userEntity.setUuid(UUID.randomUUID().toString());
 		userEntity.setName(shoeCompanyAddRequest.getSubmitPerson());
 		userEntity.setTel(shoeCompanyAddRequest.getTel());
@@ -183,7 +183,7 @@ public class ShoeCompanyService {
 		if(null != shoeCompanyResult){
 			for (ShoeCompany shoeCompany : shoeCompanyResult.getContent()) {
 
-				User user = userRepository.findOne(shoeCompany.getSubmitPersonId());		
+				Employee user = userRepository.findOne(shoeCompany.getSubmitPersonId());		
 				ShoeCompanyResponse shoeCompanyResponse = new ShoeCompanyResponse();
 				BeanUtils.copyProperties(shoeCompany, shoeCompanyResponse);
 			    Link selfLink = linkTo(methodOn(ShoeCompanyController.class).findOneShoeCompanyById(shoeCompany.getUuid(), request, response)).withSelfRel();	    
@@ -192,8 +192,10 @@ public class ShoeCompanyService {
 			    String permitImageUrl = getHost(request)+"/images/show/"+shoeCompany.getPermitImageId();
 			    shoeCompanyResponse.setPermitImageUrl(permitImageUrl);;
 			    shoeCompanyResponse.setTotalScore(shoeCompany.getCreditScore()+shoeCompany.getQualityScore()+shoeCompany.getServeScore());
-			    shoeCompanyResponse.setSubmitPerson(user.getName());
-			    shoeCompanyResponse.setTel(user.getTel());
+			    if(null != user){
+				    shoeCompanyResponse.setSubmitPerson(user.getName());
+				    shoeCompanyResponse.setTel(user.getTel());			    	
+			    }
 			    shoeCompanyResponse.setCreditDesc(CreditLevel.getCreditDesc(shoeCompany.getCreditLevel()).getDesc());
 
 			    shoeCompanyResponse.add(selfLink);

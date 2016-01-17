@@ -5,7 +5,7 @@
 var auditShoeCompanyListControllers=angular.module('auditShoeCompanyListControllers',['auditShoeCompanyListServices']);
 
 /**
- * 人员列表
+ * 审计条目列表
  */
 auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope','auditShoeCompanyListFactory',
     function($scope,auditShoeCompanyListFactory){
@@ -13,8 +13,10 @@ auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope',
        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
        $scope.pageSize=PAGESIZE_DEFAULT;
        $scope.shoecompanyList = [];
+       
        //分页
-       var refreshAuditShoeCompanyListList=function(){
+       var refreshAuditShoeCompanyListList = function(){
+    	   
     	    $scope.shoecompanyList = [];
 	    	var search_keyword="";
 	    	if($scope.search_keyword != undefined){
@@ -36,15 +38,15 @@ auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope',
        };
        
        //人员list
-       auditShoeCompanyListFactory();
+       refreshAuditShoeCompanyListList();
        // 搜索
        $scope.search=function() {
     	   $scope.currentPage=CURRENTPAGE_INIT;
-    	   auditShoeCompanyListFactory();
+    	   refreshAuditShoeCompanyListList();
        }
         // 点击下一页，上一页，首页，尾页按钮
        $scope.pageChanged=function(){
-    	   auditShoeCompanyListFactory();
+    	   refreshAuditShoeCompanyListList();
        };
  
 }]);

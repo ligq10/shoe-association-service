@@ -10,9 +10,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 @Entity
 @Table(name = "shoe_company")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShoeCompany {
 	
 	@Id

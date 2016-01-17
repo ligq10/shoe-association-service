@@ -1,5 +1,7 @@
 package com.ligq.shoe.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +29,6 @@ public interface ShoeCompanyRepository extends
 	@RestResource(exported = false)
 	@Query(value = "select t from ShoeCompany t where  (t.name like %:keyword% or t.submitPerson like %:keyword%) and t.auditStatus = :auditstatus")
 	public Page<ShoeCompany> findByKeywordAndAuditStatus(@Param("keyword") String keyword,@Param("auditstatus") Integer auditstatus,Pageable pageable);
+
 
 }

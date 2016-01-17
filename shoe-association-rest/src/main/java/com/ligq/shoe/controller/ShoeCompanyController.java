@@ -36,12 +36,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ligq.shoe.entity.ShoeCompany;
-import com.ligq.shoe.entity.User;
+import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.ShoeCompanyService;
-import com.ligq.shoe.service.UserService;
+import com.ligq.shoe.service.EmployeeService;
 import com.ligq.shoe.validator.AddShoeCompanyValidator;
 import com.ligq.shoe.constants.CheckCodeType;
 import com.ligq.shoe.constants.CreditLevel;
@@ -55,7 +55,7 @@ public class ShoeCompanyController {
 	private ShoeCompanyService shoeCompanyService;
 	
 	@Autowired
-	private UserService userService;
+	private EmployeeService userService;
 	
 	@Autowired
 	private AddShoeCompanyValidator addShoeCompanyValidator;
@@ -105,7 +105,7 @@ public class ShoeCompanyController {
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 		
-		User user = userService.findOneUserById(shoeCompany.getSubmitPersonId());		
+		Employee user = userService.findOneUserById(shoeCompany.getSubmitPersonId());		
 		ShoeCompanyResponse shoeCompanyResponse = new ShoeCompanyResponse();
 		BeanUtils.copyProperties(shoeCompany, shoeCompanyResponse);
 	    Link selfLink = linkTo(methodOn(this.getClass()).findOneShoeCompanyById(shoeCompany.getUuid(), request, response)).withSelfRel();	    

@@ -1,48 +1,34 @@
-package com.ligq.shoe.entity;
+package com.ligq.shoe.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.hateoas.ResourceSupport;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "user")
-public class User {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class EmployeeResponse extends ResourceSupport{
 
-	
-	@Id
-	@Column(name="id")
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String uuid;
 	
-	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "household_register_address")
 	private String householdRegisterAddress;
 	
-	@Column(name = "home_address")
 	private String homeAddress;
 	
-	@Column(name = "tel")
 	private String tel;
 	
-	@Column(name = "identity_card")
 	private String identityCard;
 
-	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "gender")
 	private String gender;
 	
-	@Column(name = "age")
 	private Integer age;
 
+	private String loginName;
+	
+	private String password;
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -114,5 +100,21 @@ public class User {
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-	
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 }
