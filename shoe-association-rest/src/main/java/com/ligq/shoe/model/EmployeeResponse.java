@@ -1,8 +1,11 @@
 package com.ligq.shoe.model;
 
+import java.util.Date;
+
 import org.springframework.hateoas.ResourceSupport;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ligq.shoe.utils.DateUtils;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class EmployeeResponse extends ResourceSupport{
@@ -26,8 +29,8 @@ public class EmployeeResponse extends ResourceSupport{
 	private Integer age;
 
 	private String loginName;
-	
-	private String password;
+		
+	private String createTime;
 	
 	public String getUuid() {
 		return uuid;
@@ -109,12 +112,14 @@ public class EmployeeResponse extends ResourceSupport{
 		this.loginName = loginName;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getCreateTime() {
+		return createTime;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setCreateTime(Date createTime) {
+		this.createTime = DateUtils.composeUTCTime(createTime);
 	}
+
+	
 
 }

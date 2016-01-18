@@ -8,7 +8,7 @@ var personnelAddUrl = '';
 personnelAddService.factory('personnelAddFactory',function($resource){
    var personnelAddFactory;
    personnelAddFactory=$resource(personnelAddUrl,{},{
-        // 无条件查询终端列表
+        // 无条件查询人员列表
         queryList:{
         	url:'/users/search/byKeyword',
             method:'GET',
@@ -24,10 +24,10 @@ personnelAddService.factory('personnelAddFactory',function($resource){
            }
        },
         create:{
-        	url:'/users/command',
+        	url:'/employees',
             method:'POST',
             headers:{
-            	'Content-Type':'application/vnd.jiahua.commands.addUser.v1+json'
+                Accept:'application/hal+json'
             }
         },
         update:{
@@ -53,18 +53,30 @@ personnelAddService.factory('personnelAddFactory',function($resource){
         	params:{imei:"imei",checkcode:"checkcode"},
         	method:'GET'
         },
-        searchAllRoles:{
+/*        searchAllRoles:{
         	url: '/roles',
         	method: 'GET',
         	headers: {
         		'Content-Type':'application/json'
         	}
-        },
-       checkLoginName:{
+        },*/
+/*       checkLoginName:{
            url:'/security/users/checkloginname',
            params:{loginname:"loginname"},
            method:'GET'
-       },
+       },*/
+       searchAllRoles:{
+        	url: '/datadicts/bydatadictype/authority',
+        	method: 'GET',
+        	headers: {
+        		'Content-Type':'application/json'
+        	}
+       },       
+       checkLoginName:{
+           url:'/employees/checkloginname',
+           params:{loginname:"loginname"},
+           method:'GET'
+       },      
        getFirstAddressData:{
     	   url:'/groups/100000/childrens',
     	   method:'GET'

@@ -10,7 +10,7 @@ personnelListService.factory('personnelListFactory',function($resource){
    personnelListFactory=$resource(personnelUrl,{},{
         // 无条件查询终端列表
         queryList:{
-        	url:'/users/search/byKeyword',
+        	url:'/employees',
             method:'GET',
             headers:{
                 Accept:'application/hal+json'
