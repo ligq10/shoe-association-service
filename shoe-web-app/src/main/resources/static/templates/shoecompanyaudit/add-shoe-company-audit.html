@@ -1,0 +1,94 @@
+<html>
+<head>
+    <!-- Load CSS files-->
+    <link href="css/templateCss/shoecompanyaudit/addshoecompanyaudit.css" rel="stylesheet" th:href="@{/css/templateCss/shoecompanyaudit/addshoecompanyaudit.css}"/>  
+</head>
+	<body>
+		<div class="main">
+			<div class="list-title">
+				<span ><img class="home-img" ng-src="images/home_icon.png"/></span>
+				<span class="navigate-header">条目管理>>待审条目列表>>审核条目</span>
+			</div>
+			<div class="terminal-add-total">
+				<form class="form-horizontal">
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">企业名称</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{shoeComapny.name}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">营业执照</label>
+				    <div class="col-sm-8">
+						<div class="box box-primary">
+	                        <div class="box-profile">
+	                            <div class="thumbnail">
+	                                <img style="height: 200px; width: 100%; display: block;" data-holder-rendered="true" ng-src="shoeComapny.permitImageUrl" alt="100%x200" data-src="holder.js/100%x200">
+	                                <div class="caption">
+	                                    <h3>营业执照预览</h3>
+	                                    <p><a role="button" class="btn btn-primary" href="#">查看原图</a></p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                     </div>						
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">形象照</label>
+				    <div class="col-sm-8">
+						<div class="box box-primary">
+	                        <div class="box-profile">
+	                            <div class="thumbnail">
+	                                <img style="height: 200px; width: 100%; display: block;" data-holder-rendered="true" ng-src="shoeComapny.logoImageUrl" alt="100%x200" data-src="holder.js/100%x200">
+	                                <div class="caption">
+	                                    <h3>形象照预览</h3>
+	                                    <p><a role="button" class="btn btn-primary" href="#">查看原图</a></p>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>						
+				     </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">企业法人</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{shoeComapny.enterpriseLegalPerson}}</p>
+				    </div>
+				  </div>				  
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">提交者</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{shoeComapny.submitPerson}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">提交者电话</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{shoeComapny.tel}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">审核</label>
+				    <div class="col-sm-8">
+				        	<input type="radio" checked value="pass" name="auditresult" class="gender">通过
+				        	&nbsp;&nbsp;&nbsp;
+				        	<input type="radio" value="refuse" name="auditresult" class="gender">不通过
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">审核意见</label>
+				    <div class="col-sm-8">
+				            <textarea  id="" name="auditmessage" type="text" class="form-control" rows="6" maxlength="100" ng-model="auditmessage"></textarea>
+				    </div>
+				  </div>
+			      <div class="form-group content-center">
+				        	<span class="btn_group">
+				            	<button type="submit" ng-disabled="!personnelAddFrom.$valid " class="btn btn-primary">保存</button>
+						    	<button type="button" ng-click="resetPersonnelAddData()" class="btn btn-default">返回</button>
+							</span>
+				  </div>				  				  				  				  
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

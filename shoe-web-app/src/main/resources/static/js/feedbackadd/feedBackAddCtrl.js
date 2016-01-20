@@ -6,7 +6,7 @@ var feedBackAddControllers=angular.module('feedBackAddControllers',['feedBackAdd
 
 feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$timeout','$state','$stateParams','$upload','$rootScope','feedBackAddFactory',
     function($scope,$timeout,$state,$stateParams,$upload,$rootScope,feedBackAddFactory) {
-    $scope.shoeComapnyId = $stateParams.uuid;
+    $scope.shoeCompanyId = $stateParams.uuid;
 	
     $scope.scoreTypeList = [
             {
@@ -121,7 +121,7 @@ feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$timeout','$state
 		postEntity.submitTel=$scope.submitTel;
 		postEntity.proofFileIds = proofFileIds;
 		postEntity.checkCode = $scope.checkCode;
-		feedBackAddFactory.saveFeedback({uuid: $scope.shoeComapnyId},postEntity,function(response){				
+		feedBackAddFactory.saveFeedback({uuid: $scope.shoeCompanyId},postEntity,function(response){				
 			if(response.$resolved){
 				$state.go('shoeList');
 				Message.alert({
@@ -221,16 +221,3 @@ feedBackAddControllers.controller('feedBackAddCtrl',['$scope','$timeout','$state
 	}	
 
 }]);
-
-
-
-/*feedBackAddControllers.directive("deletegroupdialog",
-    function (){
-        var option={
-            restrict:"AEC",
-            transclude:true,
-            replace:true,
-            templateUrl:"templates/commonTemplate/delete-group-dialog.html"
-        };
-        return option;
-    });*/

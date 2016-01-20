@@ -473,14 +473,14 @@ margin: 0;
 .delete_search{
 	width: 32px;
   	height: 32px;
-  	background: url(../../../images/quickdelete.png) no-repeat;
+  	background: url(../../images/quickdelete.png) no-repeat;
   	background-position: 10px 9px;
   	display: block;
 }
 .delete_search:hover{
   	width: 32px;
   	height: 32px;
-  	background: url(../../../images/quickdelete.png) no-repeat;
+  	background: url(../../images/quickdelete.png) no-repeat;
   	background-position: 10px -25px;
   	display: block;
 }
