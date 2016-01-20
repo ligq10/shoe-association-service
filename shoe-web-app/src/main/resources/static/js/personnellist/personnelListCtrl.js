@@ -18,17 +18,17 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
 	    	if($scope.search_keyword != undefined){
 	    		search_keyword = $scope.search_keyword;
 	    	}
-	    	personnelListFactory.queryList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize,sort:'createDate,desc'},function(personnelAll){
+	    	personnelListFactory.queryList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize,sort:'createTime,desc'},function(personnelAll){
     		   if(personnelAll._embedded==undefined && $scope.currentPage>0){
     			   --($scope.currentPage);
     			   refreshPersonnelList();
     		   }else{
     			   makeEntry(personnelAll);
-    				   $scope.numPages = function () {
-    					   if(personnelAll._embedded){
-    						   return $scope.page.totalPages;//总页数
-    					   }
-    				   };
+				   $scope.numPages = function () {
+					   if(personnelAll._embedded){
+						   return $scope.page.totalPages;//总页数
+					   }
+				   };
     		   }
     	   });
        };
@@ -50,7 +50,7 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
     /**
    	 * 确认密码
    	 */
-   	$scope.confirmPasswordWrong=false;
+/*   	$scope.confirmPasswordWrong=false;
    	$scope.checkPassword=function(){
    		if($("#confirmPassword").val().length > 0 ){
    			if($("#firstPassword").val().length == 0){
@@ -71,9 +71,9 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
    				$scope.confirmPasswordWrong = true;
    			}
    		}
-   	};
+   	};*/
    	
-   	//重置密码modal
+/*   	//重置密码modal
      $scope.resetPasswordModal=function(loginName){
     	 $scope.restPasswordFrom.password.$dirty=false;
     	 $scope.confirmPasswordWrong = false;
@@ -83,10 +83,10 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
     	 
     	 $scope.loginName=loginName;
     	 $('.personnel_reset_password').modal('show');
-     }  
+     }*/  
        
        //重置密码
-      $scope.error="";
+/*      $scope.error="";
        $scope.restPassword=function(){
     	   var reset = {};
     	   reset.loginName=$scope.loginName;
@@ -105,7 +105,7 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
     			   }
                }
            });
-       };
+       };*/
        
        //删除
        $scope.deletePersonnel=function(loginName,userId){
@@ -142,40 +142,31 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
                $scope.pagingHidden=true;
            }else{
                $scope.pagingHidden=false;
-               var personnelData = response._embedded.userResponses;
-               var id;
+               var personnelData = response._embedded.employeeResponses;
+               var uuid;
                var loginName;
                var email;
                var tel;
-               var nickName;
-               var realName;
-               var createDate;
+               var name;
+               var createTime;
                var roleName;
-               var groupName;
                for(var i=0; i<personnelData.length; i++){
-                	   id=personnelData[i].uuid;
+                	   uuid=personnelData[i].uuid;
                 	   loginName=personnelData[i].loginName;//登录账号
                 	   email=personnelData[i].email;//联系邮箱
                 	   tel=personnelData[i].tel;//联系电话
-                	   nickName=personnelData[i].nickName;//用户名
-                	   realName=personnelData[i].realName;
-                	   createDate=personnelData[i].createDate;//创建时间
-                	   roleName=personnelData[i].roles[0].description;//创建时间
+                	   name=personnelData[i].name;//用户名
+                	   createTime=personnelData[i].createTime;//创建时间
+                	   roleName="";//角色
                    
-                   for(var n=0; n<personnelData[i].groups.length; n++) {
-                	   groupName=personnelData[i].groups[n].name;//用户分组
-                   }
                    $scope.entry.push({
-                	   uuid:id,
+                	   uuid:uuid,
                        loginName:loginName,
                        email:email,
                        tel:tel,
-                       nickName:nickName,
-                       realName:realName,
-                       createDate:createDate,
-                       roleName:roleName,
-                       groupName:groupName
-                	   
+                       name:name,
+                       createTime:createTime,
+                       roleName:roleName,                	   
                    });
                }
                $scope.page = response.page;

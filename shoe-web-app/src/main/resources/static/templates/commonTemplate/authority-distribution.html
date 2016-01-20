@@ -12,7 +12,7 @@
 					<li ui-tree-node  ng-repeat="node in authorities" on-finish-render-filters>
 						<span class="tree-node tree-node-content">
 							<span ng-if="node.items && node.items.length > 0" ng-click="toggle(this)" class="fl authority_distribution_tree_down_icon glyphicon" ng-class="{'glyphicon-chevron-down': !collapsed,'glyphicon-chevron-up': collapsed}"></span>
-							<img ng-if="node.items && node.items.length == 0" class="fl tree_dot" src="image/tree_dot.png">
+							<img ng-if="node.items && node.items.length == 0" class="fl tree_dot" src="images/tree_dot.png">
 							<input type="checkbox" value="{{node.roleId}}" children="{{node.children}}" rank="parent" class="fl authority_distribution_checkbox" onclick="clickTreeCheckbox(this)">
 							<span>{{node.title}}</span>
 						</span>
@@ -23,7 +23,7 @@
 										<span ng-click="toggle(this)" class="fl authority_distribution_tree_down_icon glyphicon" ng-class="{'glyphicon-chevron-down': collapsed,'glyphicon-chevron-up': !collapsed}"></span>
 									</span>
 									<span ng-if="item.items && item.items.length == 0">
-										<img class="fl tree_dot" src="image/dot_icon.png">
+										<img class="fl tree_dot" src="images/dot_icon.png">
 									</span>
 										<input type="checkbox" uuid="{{item.uuid}}" value="{{item.roleId}}" parent="{{item.parent}}" rank="children" class="fl authority_distribution_checkbox" onclick="clickTreeCheckbox(this)">
 									<span>{{item.title}}</span>

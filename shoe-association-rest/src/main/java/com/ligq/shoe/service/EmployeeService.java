@@ -118,5 +118,11 @@ public class EmployeeService {
 		return "http://" + host + ":" + port;
 	}
 
+	public Employee findByLoginName(String loginName) {
+		// TODO Auto-generated method stub
+		Employee employee = employeeRepository.findByLoginName(loginName);
+		return employee;
+	}
+
 
 }

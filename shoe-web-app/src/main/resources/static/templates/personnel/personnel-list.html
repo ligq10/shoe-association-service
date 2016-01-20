@@ -24,6 +24,7 @@
 				<table class="table table-bordered table-hover">
 					<thead class="table_thead">
 						<tr>
+							<th width="10%">序号</th>
 							<th width="10%">登录账号</th>
 							<th width="10%">用户名</th>
 							<th width="13%">角色</th>
@@ -35,12 +36,13 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="entry in personnels" class="terminal-table-data-tr">
-	            			<td>{{entry.loginName}}</td>
-	            			<td>{{entry.nickName}}</td>
-	            			<td>{{entry.roleName}}</td>
-	            			<td>{{entry.tel}}</td>
-	            			<td>{{entry.email}}</td>
-	            			<td>{{entry.createDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	            	        <td align="center">{{$index+1}}</td>	            			
+	            			<td align="center">{{entry.loginName}}</td>
+	            			<td align="center">{{entry.name}}</td>
+	            			<td align="center">{{entry.roleName}}</td>
+	            			<td align="center">{{entry.tel}}</td>
+	            			<td align="center">{{entry.email}}</td>
+	            			<td>{{entry.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 	            			<td>
 	                			<a ng-click="resetPasswordModal(entry.loginName)" data-toggle="modal"  class="personnel_list_set">重置密码</a>
 	                			<a ui-sref="personnelUpdate({uuid:entry.uuid})"  has-permission="USER_MANAGER_UPDATE" class="personnel_list_set not_menu">修改</a>

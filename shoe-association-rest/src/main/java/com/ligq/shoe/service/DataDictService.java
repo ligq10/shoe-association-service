@@ -1,6 +1,7 @@
 package com.ligq.shoe.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +28,14 @@ import org.springframework.util.StringUtils;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import com.ligq.shoe.controller.DataDictController;
+import com.ligq.shoe.controller.EmployeeContorller;
 import com.ligq.shoe.entity.DataDict;
 import com.ligq.shoe.entity.DataDictType;
+import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.DataDictAddRequest;
+import com.ligq.shoe.model.DataDictResponse;
 import com.ligq.shoe.model.DataDictTypeAddRequest;
+import com.ligq.shoe.model.EmployeeResponse;
 import com.ligq.shoe.repository.DataDictRepository;
 import com.ligq.shoe.repository.DataDictTypeRepository;
 
@@ -55,16 +65,16 @@ public class DataDictService {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 		
-		List<DataDict> dataDictList = dataDictRepository.findByTypeCodeAndDictCode(dataDictAddRequest.getTypeCode(),dataDictAddRequest.getDictCode());
-		if(null == dataDictList || dataDictList.isEmpty()){
-			DataDict dataDict = new DataDict();
-			BeanUtils.copyProperties(dataDictAddRequest, dataDict);
-			dataDict.setUuid(UUID.randomUUID().toString());
-			dataDict.setTypeId(dataDictType.getUuid());
-			dataDict = dataDictRepository.save(dataDict);
+		DataDict dataDict = dataDictRepository.findByTypeCodeAndDictCode(dataDictAddRequest.getTypeCode(),dataDictAddRequest.getDictCode());
+		if(null == dataDict){
+			DataDict dataDictEntity = new DataDict();
+			BeanUtils.copyProperties(dataDictAddRequest, dataDictEntity);
+			dataDictEntity.setUuid(UUID.randomUUID().toString());
+			dataDictEntity.setTypeId(dataDictType.getUuid());
+			dataDictEntity = dataDictRepository.save(dataDict);
 			HttpHeaders headers = new HttpHeaders();
 
-			URI selfUrl = linkTo(methodOn(DataDictController.class).findOneDataDictById(dataDict.getUuid(), request, response)).toUri();
+			URI selfUrl = linkTo(methodOn(DataDictController.class).findOneDataDictById(dataDictEntity.getUuid(), request, response)).toUri();
 			headers.setLocation(selfUrl);
 			return new ResponseEntity<HttpStatus>(headers,HttpStatus.CREATED);
 		}else{
@@ -72,10 +82,6 @@ public class DataDictService {
 			return new ResponseEntity<Object>(HttpStatus.CREATED);
 		}
 		
-	}
-	
-	public DataDictType save(DataDictTypeAddRequest dataDictAddRequest){
-		return null;
 	}
 
 	public DataDict findOneDataDictById(String uuid) {
@@ -115,5 +121,35 @@ public class DataDictService {
 		// TODO Auto-generated method stub
 		DataDictType dataDictType = dataDictTypeRepository.findOne(uuid);
 		return dataDictType;
+	}
+
+	public List<DataDict> findOneDataDictByTypeCode(String typecode) {
+		List<DataDict> dataDictList = dataDictRepository.findByTypeCode(typecode);
+		return dataDictList;
+	}
+
+	public ResponseEntity getResponseEntityConvertDataDictPage(String string,
+			List<DataDict> dataDictList, HttpServletRequest request,
+			HttpServletResponse response) {
+
+
+			List<DataDictResponse> content = new ArrayList<DataDictResponse>();
+			
+			if(null != dataDictList){
+				for (DataDict dataDictEntity : dataDictList) {
+
+				    DataDictResponse dataDictResponse = new DataDictResponse();
+					BeanUtils.copyProperties(dataDictEntity, dataDictResponse);
+				    Link selfLink = linkTo(methodOn(DataDictController.class).findOneDataDictById(dataDictEntity.getUuid(), request, response)).withSelfRel();	    
+				    dataDictResponse.add(selfLink);			
+					content.add(dataDictResponse);
+				}			
+			}
+			
+			PagedResources<DataDictResponse> pagedResources = new PagedResources<DataDictResponse>(
+					content, new PageMetadata(dataDictList.size(), 0,
+							dataDictList.size(), 1));
+			return new ResponseEntity(pagedResources, HttpStatus.OK); 
+		
 	}
 }

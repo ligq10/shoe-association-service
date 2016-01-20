@@ -66,17 +66,18 @@
 				    <!-- 角色-->
 				    <div class="form-group">
 				    	<label class="require-mark-style">*</label>
-				        <label  class="col-sm-2">角色</label>
+				        <label  class="col-sm-2">权限</label>
 				        <input type="hidden" id="authority_distribution_checked_permissions" value="" name="roles" ng-model="permissions"/>
 				        <div class="col-sm-4">
-				            <select ng-options="r.roleAdminId as r.roleAdminName for r in roleAdmins" ng-model="selectRole" required name="role" class="form-control input_btn_input" id="resetCheckedRoles" ng-change="resetCheckedRoles()">
+				            <select ng-model="selectRole"
+				            	ng-options="r.roleCode as r.roleDesc for r in roleAdmins"  required name="role" class="form-control input_btn_input" id="resetCheckedRoles" ng-change="resetCheckedRoles()">
 				            	<option value="">请选择</option>
 				            </select>
-				            <button type="button" ng-disabled="personnelAddFrom.role.$invalid" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution">分配基本权限</button>
-				        </div>
+<!-- 				            <button type="button" ng-disabled="personnelAddFrom.role.$invalid" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution">分配基本权限</button>
+ -->				        </div>
 				        <span class="prompt_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$invalid">请选择用户角色</span>
-						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
-						<span ng-show="role">
+<!-- 						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
+ -->						<span ng-show="role">
 				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$valid"><span class="glyphicon glyphicon-ok"></span></span>
 				        </span>
 				    </div>				   
@@ -128,26 +129,9 @@
 				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.birthDay.$dirty && personnelAddFrom.birthDay.$valid"><span class="glyphicon glyphicon-ok"></span></span>
 				        </span>
 				    </div>
-				    
-				    <!-- 所在城市 -->
-				    <div class="form-group">
-				    	<label class="nosee_require-mark-style">*</label>
-				        <label  class="col-sm-2">所在城市</label>
-				        <div class="col-sm-4">
-				            <select ng-change="loadSecondAddressData()" ng-options="first.firstCode as first.firstName for first in firstAddress" ng-model="firstAddressCode"  class="form-control region1">
-				            	<option value="">请选择</option>
-				            </select>
-							<select ng-change="loadThirdAddressData()" ng-options="second.secondCode as second.secondName for second in secondAddress" ng-model="secondAddressCode"   class="form-control region2">
-								<option value="">请选择</option>
-							</select>
-							<select ng-options="third.thirdCode as third.thirdName for third in thirdAddress" ng-model="thirdAddressCode" class="form-control region3">
-								<option value="">请选择</option>
-							</select>
-				        </div>
-				    </div>
+				   
 				    
 				    <!-- 地址 -->
-				    <span ng-show="thirdAddressCode">
 				    <div class="form-group">
 				    	<label class="nosee_require-mark-style">*</label>
 				        <label  class="col-sm-2">地址</label>
@@ -159,7 +143,6 @@
 				        <span class="prompt_ok_span" ng-show="personnelAddFrom.address.$dirty && personnelAddFrom.address.$valid"><span class="glyphicon glyphicon-ok"></span></span>
 				        </span>
 				    </div>
-				    </span>
 				    <!-- 备注 -->
 				    <div class="form-group">
 				    	<label class="nosee_require-mark-style">*</label>
@@ -186,9 +169,5 @@
 				</form>
 			</div>
 		</div>
-		<!-- 权限分配dialog -->
-		<authoritydistribute></authoritydistribute>
-		<!-- 选择分组dialog -->
-		<groupdivide></groupdivide>
 	</body>
 </html>

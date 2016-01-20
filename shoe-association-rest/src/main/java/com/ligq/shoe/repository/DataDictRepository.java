@@ -2,8 +2,6 @@ package com.ligq.shoe.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -13,5 +11,9 @@ import com.ligq.shoe.entity.DataDict;
 public interface DataDictRepository extends
 	PagingAndSortingRepository<DataDict, String>{
 	
-	List<DataDict> findByTypeCodeAndDictCode(String typeCode,String dictCode);
+	public DataDict findByTypeCodeAndDictCode(String typeCode,String dictCode);
+	
+	public List<DataDict> findByDictCode(String dictCode);
+
+	public List<DataDict> findByTypeCode(String typecode);
 }

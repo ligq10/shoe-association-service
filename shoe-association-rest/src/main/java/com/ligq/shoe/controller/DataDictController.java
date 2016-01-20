@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
@@ -79,6 +80,30 @@ public class DataDictController {
 	    Link selfLink = linkTo(methodOn(this.getClass()).findOneDataDictById(dataDictEntity.getUuid(), request, response)).withSelfRel();	    
 	    dataDictResponse.add(selfLink);
         return new ResponseEntity<Resource>(new Resource<DataDictResponse>(dataDictResponse), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value="/datadicts/bydatadictype/{typecode}",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findDataDictByTypeCode(
+			 @PathVariable String typecode,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+		List<DataDict> dataDictList = dataDictService.findOneDataDictByTypeCode(typecode);
+		if(null == dataDictList){
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
+		
+		ResponseEntity responseEntity = null;
+		try {
+			responseEntity = dataDictService.getResponseEntityConvertDataDictPage("",dataDictList, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;	
+		
 		
 	}
 	

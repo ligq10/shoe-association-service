@@ -19,4 +19,6 @@ public interface EmployeeRepository  extends
 	@Query(value = "select t from Employee t where  t.name like %:keyword% ")
 	public Page<Employee> findByKeyword(@Param("keyword") String keyword,Pageable pageable);
 
+	public Employee findByLoginName(String loginName);
+
 }
