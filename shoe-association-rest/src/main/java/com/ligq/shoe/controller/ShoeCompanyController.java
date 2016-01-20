@@ -105,7 +105,6 @@ public class ShoeCompanyController {
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 		
-		Employee user = userService.findOneUserById(shoeCompany.getSubmitPersonId());		
 		ShoeCompanyResponse shoeCompanyResponse = new ShoeCompanyResponse();
 		BeanUtils.copyProperties(shoeCompany, shoeCompanyResponse);
 	    Link selfLink = linkTo(methodOn(this.getClass()).findOneShoeCompanyById(shoeCompany.getUuid(), request, response)).withSelfRel();	    
@@ -114,8 +113,6 @@ public class ShoeCompanyController {
 	    String permitImageUrl = shoeCompanyService.getHost(request)+"/images/show/"+shoeCompany.getPermitImageId();
 	    shoeCompanyResponse.setPermitImageUrl(permitImageUrl);;
 	    shoeCompanyResponse.setTotalScore(shoeCompany.getCreditScore()+shoeCompany.getQualityScore()+shoeCompany.getServeScore());
-	    shoeCompanyResponse.setSubmitPerson(user.getName());
-	    shoeCompanyResponse.setTel(user.getTel());
 	    shoeCompanyResponse.setCreditDesc(CreditLevel.getCreditDesc(shoeCompany.getCreditLevel()).getDesc());
 	    shoeCompanyResponse.add(selfLink);
         return new ResponseEntity<Resource>(new Resource<ShoeCompanyResponse>(shoeCompanyResponse), HttpStatus.OK);		

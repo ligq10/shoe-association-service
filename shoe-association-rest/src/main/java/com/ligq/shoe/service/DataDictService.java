@@ -48,11 +48,19 @@ public class DataDictService {
 			logger.error("DictCode is empty");
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
-		List<DataDict> dataDictList = dataDictRepository.findByDictCode(dataDictAddRequest.getDictCode());
+		
+		DataDictType dataDictType = dataDictTypeRepository.findByTypeCode(dataDictAddRequest.getTypeCode());
+		if(null == dataDictType){
+			logger.error("typecode not exist");
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+		List<DataDict> dataDictList = dataDictRepository.findByTypeCodeAndDictCode(dataDictAddRequest.getTypeCode(),dataDictAddRequest.getDictCode());
 		if(null == dataDictList || dataDictList.isEmpty()){
 			DataDict dataDict = new DataDict();
 			BeanUtils.copyProperties(dataDictAddRequest, dataDict);
 			dataDict.setUuid(UUID.randomUUID().toString());
+			dataDict.setTypeId(dataDictType.getUuid());
 			dataDict = dataDictRepository.save(dataDict);
 			HttpHeaders headers = new HttpHeaders();
 
@@ -85,19 +93,19 @@ public class DataDictService {
 			logger.error("TypeCode is empty");
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
-		List<DataDictType> dataDictTypeList = dataDictTypeRepository.findByTypeCode(dataDictTypeAddRequest.getTypeCode());
-		if(null == dataDictTypeList || dataDictTypeList.isEmpty()){
-			DataDictType dataDictType = new DataDictType();
-			BeanUtils.copyProperties(dataDictTypeAddRequest, dataDictType);
-			dataDictType.setUuid(UUID.randomUUID().toString());
-			dataDictType = dataDictTypeRepository.save(dataDictType);
+		DataDictType dataDictType = dataDictTypeRepository.findByTypeCode(dataDictTypeAddRequest.getTypeCode());
+		if(null == dataDictType ){
+			DataDictType dataDictTypeEntity = new DataDictType();
+			BeanUtils.copyProperties(dataDictTypeAddRequest, dataDictTypeEntity);
+			dataDictTypeEntity.setUuid(UUID.randomUUID().toString());
+			dataDictTypeEntity = dataDictTypeRepository.save(dataDictTypeEntity);
 			HttpHeaders headers = new HttpHeaders();
 
-			URI selfUrl = linkTo(methodOn(DataDictController.class).findOneDataDictTypeById(dataDictType.getUuid(), request, response)).toUri();
+			URI selfUrl = linkTo(methodOn(DataDictController.class).findOneDataDictTypeById(dataDictTypeEntity.getUuid(), request, response)).toUri();
 			headers.setLocation(selfUrl);
 			return new ResponseEntity<HttpStatus>(headers,HttpStatus.CREATED);
 		}else{
-			logger.error("DictCode already exist");
+			logger.error("DictType already exist");
 			return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
 		}
 		

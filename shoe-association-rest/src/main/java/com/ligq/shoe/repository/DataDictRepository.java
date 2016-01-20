@@ -13,5 +13,5 @@ import com.ligq.shoe.entity.DataDict;
 public interface DataDictRepository extends
 	PagingAndSortingRepository<DataDict, String>{
 	
-	List<DataDict> findByDictCode(String dictCode);
+	List<DataDict> findByTypeCodeAndDictCode(String typeCode,String dictCode);
 }

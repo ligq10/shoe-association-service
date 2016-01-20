@@ -54,11 +54,11 @@ public class ShoeCompany {
 	@Column(name = "enterprise_legal_person")
 	private String enterpriseLegalPerson;
 	
-	@Column(name = "submit_person_id")
-	private String submitPersonId;
-	
 	@Column(name = "submit_person")
 	private String submitPerson;
+	
+	@Column(name = "tel")
+	private String tel;
 	
 	@Column(name = "name_phoneticize")
 	private String namePhoneticize;
@@ -158,14 +158,6 @@ public class ShoeCompany {
 		this.enterpriseLegalPerson = enterpriseLegalPerson;
 	}
 
-	public String getSubmitPersonId() {
-		return submitPersonId;
-	}
-
-	public void setSubmitPersonId(String submitPersonId) {
-		this.submitPersonId = submitPersonId;
-	}
-
 	public String getNamePhoneticize() {
 		return namePhoneticize;
 	}
@@ -196,5 +188,14 @@ public class ShoeCompany {
 
 	public void setSubmitPerson(String submitPerson) {
 		this.submitPerson = submitPerson;
-	}		
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
 }

@@ -69,11 +69,6 @@ public class ShoeCompanyService {
 			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
 		}
 		
-		Employee userEntity = new Employee();
-		userEntity.setUuid(UUID.randomUUID().toString());
-		userEntity.setName(shoeCompanyAddRequest.getSubmitPerson());
-		userEntity.setTel(shoeCompanyAddRequest.getTel());
-		userEntity = userRepository.save(userEntity);
 		
 		ShoeCompany shoeCompany = new ShoeCompany();
 		BeanUtils.copyProperties(shoeCompanyAddRequest, shoeCompany);
@@ -85,7 +80,6 @@ public class ShoeCompanyService {
 		shoeCompany.setQualityScore(30);
 		shoeCompany.setServeScore(30);
 		shoeCompany.setCreditLevel(0);
-		shoeCompany.setSubmitPersonId(userEntity.getUuid());
 		shoeCompany.setAuditStatus(ShoeCompanyAuditStatus.WAITING_AUDIT.getValue());
 		String firstPinyin = getfirstSpellByChineseCharacter(shoeCompanyAddRequest.getName());
 		shoeCompany.setNamePhoneticize(firstPinyin);
@@ -183,7 +177,6 @@ public class ShoeCompanyService {
 		if(null != shoeCompanyResult){
 			for (ShoeCompany shoeCompany : shoeCompanyResult.getContent()) {
 
-				Employee user = userRepository.findOne(shoeCompany.getSubmitPersonId());		
 				ShoeCompanyResponse shoeCompanyResponse = new ShoeCompanyResponse();
 				BeanUtils.copyProperties(shoeCompany, shoeCompanyResponse);
 			    Link selfLink = linkTo(methodOn(ShoeCompanyController.class).findOneShoeCompanyById(shoeCompany.getUuid(), request, response)).withSelfRel();	    
@@ -192,10 +185,6 @@ public class ShoeCompanyService {
 			    String permitImageUrl = getHost(request)+"/images/show/"+shoeCompany.getPermitImageId();
 			    shoeCompanyResponse.setPermitImageUrl(permitImageUrl);;
 			    shoeCompanyResponse.setTotalScore(shoeCompany.getCreditScore()+shoeCompany.getQualityScore()+shoeCompany.getServeScore());
-			    if(null != user){
-				    shoeCompanyResponse.setSubmitPerson(user.getName());
-				    shoeCompanyResponse.setTel(user.getTel());			    	
-			    }
 			    shoeCompanyResponse.setCreditDesc(CreditLevel.getCreditDesc(shoeCompany.getCreditLevel()).getDesc());
 
 			    shoeCompanyResponse.add(selfLink);
