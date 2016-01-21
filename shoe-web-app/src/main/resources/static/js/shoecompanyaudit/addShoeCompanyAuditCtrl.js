@@ -8,7 +8,7 @@ addShoeCompanyAuditControllers.controller('addShoeCompanyAuditCtrl',['$scope','$
     function($scope,$timeout,$state,$stateParams,$upload,addShoeCompanyAuditFactory) {
 		$scope.shoeCompanyId = $stateParams.uuid;
 			
-		addShoeCompanyAuditFactory.getShoeComapnyById({uuid:$scope.shoeComapnyId},function(response){
+		addShoeCompanyAuditFactory.getShoeComapnyDetailById({uuid:$scope.shoeCompanyId},function(response){
 	    	
 	    	if(response.$resolved){
 	    		$scope.shoeComapny = response;

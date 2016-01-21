@@ -15,13 +15,13 @@ addShoeCompanyAuditService.factory('addShoeCompanyAuditFactory',function($resour
                 Accept:'application/hal+json'
             }
     	},
-    	getShoeComapnyById:{
-            method:'GET',
+    	getShoeComapnyDetailById:{
             url:'/shoecompanies/:uuid',
+            method:'GET',
             headers:{
-                Accept:'application/hal+json'
+            	Accept:'application/hal+json'
             }
-        }  		
+        }	
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',
