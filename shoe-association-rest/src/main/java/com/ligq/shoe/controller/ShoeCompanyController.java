@@ -193,7 +193,7 @@ public class ShoeCompanyController {
 		
 		ResponseEntity responseEntity = null;
 		try {
-			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage("",shoeCompanyPage, pageable, request, response);
+			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage(keyword,shoeCompanyPage, pageable, request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("User Locations Not Found:",e);

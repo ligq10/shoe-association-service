@@ -12,7 +12,8 @@ public class AddEmployeeValidator implements Validator{
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		return AddEmployeeValidator.class.equals(clazz);	}
+		return AddEmployeeValidator.class.equals(clazz);
+	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
