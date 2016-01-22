@@ -120,14 +120,14 @@
 				    
 				    <!-- 出生年月 -->
 				    <div class="form-group">
-				    	<label class="nosee_require-mark-style">*</label>
-				        <label  class="col-sm-2">出生年月</label>
-						<div class="input-append date col-md-4">
-							<input id="birthday"  type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthDay">
+<!-- 				    	<label class="nosee_require-mark-style">*</label>
+ -->				        <label  class="col-sm-2">出生年月</label>
+						<div class="input-append date col-sm-4" id="birthday">
+							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthDay" data-date-format="yyyy-mm-dd">
 						</div>
-						<span ng-show="birthDay">
+<!-- 						<span ng-show="birthDay">
 				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.birthDay.$dirty && personnelAddFrom.birthDay.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
+				        </span> -->
 				    </div>
 				   
 				    

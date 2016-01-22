@@ -1,6 +1,8 @@
 package com.ligq.shoe.model;
 
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -26,6 +28,8 @@ public class EmployeeAddRequest {
 	private String loginName;
 	
 	private String password;
+	
+	private List<String> roleCodes;
 
 	public String getName() {
 		return name;
@@ -105,6 +109,14 @@ public class EmployeeAddRequest {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<String> getRoleCodes() {
+		return roleCodes;
+	}
+
+	public void setRoleCodes(List<String> roleCodes) {
+		this.roleCodes = roleCodes;
 	}
 	
 	

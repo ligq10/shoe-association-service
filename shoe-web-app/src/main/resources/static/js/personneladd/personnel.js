@@ -1,16 +1,19 @@
 /**
- * Created by lixiang on 15-5-7.
+ * Created by liguangqiang on 15-5-7.
  */
 $(function(){
-	
+	/**
+	 * 日期控件
+	 */    
+    $('#birthday').datetimepicker({
+		locale: 'zh-CN',
+		format: 'yyyy-mm-dd',
+		pickerPosition:'top-left',
+		todayHighlight:true,//如果为true, 高亮当前日期。
+		autoclose:true //当选择一个日期之后是否立即关闭此日期时间选择器。
+	});
 });
-/**
- * 日期控件
- */
-$('#birthday').datetimepicker({
-	locale: 'zh-CN',
-    format: 'YYYY-MM-DD'
-});
+
 /**
  * 权限分配级联勾选
  */
