@@ -30,24 +30,17 @@ public class ViewController {
 	@Autowired
 	private Environment env;
 
-	private RestTemplate restTemplate = new RestTemplate();
-
-	
-	@RequestMapping(value= "/")
-	public String empty(){
-		return "shoe_index";
-	}	
-	
+	private RestTemplate restTemplate = new RestTemplate();	
 
 	@RequestMapping(value= "/index")
 	public String index(){
 		return "shoe_index";
 	}
 
-	@RequestMapping(value= "/admin")
+/*	@RequestMapping(value= "/admin")
 	public String admin(){
 		return "admin_index";
-	}
+	}*/
 	
 	@RequestMapping(value = "loading")
 	public String loading(@RequestParam String code,
@@ -67,7 +60,7 @@ public class ViewController {
 					.toString()));
 		}
 		
-		if (accessTokenInfo.getAuthorities().contains("ADMIN")) {
+		if (accessTokenInfo.getAuthorities().contains("admin")) {
 			return "redirect:/admin";
 		} else if (accessTokenInfo.getAuthorities().contains("CALL_CENTER")) {
 			return "redirect:/call";
@@ -78,7 +71,7 @@ public class ViewController {
 		}
 	}
 
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/admin")
 	public String unknow(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		String role = null;
@@ -88,7 +81,7 @@ public class ViewController {
 					role = cookie.getValue();
 			}
 		}
-		if (role.contains("ADMIN")) {
+		if (role.contains("admin") || role.contains("primaryAuditor") || role.contains("middleAuditor")) {
 			return "redirect:/admin";
 		} else if (role.contains("CALL_CENTER")) {
 			return "redirect:/call";
@@ -111,6 +104,7 @@ public class ViewController {
 				HttpMethod.POST, new HttpEntity<>("", headers),
 				AccessToken.class);
 		return exchange.getBody();
+		
 	}
 
 	private AccessTokenInfo getAccessTokenInfo(String accessToken) {
