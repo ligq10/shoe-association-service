@@ -34,9 +34,10 @@ public class TokenAuthFilter extends GenericFilterBean {
 	@PostConstruct
 	public void postConstruc() {
 		ignoreURIs = new ArrayList<>();
-		ignoreURIs.add("/reputation/index/loading");
-		ignoreURIs.add("/reputation/index/errors");
-		ignoreURIs.add("/reputation/index/expire");
+		ignoreURIs.add("/reputation/index");
+		ignoreURIs.add("/reputation/loading");
+		ignoreURIs.add("/reputation/errors");
+		ignoreURIs.add("/reputation/expire");
 		ignoreURIs.add("/reputation/index/css");
 		ignoreURIs.add("/reputation/index/fonts");
 		ignoreURIs.add("/reputation/index/images");
