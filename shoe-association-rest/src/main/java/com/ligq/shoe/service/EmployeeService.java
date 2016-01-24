@@ -47,7 +47,8 @@ public class EmployeeService {
 		Employee employeeEntity = new Employee();
 		BeanUtils.copyProperties(employeeAddRequest, employeeEntity);
 		Date createTime = new Date();
-		employeeEntity.setUuid(UUID.randomUUID().toString());
+		String uuid = getUuidByloginName(employeeAddRequest.getLoginName());
+		employeeEntity.setUuid(uuid);
 		employeeEntity.setCreateTime(createTime);
 		employeeEntity.setUpdateTime(createTime);
 		employeeRepository.save(employeeEntity);
@@ -124,5 +125,8 @@ public class EmployeeService {
 		return employee;
 	}
 
+	private String getUuidByloginName(String loginName){
+		return UUID.nameUUIDFromBytes(loginName.getBytes()).toString();
+	}
 
 }

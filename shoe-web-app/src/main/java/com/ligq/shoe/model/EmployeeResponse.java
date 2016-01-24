@@ -1,59 +1,38 @@
-package com.ligq.shoe.entity;
+package com.ligq.shoe.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table(name = "employee")
-public class Employee {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ligq.shoe.utils.DateUtils;
 
-	
-	@Id
-	@Column(name="id")
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class EmployeeResponse{
+
 	private String uuid;
 	
-	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "household_register_address")
 	private String householdRegisterAddress;
 	
-	@Column(name = "home_address")
 	private String homeAddress;
 	
-	@Column(name = "create_time")
-	private Date createTime;
-	
-	@Column(name = "update_time")
-	private Date updateTime;
-	
-	@Column(name = "tel")
 	private String tel;
 	
-	@Column(name = "identity_card")
 	private String identityCard;
 
-	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "gender")
 	private String gender;
 	
-	@Column(name = "age")
 	private Integer age;
 
-	@Column(name = "login_name")
 	private String loginName;
+		
+	private String createTime;
 	
-	@Column(name = "password")
-	private String password;
+	private String accessToken;
 	
 	public String getUuid() {
 		return uuid;
@@ -85,22 +64,6 @@ public class Employee {
 
 	public void setHomeAddress(String homeAddress) {
 		this.homeAddress = homeAddress;
-	}
-	
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
 	}
 
 	public String getTel() {
@@ -151,12 +114,20 @@ public class Employee {
 		this.loginName = loginName;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getCreateTime() {
+		return createTime;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setCreateTime(Date createTime) {
+		this.createTime = DateUtils.composeUTCTime(createTime);
 	}
-	
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
 }

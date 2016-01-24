@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
@@ -22,16 +23,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ligq.shoe.model.AccessToken;
 import com.ligq.shoe.model.AccessTokenInfo;
+import com.ligq.shoe.model.EmployeeResponse;
+import com.ligq.shoe.service.ViewService;
 
 
 @Controller
 public class ViewController {
+
+	private final String SECURITY_TOKEN_HEADER = "X-Token";
 	
 	@Autowired
 	private Environment env;
 
 	private RestTemplate restTemplate = new RestTemplate();	
 
+	@Autowired
+	private ViewService viewService;
+	
 	@RequestMapping(value= "/index")
 	public String index(){
 		return "shoe_index";
@@ -58,38 +66,55 @@ public class ViewController {
 		if (accessTokenInfo.getExp() != null) {
 			response.addCookie(new Cookie("Token-Exp", accessTokenInfo.getExp()
 					.toString()));
-		}
+		}		
 		
 		if (accessTokenInfo.getAuthorities().contains("admin")) {
 			return "redirect:/admin";
-		} else if (accessTokenInfo.getAuthorities().contains("CALL_CENTER")) {
-			return "redirect:/call";
-		} else if (accessTokenInfo.getAuthorities().contains("CONTROL_CENTER")) {
-			 return "redirect:/command";
-		} else {
+		}else {
 			return "redirect:/errors";
 		}
 	}
 
 	@RequestMapping(value = "/admin")
-	public String unknow(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		String role = null;
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equalsIgnoreCase("Authorities"))
-					role = cookie.getValue();
-			}
+	public ModelAndView unknow(HttpServletRequest request,HttpServletResponse response) {
+		String  userName = "";
+		String  X_Token = "";
+		Cookie[] cookies = request.getCookies(); 
+		if(cookies!=null)    
+		{      
+		    for (int i = 0; i < cookies.length; i++)     
+		    {    
+		       Cookie c = cookies[i];         
+		       if(c.getName().equalsIgnoreCase("userName")){    
+		    	   userName = c.getValue();    
+		       }else if(c.getName().equalsIgnoreCase("X-Token")){    
+		        	X_Token = c.getValue();    
+		       }          
+		    }     
+		 } 
+
+		if(StringUtils.isEmpty(X_Token)){
+			X_Token = request.getParameter(SECURITY_TOKEN_HEADER);
+			if(StringUtils.isEmpty(X_Token) == false){
+		        AccessTokenInfo accessTokenInfo = getAccessTokenInfo(X_Token);
+		        if(StringUtils.isEmpty(accessTokenInfo) == false){
+		            this.saveCookieby(response, X_Token, accessTokenInfo);
+		        }
+				if(StringUtils.isEmpty(userName)){
+					userName = accessTokenInfo.getUserName();
+				}
+			}		
 		}
-		if (role.contains("admin") || role.contains("primaryAuditor") || role.contains("middleAuditor")) {
-			return "redirect:/admin";
-		} else if (role.contains("CALL_CENTER")) {
-			return "redirect:/call";
-		}else if (role.contains("CONTROL_CENTER")) { 
-			return "redirect:/command";
-		}else {
-			return "redirect:/errors";
-		}
+		
+		EmployeeResponse loginInfo = new EmployeeResponse();
+		if(!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(X_Token)){
+			loginInfo =viewService.getEmployeeByLoginId(userName, X_Token);		
+		    if(null != loginInfo){
+		    	loginInfo.setAccessToken(X_Token);
+		    }
+		}		
+
+		return new ModelAndView("admin_index","loginInfo",loginInfo);
 	}
 
 	private AccessToken getAccessToken(String code) {
@@ -107,6 +132,17 @@ public class ViewController {
 		
 	}
 
+    private void saveCookieby(HttpServletResponse response,String  access_token,AccessTokenInfo accessTokenInfo){
+        response.addCookie(new Cookie("X-Token", access_token));
+        response.addCookie(new Cookie("userName", accessTokenInfo.getUserName()));
+        response.addCookie(new Cookie("Authorities", accessTokenInfo
+                .getAuthorities().toString()));
+		if (null != accessTokenInfo.getExp()) {
+			response.addCookie(new Cookie("Token-Exp", accessTokenInfo.getExp()
+					.toString()));
+		}
+    }
+	
 	private AccessTokenInfo getAccessTokenInfo(String accessToken) {
 		return restTemplate.getForObject(String.format(
 				env.getProperty("checkToken.endpoint"), accessToken),

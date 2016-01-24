@@ -100,6 +100,24 @@ public class EmployeeContorller {
 	    employeeResponse.add(selfLink);
         return new ResponseEntity<Resource>(new Resource<EmployeeResponse>(employeeResponse), HttpStatus.OK);		
 	}
+
+	@RequestMapping(value="/employees/byloginid/{loginid}",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findOneEmployeeByloginId(
+			 @PathVariable String loginid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+		Employee employeeEntity = employeeService.findByLoginName(loginid);
+		if(null == employeeEntity){
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
+		
+		EmployeeResponse employeeResponse = new EmployeeResponse();
+		BeanUtils.copyProperties(employeeEntity, employeeResponse);
+	    Link selfLink = linkTo(methodOn(this.getClass()).findOneEmployeeById(employeeEntity.getUuid(), request, response)).withSelfRel();	    
+	    employeeResponse.add(selfLink);
+        return new ResponseEntity<Resource>(new Resource<EmployeeResponse>(employeeResponse), HttpStatus.OK);		
+	}
 	
 	@RequestMapping(value="/employees",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
