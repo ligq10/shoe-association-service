@@ -7,7 +7,7 @@ var personnelAddControllers=angular.module('personnelAddControllers',['personnel
 /**
  * 人员新增
  */
-personnelAddControllers.controller('personnelAddCtrl',['$scope','$timeout','personnelAddFactory',function($scope,$timeout,personnelAddFactory){
+personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeout','personnelAddFactory',function($scope,$state,$timeout,personnelAddFactory){
 	$scope.addSuccess="";
 	$scope.roleAdmins = [];
 	/**
@@ -301,8 +301,8 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$timeout','pers
 		user.gender=$("input[name='gender']:checked").val();
 		user.birthDay=$("input[name='birthday']").val();
 		//角色
-		user.roles=[];
-		user.roles.push($scope.selectRole);
+		user.roleCodes=[];
+		user.roleCodes=$scope.selectRole;
 		//权限
 		//user.permissions = $scope.permissions;
 		
@@ -332,7 +332,7 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$timeout','pers
                 $scope.addSuccess="保存成功,正在跳转..."
                 	
             	$timeout(function() {
-            		 window.location.href='#/personnelList';
+    				$state.go('personnellist');
     		    }, 1000);
         		
             }else{
