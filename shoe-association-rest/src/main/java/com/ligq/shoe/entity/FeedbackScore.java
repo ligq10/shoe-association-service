@@ -16,8 +16,6 @@ public class FeedbackScore {
 
 	@Id
 	@Column(name="id")
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String uuid;
 	
 	@Column(name = "company_id")

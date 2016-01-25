@@ -118,8 +118,8 @@ public class EmployeeResponse{
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = DateUtils.composeUTCTime(createTime);
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 
 	public String getAccessToken() {

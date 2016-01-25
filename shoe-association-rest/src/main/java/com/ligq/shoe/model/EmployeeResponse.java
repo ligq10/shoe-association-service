@@ -3,6 +3,7 @@ package com.ligq.shoe.model;
 import java.util.Date;
 
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ligq.shoe.utils.DateUtils;
@@ -33,6 +34,9 @@ public class EmployeeResponse extends ResourceSupport{
 	private String createTime;
 	
 	public String getUuid() {
+		if(StringUtils.isEmpty(uuid)){
+			uuid = "";
+		}
 		return uuid;
 	}
 
@@ -41,6 +45,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getName() {
+		if(StringUtils.isEmpty(name)){
+			name = "";
+		}
 		return name;
 	}
 
@@ -49,6 +56,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getHouseholdRegisterAddress() {
+		if(StringUtils.isEmpty(householdRegisterAddress)){
+			householdRegisterAddress = "";
+		}
 		return householdRegisterAddress;
 	}
 
@@ -57,6 +67,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getHomeAddress() {
+		if(StringUtils.isEmpty(homeAddress)){
+			homeAddress = "";
+		}		
 		return homeAddress;
 	}
 
@@ -65,6 +78,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getTel() {
+		if(StringUtils.isEmpty(tel)){
+			tel = "";
+		}
 		return tel;
 	}
 
@@ -73,6 +89,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getIdentityCard() {
+		if(StringUtils.isEmpty(identityCard)){
+			identityCard = "";
+		}
 		return identityCard;
 	}
 
@@ -81,6 +100,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getEmail() {
+		if(StringUtils.isEmpty(email)){
+			email = "";
+		}
 		return email;
 	}
 
@@ -89,6 +111,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getGender() {
+		if(StringUtils.isEmpty(gender)){
+			gender = "";
+		}
 		return gender;
 	}
 
@@ -97,6 +122,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public Integer getAge() {
+		if(null == age){
+			age = 0;
+		}
 		return age;
 	}
 
@@ -105,6 +133,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getLoginName() {
+		if(StringUtils.isEmpty(loginName)){
+			loginName = "";
+		}
 		return loginName;
 	}
 
@@ -113,6 +144,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getCreateTime() {
+		if(StringUtils.isEmpty(createTime)){
+			createTime = "";
+		}
 		return createTime;
 	}
 

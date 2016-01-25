@@ -15,8 +15,6 @@ public class DataDict {
 	
 	@Id
 	@Column(name="id")
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String uuid;
 	
 	@Column(name = "type_id")

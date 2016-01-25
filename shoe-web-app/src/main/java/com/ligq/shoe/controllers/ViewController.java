@@ -7,6 +7,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -30,6 +32,8 @@ import com.ligq.shoe.service.ViewService;
 @Controller
 public class ViewController {
 
+	private final static Logger logger = LoggerFactory.getLogger(ViewController.class); 
+	
 	private final String SECURITY_TOKEN_HEADER = "X-Token";
 	
 	@Autowired

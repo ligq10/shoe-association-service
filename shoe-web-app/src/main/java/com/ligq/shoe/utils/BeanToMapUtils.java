@@ -6,11 +6,21 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ligq.shoe.controllers.ViewController;
+
 public class BeanToMapUtils {
-    
+
+	private final static Logger logger = LoggerFactory.getLogger(BeanToMapUtils.class); 
+
+	
     /**
      * 将一个 Map 对象转化为一个 JavaBean
      * @param type 要转化的类型
@@ -36,15 +46,33 @@ public class BeanToMapUtils {
         for (int i = 0; i< propertyDescriptors.length; i++) {
             PropertyDescriptor descriptor = propertyDescriptors[i];
             String propertyName = descriptor.getName();
+            String typeNameStr = descriptor.getPropertyType().getTypeName();
 
             if (map.containsKey(propertyName)) {
-                // 下面一句可以 try 起来，这样当一个属性赋值失败的时候就不会影响其他属性赋值。
-                Object value = map.get(propertyName);
+            	logger.info(typeNameStr +"===="+propertyName);
+            	if("java.util.List".equalsIgnoreCase(typeNameStr)){
+            		List<Map> mapArr =  (List<Map>) map.get(propertyName);
+            		List<Object> objectList = new ArrayList<Object>();
+            		if(null != mapArr && mapArr.size() >0){
+            			for(Map mapentity : mapArr){
+                			Object objectEntity = convertMap(type,mapentity);
+                			objectList.add(objectEntity);
+            			}
+                        Object[] args = new Object[1];
+                        args[0] = objectList;
+                        descriptor.getWriteMethod().invoke(obj, args);
+            		}
 
-                Object[] args = new Object[1];
-                args[0] = value;
+            	}else{
+                    // 下面一句可以 try 起来，这样当一个属性赋值失败的时候就不会影响其他属性赋值。
+                    Object value = map.get(propertyName);
+                    if(null != value){
+                        Object[] args = new Object[1];
+                        args[0] = value;
 
-                descriptor.getWriteMethod().invoke(obj, args);
+                        descriptor.getWriteMethod().invoke(obj, args);
+                    }
+            	}
             }
         }
         return obj;

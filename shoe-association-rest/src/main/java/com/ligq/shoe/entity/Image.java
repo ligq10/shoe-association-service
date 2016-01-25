@@ -16,8 +16,6 @@ public class Image {
 
 	@Id
 	@Column(name="id")
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String uuid;
 	
 	
