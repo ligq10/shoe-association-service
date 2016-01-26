@@ -120,14 +120,10 @@
 				    
 				    <!-- 出生年月 -->
 				    <div class="form-group">
-<!-- 				    	<label class="nosee_require-mark-style">*</label>
- -->				        <label  class="col-sm-2">出生年月</label>
+				        <label  class="col-sm-2">出生年月</label>
 						<div class="input-append date col-sm-4" id="birthday">
 							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthDay">
 						</div>
-<!-- 						<span ng-show="birthDay">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.birthDay.$dirty && personnelAddFrom.birthDay.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span> -->
 				    </div>
 				   
 				    
@@ -161,7 +157,7 @@
 				        <div class="col-sm-4 btn-group">
 				        	<span class="btn_group">
 				            	<button type="submit" ng-disabled="!(personnelAddFrom.$valid && id_error_ishidden && !confirmPasswordWrong)" class="btn btn-primary">保存</button>
-						    	<button type="butto" ui-sref="personnellist" class="btn btn-default">返回</button>
+						    	<button type="button" ui-sref="personnellist" class="btn btn-default">返回</button>
 						    	<span class="prompt_span">{{addSuccess}}</span>
 							</span>
 				        </div>

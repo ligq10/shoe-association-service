@@ -36,7 +36,7 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             father:'PERSONNEL_MANAGER'            
         })
         .state('personnelupdate',{
-            url:"/personnelupdate",
+            url:"/personnelupdate/:uuid",
             templateUrl:'templates/personnel/personnel-update.html',
             controller:'personnelUpdateCtrl',
             permission:'PERSONNEL_UPDATE',
