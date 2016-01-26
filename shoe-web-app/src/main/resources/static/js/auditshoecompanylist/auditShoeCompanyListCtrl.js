@@ -7,8 +7,8 @@ var auditShoeCompanyListControllers=angular.module('auditShoeCompanyListControll
 /**
  * 审计条目列表
  */
-auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope','auditShoeCompanyListFactory',
-    function($scope,auditShoeCompanyListFactory){
+auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope','loginSession','auditShoeCompanyListFactory',
+    function($scope,loginSession,auditShoeCompanyListFactory){
 	//var loginUser = loginSession.loginUser().userInfo;
        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
        $scope.pageSize=PAGESIZE_DEFAULT;

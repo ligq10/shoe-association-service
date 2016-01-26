@@ -2,13 +2,13 @@
  * 监听路由
  * 
  */
-adminApp.run(['$rootScope', '$state', '$q',function ($rootScope, $state, $q) {
+adminApp.run(['$rootScope', 'loginSession', '$state', '$q',function ($rootScope,loginSession,$state, $q) {
 	//用户昵称显示
-/*	var loginUser = loginSession.loginUser().userInfo;
-	$rootScope.loginUser_nickName=loginUser.nickName;*/
+	var loginUser = loginSession.loginUser().userInfo;
+	$rootScope.loginUser_name=loginUser.name;
 	
 	//路由发生改变时 权限判断
-/*	$rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
+	$rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
 		if(loginUser.permissions != undefined) {
 			var permissions = loginUser.permissions;
 			if(toState.permission == 'PASS'){
@@ -26,7 +26,7 @@ adminApp.run(['$rootScope', '$state', '$q',function ($rootScope, $state, $q) {
 				}
 			}
 		}
-	});*/
+	});
 	
 	//菜单添加 active 样式
 	$rootScope.$on('$stateChangeSuccess',function (event, toState, toParams, fromState, fromParams) {
@@ -64,7 +64,7 @@ adminApp.run(['$rootScope', '$state', '$q',function ($rootScope, $state, $q) {
 /**
  * 权限控制菜单显示
  */
-/*adminApp.directive('hasPermission', function(loginSession) {
+adminApp.directive('hasPermission', function(loginSession) {
 	var loginUser = loginSession.loginUser().userInfo;
 	return {
 		link: function(scope, element, attrs) {
@@ -98,7 +98,7 @@ adminApp.run(['$rootScope', '$state', '$q',function ($rootScope, $state, $q) {
             });
     }
   };
-});*/
+});
 
 /**
  * 处理ng-repeat渲染完毕后执行
@@ -160,42 +160,53 @@ adminApp.filter('decimalPrecision', function() {
 /**
  * 获取登录用户数据 uuid,loginName,nickName,role,group
  */
-/*adminApp.factory('loginSession', function() { 
+adminApp.factory('loginSession', function() { 
     var obj = {userInfo:null};
     obj.loginUser = function (){
     	var loginName = $.cookie("userName");
     	if(loginName == undefined || loginName == ''){
-    		window.location.href = "guanhutong3g/loading";
+    		window.location.href = "reputation/loading";
     	} else {
     		$.ajax({
     			type: "GET",
     			async: false,
-    			url: "/users/search?loginname="+loginName,
+    			url: "/employees/byloginid/"+loginName,
     			headers:{
     				'X-Token':$.cookie("X-Token")
     			},
     			success: function(data){
+    				
     				var formatData = {};
     				formatData.uuid=data.uuid;
     				formatData.loginName=data.loginName;
-    				formatData.nickName=data.nickName;
-    				formatData.role=data.roles[0].name;
-    				formatData.group=data.groups[0].uuid;
+    				formatData.name=data.name;
     				var permissions = [];
-    				if(data.permissions != undefined) {
-    					for(var i = 0; i < data.permissions.length; i++){
-    						permissions.push(data.permissions[i].name);
+    				if(data.roles != undefined && data.roles != null) {
+    					for(var i = 0; i < data.roles.length; i++){
+    						permissions.push(data.roles[i].code);
     					}
-    					if(permissions.contains('SOS_SETTING') || permissions.contains('SERVICE_MANAGER') || permissions.contains('CALLCENTER_MANAGER')){
-							permissions.push('MANAGELIST');
+    					if(permissions.contains('admin')){
+							permissions.push('PERSONNEL_MANAGER');
+							permissions.push('PERSONNEL_LIST');
+							permissions.push('PERSONNEL_ADD');
+							permissions.push('PERSONNEL_UPDATE');
+							permissions.push('PERSONNEL_ADD');
+							permissions.push('AUDIT_MANAGER');
+							permissions.push('SHOE_AUDIT_LIST');
+							permissions.push('SHOE_AUDIT');
 						}
-    					if(permissions.contains('TERMINAL_MANAGER')){//终端管理
-							permissions.push('TERMINAL_MANAGER_UPDATE');
+    					if(permissions.contains('primaryAuditor')){//终端管理
+							permissions.push('AUDIT_MANAGER');
+							permissions.push('SHOE_AUDIT_LIST');
+							permissions.push('SHOE_AUDIT');
 						}
-    					if(data.groups[0].uuid == 'guanhutong'){//只有最顶层管理员可以添加终端
-    						permissions.push('TERMINAL_MANAGER_ADD');
+    					if(permissions.contains ('middleAuditor')){//只有最顶层管理员可以添加终端
+							permissions.push('AUDIT_MANAGER');
+							permissions.push('SHOE_AUDIT_LIST');
+							permissions.push('SHOE_AUDIT');
+
     					}
-    					if(permissions.contains('VOICE_REMINDER')){//语音提醒
+/*    					if(permissions.contains('VOICE_REMINDER')){//语音提醒
     						permissions.push('VOICE_REMINDER_ADD');
     						permissions.push('VOICE_REMINDER_UPDATE');
     					}
@@ -220,7 +231,7 @@ adminApp.filter('decimalPrecision', function() {
     						permissions.push('SERVICER_MANAGER_QUERY'); 
     						permissions.push('SERVICER_MANAGER_ADD');
     						permissions.push('SERVICER_MANAGER_TYPE');
-    					}
+    					}*/
     				}
     				formatData.permissions=permissions;
     				obj.userInfo = formatData;
@@ -230,14 +241,14 @@ adminApp.filter('decimalPrecision', function() {
     				$.cookie("Authorities",null,{expires:-1});
     				$.cookie("Token-Exp",null,{expires:-1});
     				$.cookie("userName",null,{expires:-1});
-    				window.location.replace("/guanhutong3g/expire?info="+data.responseText);
+    				window.location.replace("/reputation/expire?info="+data.responseText);
     			}
     		});
     	}
     	return obj;
     }
     return obj;    
-});*/
+});
 
 /**
  * 搜索input清空

@@ -4,6 +4,10 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
+
+
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.EmployeeAddRequest;
 import com.ligq.shoe.model.EmployeeResponse;
+import com.ligq.shoe.model.RoleResponse;
 import com.ligq.shoe.service.EmployeeService;
 import com.ligq.shoe.validator.AddEmployeeValidator;
 
@@ -40,6 +45,7 @@ import com.ligq.shoe.validator.AddEmployeeValidator;
 public class EmployeeContorller {
 
 	private final static Logger logger = LoggerFactory.getLogger(EmployeeContorller.class); 
+	private final static String SECURITY_TOKEN_HEADER = "X-Token";	
 
 	@Autowired
 	private AddEmployeeValidator addEmployeeValidator;
@@ -89,6 +95,7 @@ public class EmployeeContorller {
 			 @PathVariable String uuid,
 			 HttpServletRequest request,
 			 HttpServletResponse response){
+		String token = request.getHeader(SECURITY_TOKEN_HEADER);
 		Employee employeeEntity = employeeService.findOneUserById(uuid);
 		if(null == employeeEntity){
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
@@ -98,6 +105,10 @@ public class EmployeeContorller {
 		BeanUtils.copyProperties(employeeEntity, employeeResponse);
 	    Link selfLink = linkTo(methodOn(this.getClass()).findOneEmployeeById(employeeEntity.getUuid(), request, response)).withSelfRel();	    
 	    employeeResponse.add(selfLink);
+		List<RoleResponse> roles = employeeService.findRolesByUserUuid(employeeEntity.getUuid(),token);
+		if(null != roles){
+			employeeResponse.setRoles(roles);
+		}
         return new ResponseEntity<Resource>(new Resource<EmployeeResponse>(employeeResponse), HttpStatus.OK);		
 	}
 
@@ -107,15 +118,22 @@ public class EmployeeContorller {
 			 @PathVariable String loginid,
 			 HttpServletRequest request,
 			 HttpServletResponse response){
+		String token = request.getHeader(SECURITY_TOKEN_HEADER);
 		Employee employeeEntity = employeeService.findByLoginName(loginid);
 		if(null == employeeEntity){
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 		
 		EmployeeResponse employeeResponse = new EmployeeResponse();
+
 		BeanUtils.copyProperties(employeeEntity, employeeResponse);
 	    Link selfLink = linkTo(methodOn(this.getClass()).findOneEmployeeById(employeeEntity.getUuid(), request, response)).withSelfRel();	    
 	    employeeResponse.add(selfLink);
+	    
+		List<RoleResponse> roles = employeeService.findRolesByUserUuid(employeeEntity.getUuid(),token);
+		if(null != roles){
+			employeeResponse.setRoles(roles);
+		}
         return new ResponseEntity<Resource>(new Resource<EmployeeResponse>(employeeResponse), HttpStatus.OK);		
 	}
 	

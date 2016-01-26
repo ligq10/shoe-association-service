@@ -7,10 +7,14 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,14 +36,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.ligq.shoe.controller.EmployeeContorller;
 import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.EmployeeAddRequest;
 import com.ligq.shoe.model.EmployeeResponse;
 import com.ligq.shoe.model.RegisterUser;
+import com.ligq.shoe.model.RoleResponse;
+import com.ligq.shoe.model.UserResponse;
 import com.ligq.shoe.repository.EmployeeRepository;
 
 @Service
@@ -100,6 +111,7 @@ public class EmployeeService {
 	
 	public ResponseEntity getResponseEntityConvertEmployeePage(String pathParams,Page<Employee> employeeResult,
 			Pageable pageable,HttpServletRequest request,HttpServletResponse response)throws Exception{
+		String token = request.getHeader(SECURITY_TOKEN_HEADER);
 
 		List<Link> list = prepareLinks(pageable.getPageNumber(),
 				pageable.getPageSize(), request, employeeResult,pathParams);
@@ -112,6 +124,10 @@ public class EmployeeService {
 				BeanUtils.copyProperties(employee, employeeResponse);
 			    Link selfLink = linkTo(methodOn(EmployeeContorller.class).findOneEmployeeById(employee.getUuid(), request, response)).withSelfRel();	    
 			    employeeResponse.add(selfLink);
+				List<RoleResponse> roles = this.findRolesByUserUuid(employee.getUuid(),token);
+				if(null != roles){
+					employeeResponse.setRoles(roles);
+				}
 				content.add(employeeResponse);
 			}			
 		}
@@ -178,9 +194,39 @@ public class EmployeeService {
 				isSuccessFlag = true; 
 			}
 		}catch(Exception e){
-			logger.info("regist to remote server failed!",e);
+			logger.error("regist to remote server failed!",e);
 			return false;
 		}
 		return isSuccessFlag;
+	}
+
+	public List<RoleResponse> findRolesByUserUuid(
+			String uuid,String token) {
+		List<RoleResponse> roles = new ArrayList<RoleResponse>();
+ 	 	RestTemplate restTemplate = new RestTemplate();
+		
+	    MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.put("Content-Type", Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
+		headers.put(SECURITY_TOKEN_HEADER, Lists.newArrayList(token));
+		
+		String rolesAddress = env.getRequiredProperty("oauth2User.endpoint")+"/"+uuid;
+		try {
+			ResponseEntity responseEntity = restTemplate.exchange(rolesAddress, HttpMethod.GET, new HttpEntity<MultiValueMap>(headers), Object.class);
+
+			if(null != responseEntity || responseEntity.getStatusCode().equals(HttpStatus.OK)){
+				Map rolesMap = (Map)responseEntity.getBody();
+				JSONObject jsonObjct = JSONObject.fromObject(responseEntity.getBody());
+				
+				JSONArray jsonarray= JSONArray.fromObject(jsonObjct.get("roles"));
+				roles=JSON.parseArray(jsonarray.toString(), RoleResponse.class );
+			}
+
+		} catch (RestClientException | IllegalStateException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage(),e);
+			return null;
+		}
+
+		return roles;
 	}
 }

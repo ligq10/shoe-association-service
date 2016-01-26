@@ -16,7 +16,7 @@
 					</div>
 		            <button type="submit" id="search_button" class="search_btn btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 		           <span class="btn_group">
-		            	<button type="button" class="btn btn-warning" ui-sref="personneladd"  has-permission="USER_MANAGER_ADD">新增</button>
+		            	<button type="button" class="btn btn-warning" ui-sref="personneladd"  has-permission="PERSONNEL_ADD">新增</button>
 				   </span>
 				</div>
 			</form>
@@ -42,10 +42,10 @@
 	            			<td align="center">{{entry.roleName}}</td>
 	            			<td align="center">{{entry.tel}}</td>
 	            			<td align="center">{{entry.email}}</td>
-	            			<td>{{entry.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-	            			<td>
+	            			<td align="center">{{entry.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+	            			<td align="center">
 	                			<a ng-click="resetPasswordModal(entry.loginName)" data-toggle="modal"  class="personnel_list_set">重置密码</a>
-	                			<a ui-sref="personnelUpdate({uuid:entry.uuid})"  has-permission="USER_MANAGER_UPDATE" class="personnel_list_set not_menu">修改</a>
+	                			<a ui-sref="personnelUpdate({uuid:entry.uuid})"  has-permission="PERSONNEL_UPDATE" class="personnel_list_set not_menu">修改</a>
 	                			<a ng-click="deletePersonnel(entry.loginName,entry.uuid)" class="personnel_list_set"  data-toggle="delete-personnel-dialog">删除</a>
 	            			</td>
 	        			</tr>

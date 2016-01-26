@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Error-expire</title>
+<link rel="shortcut icon" href="image/logo.png"/>
+</head>
+<body style="font-family:微软雅黑;">
+	
+	<div style="text-align:center;font-size:35px;margin-top:20px;">Sorry</div>
+	<div style="margin-top:10px;text-align:center;color:#808080;">登陆异常，您可以请尝试<a href="/guanhutong3g/">重新登录</a></div>
+	<br/>
+	<div style="text-align:center;color:#BBBBBB;">
+		<span th:text="${info.status}"></span>:
+		<span  th:text="${info.message}"></span>
+		<br/>
+		<span>Path</span>:
+		<span th:text="${info.path}"></span>
+	</div>
+
+</body>
+</html>

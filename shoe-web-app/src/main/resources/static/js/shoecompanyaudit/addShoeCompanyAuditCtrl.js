@@ -4,8 +4,8 @@
 'use strict';
 var addShoeCompanyAuditControllers=angular.module('addShoeCompanyAuditControllers',['addShoeCompanyAuditServices']);
 
-addShoeCompanyAuditControllers.controller('addShoeCompanyAuditCtrl',['$scope','$timeout','$state','$stateParams','$upload','addShoeCompanyAuditFactory',
-    function($scope,$timeout,$state,$stateParams,$upload,addShoeCompanyAuditFactory) {
+addShoeCompanyAuditControllers.controller('addShoeCompanyAuditCtrl',['$scope','loginSession','$timeout','$state','$stateParams','$upload','addShoeCompanyAuditFactory',
+    function($scope,loginSession,$timeout,$state,$stateParams,$upload,addShoeCompanyAuditFactory) {
 		$scope.shoeCompanyId = $stateParams.uuid;
 			
 		addShoeCompanyAuditFactory.getShoeComapnyDetailById({uuid:$scope.shoeCompanyId},function(response){

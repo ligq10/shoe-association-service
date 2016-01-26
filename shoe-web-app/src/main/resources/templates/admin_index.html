@@ -33,7 +33,7 @@
 	            <form id="logoutForm" th:action="${@environment.getProperty('logout.url')}" method="post" class="logout">
 	                <span>您好,
 	                        <span id="login_nickname" uisref="profile"
-                                  class="login-account-span" ng-bind="loginUser_nickName"></span>
+                                  class="login-account-span" ng-bind="loginUser_name"></span>
 	                </span>
 	                <span class="" th:inline="text"></span>
 	                <img id="logout_img" title="退出" onclick="clearCookiesAndLogout();" src="images/exit_icon.png"/>
@@ -91,7 +91,8 @@
 	<div class="clear_float"></div>
 
 <!-- Load plugin js file-->
-<script src="../static/js/plugin/jquery-1.min.js" th:src="@{/js/plugin/jquery-1.min.js}"></script>
+<script src="../static/js/plugin/jquery/jquery-1.min.js" th:src="@{/js/plugin/jquery/jquery-1.min.js}"></script>
+<script src="../static/js/plugin/jquery/jquery.cookie.js" th:src="@{/js/plugin/jquery/jquery.cookie.js}"></script>
 <script src="../static/js/plugin/bootstrap/bootstrap.min.js" th:src="@{/js/plugin/bootstrap/bootstrap.min.js}"></script>
 <script src="../static/js/plugin/bootstrap/bootstrap-datetimepicker.min.js" th:src="@{/js/plugin/bootstrap/bootstrap-datetimepicker.min.js}"></script>
 <script src="../static/js/plugin/angular/angular.js" th:src="@{/js/plugin/angular/angular.js}"></script>

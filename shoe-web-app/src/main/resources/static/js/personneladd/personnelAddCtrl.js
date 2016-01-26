@@ -7,7 +7,7 @@ var personnelAddControllers=angular.module('personnelAddControllers',['personnel
 /**
  * 人员新增
  */
-personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeout','personnelAddFactory',function($scope,$state,$timeout,personnelAddFactory){
+personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeout','loginSession','personnelAddFactory',function($scope,$state,$timeout,loginSession,personnelAddFactory){
 	$scope.addSuccess="";
 	$scope.roleAdmins = [];
 	/**

@@ -49,7 +49,6 @@ public class BeanToMapUtils {
             String typeNameStr = descriptor.getPropertyType().getTypeName();
 
             if (map.containsKey(propertyName)) {
-            	logger.info(typeNameStr +"===="+propertyName);
             	if("java.util.List".equalsIgnoreCase(typeNameStr)){
             		List<Map> mapArr =  (List<Map>) map.get(propertyName);
             		List<Object> objectList = new ArrayList<Object>();

@@ -7,8 +7,8 @@ var personnelListControllers=angular.module('personnelListControllers',['personn
 /**
  * 人员列表
  */
-personnelListControllers.controller('personnelListCtrl',['$scope','personnelListFactory',
-    function($scope,personnelListFactory){
+personnelListControllers.controller('personnelListCtrl',['$scope','loginSession','personnelListFactory',
+    function($scope,loginSession,personnelListFactory){
 	//var loginUser = loginSession.loginUser().userInfo;
        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
        $scope.pageSize=PAGESIZE_DEFAULT;
@@ -158,6 +158,13 @@ personnelListControllers.controller('personnelListCtrl',['$scope','personnelList
                 	   name=personnelData[i].name;//用户名
                 	   createTime=personnelData[i].createTime;//创建时间
                 	   roleName="";//角色
+                	   if(personnelData[i].roles != null && personnelData[i].roles != undefined && personnelData[i].roles.length >0){
+                		   for(var j=0; j<personnelData[i].roles.length; j++){
+                			   roleName = roleName + personnelData[i].roles[j].name+",";
+                		   }
+                		   roleName = roleName.substring(0,roleName.length-1);
+                	   }
+                	   
                    
                    $scope.entry.push({
                 	   uuid:uuid,

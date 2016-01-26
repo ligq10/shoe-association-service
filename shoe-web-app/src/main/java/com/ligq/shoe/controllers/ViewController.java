@@ -2,6 +2,7 @@ package com.ligq.shoe.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ligq.shoe.model.AccessToken;
 import com.ligq.shoe.model.AccessTokenInfo;
 import com.ligq.shoe.model.EmployeeResponse;
+import com.ligq.shoe.model.RoleResponse;
 import com.ligq.shoe.service.ViewService;
+import com.ligq.shoe.utils.Utils;
 
 
 @Controller
@@ -49,10 +52,24 @@ public class ViewController {
 		return "shoe_index";
 	}
 
-/*	@RequestMapping(value= "/admin")
-	public String admin(){
-		return "admin_index";
-	}*/
+	@RequestMapping(value = "errors")
+	public String errors(HttpServletResponse response,HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();  
+		for(int i=0;i<cookies.length;i++){  
+			Cookie cookie = new Cookie(cookies[i].getName(), null);  
+			cookie.setMaxAge(-1);  
+			response.addCookie(cookie);  
+		}  
+		return "error";
+	}
+
+	@RequestMapping(value = "expire")
+	public ModelAndView expire(@RequestParam String info) {
+		Map<String, String> map = Utils.jsonToMap(info);
+		ModelAndView mav = new ModelAndView("expire");
+		mav.addObject("info", map);
+		return mav;
+	}
 	
 	@RequestMapping(value = "loading")
 	public String loading(@RequestParam String code,
@@ -70,11 +87,19 @@ public class ViewController {
 		if (accessTokenInfo.getExp() != null) {
 			response.addCookie(new Cookie("Token-Exp", accessTokenInfo.getExp()
 					.toString()));
-		}		
-		
-		if (accessTokenInfo.getAuthorities().contains("admin")) {
-			return "redirect:/admin";
-		}else {
+		}
+		List<String> authorities = accessTokenInfo.getAuthorities();
+		List<RoleResponse>  roles = viewService.findRoles(accessToken.getAccessToken());
+		if(null == roles || null == authorities || roles.isEmpty() || authorities.isEmpty()){
+			return "redirect:/index";
+		}else{
+			for(RoleResponse role: roles){
+				for(String authority : authorities){
+					if (authority.equalsIgnoreCase(role.getCode())) {
+						return "redirect:/admin";
+					}
+				}
+			}
 			return "redirect:/errors";
 		}
 	}

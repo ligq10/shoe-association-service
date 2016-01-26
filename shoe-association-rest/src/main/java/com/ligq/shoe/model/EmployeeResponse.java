@@ -1,6 +1,7 @@
 package com.ligq.shoe.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.util.StringUtils;
@@ -32,6 +33,8 @@ public class EmployeeResponse extends ResourceSupport{
 	private String loginName;
 		
 	private String createTime;
+	
+	private List<RoleResponse> roles;
 	
 	public String getUuid() {
 		if(StringUtils.isEmpty(uuid)){
@@ -154,6 +157,12 @@ public class EmployeeResponse extends ResourceSupport{
 		this.createTime = DateUtils.composeUTCTime(createTime);
 	}
 
-	
+	public List<RoleResponse> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<RoleResponse> roles) {
+		this.roles = roles;
+	}
 
 }
