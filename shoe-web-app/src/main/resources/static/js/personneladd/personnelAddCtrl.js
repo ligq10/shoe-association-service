@@ -9,8 +9,11 @@ var personnelAddControllers=angular.module('personnelAddControllers',['personnel
  */
 personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeout','loginSession','personnelAddFactory',function($scope,$state,$timeout,loginSession,personnelAddFactory){
 	$scope.addSuccess="";
-	$scope.roleAdmins = [];
+	$scope.role = "";
+	$scope.roles = [];
 	$scope.gender = "male";
+	//用户管理员角色
+	var selectUserRole=[];
 	/**
 	 * 检测登录账号是否存在
 	 */
@@ -32,15 +35,16 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 
 	//权限菜单
     personnelAddFactory.searchAllRoles(function(responseRole){
-		$scope.roleAdmins = [];
+		$scope.roles = [];
 		if(responseRole._embedded==undefined){
-			$scope.roleAdmins = [];
+			$scope.roles = [];
 		}else{
 			for(var i=0; i<responseRole._embedded.dataDictResponses.length; i++) {
-				$scope.roleAdmins.push({
+				$scope.roles.push({
 					roleId:responseRole._embedded.dataDictResponses[i].uuid,
 					roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
-					roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc
+					roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+					checked:false
 				});
 			}
 			
@@ -48,6 +52,40 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
    });
 	
 	
+	$scope.selectRole = [];
+    $scope.checkedRole = function(scope){
+		if($.inArray(scope.uuid,$scope.selectRole) != -1){
+			$scope.selectRole.splice($.inArray(scope.code,$scope.selectRole),1);
+    	}else{
+    		$scope.selectRole.push(scope.code);
+    	}
+		
+    }
+    
+    $scope.chkAll = false;
+    $scope.checkedAll = function(scope,chkAll){
+    	
+		angular.forEach($scope.roles, function(value, key){
+	        value.checked = !chkAll;
+	    });
+    	
+		//$scope.selectRole = [];
+    	$scope.chkAll=!$scope.chkAll;    	
+    }
+	
+    $scope.saveAuthorityDistribution = function(){    	
+    	$scope.role = "";
+    	selectUserRole = [];
+		angular.forEach($scope.roles, function(value, key){
+	        if(value.checked){
+	        	$scope.role = $scope.role + value.roleDesc+",";
+	        	selectUserRole.push(value.roleCode);
+	        }
+	    });
+		$scope.role = $scope.role.substring(0,$scope.role.length-1);
+		$("#authority_distribution_dialog").modal('hide');		
+    }
+    
 	/**
 	 * 确认密码
 	 */
@@ -84,29 +122,6 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		
 	};
 	
-	
-	/**
-	 * 保存权限分配
-	 */
-	$scope.saveAuthorityDistribution=function(){
-		var checkedRoles = [];
-		$("input:checked[rank='children']").each(function(){
-			if($(this).val().length > 0){
-				checkedRoles.push($(this).val());
-			}
-		});
-		$("#authority_distribution_checked_permissions").val(checkedRoles);
-		
-		$scope.permissions=checkedRoles;
-		
-		$("#authority_distribution").modal('hide');
-		$scope.defoutPermissionsPrompt = false;
-		
-	};
-	
-
-	
-
 	/**
 	 * 新增时清空数据
 	 */
@@ -145,14 +160,14 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		user.name=$scope.nickName;
 		user.email=$scope.email;
 		user.tel=$scope.tel;
-		user.homeAddress=$scope.address;
+		user.homeAddress=$scope.homeAddress;
 		user.remarks=$scope.remarks;
 		
 		user.gender=$scope.gender;
-		user.birthDay=$("input[name='birthday']").val();
+		user.birthday=$scope.birthday;
 		//角色
 		user.roleCodes=[];
-		user.roleCodes=$scope.selectRole;
+		user.roleCodes=selectUserRole;
 		
 		personnelAddFactory.create(user,function(response){
             if(response.$resolved){
@@ -162,9 +177,9 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
         			$(this).val("");
         		});
         		$("textarea").val("");
-        		
-        		$scope.selectRole="";
-        		
+        		$scope.role = "";
+        		$scope.selectRole = [];
+        		selectUserRole = [];
                 $scope.addSuccess="保存成功,正在跳转..."
                 	
             	$timeout(function() {
@@ -183,15 +198,3 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 	
 }]);
 
-/**
- * 权限分配dialog
- */
-personnelAddControllers.directive("authoritydistribute", function (){
-	var option={
-			restrict:"AEC",
-			transclude:true,
-			replace:true,
-			templateUrl:"templates/commonTemplate/authority-distribution.html"
-	};
-	return option;
-});

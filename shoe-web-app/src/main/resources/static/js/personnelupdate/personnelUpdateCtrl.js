@@ -11,8 +11,69 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
   function($scope,$state,$timeout,loginSession,$stateParams,personnelUpdateFactory){
 	$scope.addSuccess="";
 	$scope.uuid=$stateParams.uuid;
+	$scope.role = "";
+	$scope.roles = [];
 	//用户管理员角色
-	var checkedPermissions=[];
+	var selectUserRole=[];
+	
+	/**
+	 * 判断角色权限是否已选中
+	 */
+	var isSelectUserRole = function(role){
+		if(selectUserRole != null && selectUserRole!= undefined && selectUserRole.length>0){
+			for(var i=0;i<selectUserRole.length;i++){
+				if(role == selectUserRole[i]){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 初始化权限菜单
+	 */
+	var initAuthority = function(){
+		//权限菜单
+		personnelUpdateFactory.searchAllRoles(function(responseRole){
+			$scope.roles = [];
+			if(responseRole._embedded==undefined){
+				$scope.roles = [];
+			}else{
+				for(var i=0; i<responseRole._embedded.dataDictResponses.length; i++) {
+					
+					if(selectUserRole != null && selectUserRole!= undefined && selectUserRole.length>0){
+						var isSelectUserRoleFlag = isSelectUserRole(responseRole._embedded.dataDictResponses[i].dictCode);
+						if(isSelectUserRoleFlag){
+							$scope.roles.push({
+								uuid:responseRole._embedded.dataDictResponses[i].uuid,
+								roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
+								roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+								checked:true
+							});
+							
+						}else{
+							$scope.roles.push({
+								uuid:responseRole._embedded.dataDictResponses[i].uuid,
+								roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
+								roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+								checked:false
+							});
+						}
+					}else{
+						$scope.roles.push({
+							uuid:responseRole._embedded.dataDictResponses[i].uuid,
+							roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
+							roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+							checked:false
+						});
+					}				
+				}
+				
+			}
+	   });
+	}
+	
 	//查询某个用户全部信息
 	personnelUpdateFactory.personnelDetail({uuid:$scope.uuid},function(response){
 		$scope.personnel={};
@@ -27,26 +88,52 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
         	$scope.name=response.name;
         	$scope.gender = response.gender;
         	$scope.birthDay = response.birthDay;
+        	if(response.roles != null && response.roles.length >0){
+        		for(var i=0;i<response.roles.length;i++){
+        			$scope.role = $scope.role +response.roles[i].name+",";
+        			selectUserRole.push(response.roles[i].code);
+        		}
+        		$scope.role = $scope.role.substring(0,$scope.role.length-1);
+        	}
+        	initAuthority();
         }	
     });
+		
+	$scope.selectRole = [];
+    $scope.checkedRole = function(scope){
+		if($.inArray(scope.uuid,$scope.selectRole) != -1){
+			$scope.selectRole.splice($.inArray(scope.code,$scope.selectRole),1);
+    	}else{
+    		$scope.selectRole.push(scope.code);
+    	}
+		
+    }
+    
+    $scope.chkAll = false;
+    $scope.checkedAll = function(scope,chkAll){
+    	
+		angular.forEach($scope.roles, function(value, key){
+	        value.checked = !chkAll;
+	    });
+    	
+		//$scope.selectRole = [];
+    	$scope.chkAll=!$scope.chkAll;    	
+    }
 	
-	//权限菜单
-	personnelUpdateFactory.searchAllRoles(function(responseRole){
-		$scope.roleAdmins = [];
-		if(responseRole._embedded==undefined){
-			$scope.roleAdmins = [];
-		}else{
-			for(var i=0; i<responseRole._embedded.dataDictResponses.length; i++) {
-				$scope.roleAdmins.push({
-					roleId:responseRole._embedded.dataDictResponses[i].uuid,
-					roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
-					roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc
-				});
-			}
-			
-		}
-   });
-	
+    $scope.saveAuthorityDistribution = function(){
+    	$scope.role = "";
+    	selectUserRole = [];
+		angular.forEach($scope.roles, function(value, key){
+	        if(value.checked){
+	        	$scope.role = $scope.role + value.roleDesc+",";
+	        	selectUserRole.push(value.roleCode);
+	        }
+	    });
+		$scope.role = $scope.role.substring(0,$scope.role.length-1);
+		$("#authority_distribution_dialog").modal('hide');
+		
+    }
+    
 	/**
 	 * 检测登录账号是否存在
 	 */
@@ -157,3 +244,16 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
     };
 	
 }]);
+
+/**
+ * 权限分配dialog
+ */
+/*personnelUpdateControllers.directive("authoritydistributedialog", function (){
+	var option={
+			restrict:"AEC",
+			transclude:true,
+			replace:true,
+			templateUrl:"templates/commonTemplate/authority-distribution-dialog.html"
+	};
+	return option;
+});*/

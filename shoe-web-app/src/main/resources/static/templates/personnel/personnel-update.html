@@ -33,19 +33,27 @@
 				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.name.$dirty && personnelAddFrom.name.$valid"><span class="glyphicon glyphicon-ok"></span></span>
 				        </span>
 				    </div>
-				    
+				    <!-- 登录密码 -->
+				    <div class="form-group">
+				    	<label class="require-mark-style">*</label>
+				        <label  class="col-sm-2">登录密码</label>
+				        <div class="col-sm-4">
+				            <input type="password" class="form-control" id="firstPassword" name="password" required ng-pattern="/^[0-9A-Za-z_]{6,15}$/" maxlength="15" minlength="6" ng-model="password"/>
+				        </div>
+				        <span class="prompt_span" ng-show="personnelAddFrom.password.$dirty && personnelAddFrom.password.$invalid">必填，6-15位数字、字母或组合</span>
+				        <span ng-show="password">
+				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.password.$dirty && personnelAddFrom.password.$valid"><span class="glyphicon glyphicon-ok"></span></span>
+				        </span>
+				    </div>				    
 				    <!-- 角色-->
 				    <div class="form-group">
 				    	<label class="require-mark-style">*</label>
 				        <label  class="col-sm-2">权限</label>
-				        <input type="hidden" id="authority_distribution_checked_permissions" value="" name="roles" ng-model="permissions"/>
 				        <div class="col-sm-4">
-				            <select ng-model="selectRole" multiple="multiple" size="1"
-				            	ng-options="r.roleCode as r.roleDesc for r in roleAdmins"  required name="role" class="form-control input_btn_input" id="resetCheckedRoles" ng-change="resetCheckedRoles()">
-				            	<option value="">请选择</option>
-				            </select>
-<!-- 				            <button type="button" ng-disabled="personnelAddFrom.role.$invalid" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution">分配基本权限</button>
- -->				    </div>
+				            <input type="text" class="form-control" name="role" required ng-model="role" ng-readonly="true"/>
+
+ 				            <button type="button" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution_dialog">分配基本权限</button>
+ 				    </div>
 				        <span class="prompt_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$invalid">请选择用户角色</span>
 <!-- 						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
  -->						<span ng-show="role">
@@ -128,5 +136,7 @@
 				</form>
 			</div>
 		</div>
+		<!-- 权限分配dialog -->
+		<authoritydistributedialog></authoritydistributedialog>
 	</body>
 </html>

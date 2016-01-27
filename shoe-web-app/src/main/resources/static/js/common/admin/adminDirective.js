@@ -280,3 +280,16 @@ adminApp.directive('leftnav', function () {
     	templateUrl:"templates/commonTemplate/admin-left-nav.html"
     };
 });
+
+/**
+ * 权限分配dialog
+ */
+adminApp.directive("authoritydistributedialog", function (){
+	var option={
+			restrict:"AEC",
+			transclude:true,
+			replace:true,
+			templateUrl:"templates/commonTemplate/authority-distribution-dialog.html"
+	};
+	return option;
+});
