@@ -112,22 +112,18 @@
 				    	<label class="nosee_require-mark-style">*</label>
 				        <label  class="col-sm-2">性别</label>
 				        <div class="col-sm-4">
-				        	<input type="radio" checked value="male" name="gender" class="gender">男
+				        	<input type="radio"  value="male" name="gender" ng-model="gender" class="gender">男
 				        	&nbsp;&nbsp;&nbsp;
-				        	<input type="radio" value="female" name="gender" class="gender">女
+				        	<input type="radio" value="female" name="gender" ng-model="gender" class="gender">女
 				        </div>
 				    </div>
 				    
 				    <!-- 出生年月 -->
 				    <div class="form-group">
-<!-- 				    	<label class="nosee_require-mark-style">*</label>
- -->				        <label  class="col-sm-2">出生年月</label>
+				        <label  class="col-sm-2">出生年月</label>
 						<div class="input-append date col-sm-4" id="birthday">
 							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthDay">
 						</div>
-<!-- 						<span ng-show="birthDay">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.birthDay.$dirty && personnelAddFrom.birthDay.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span> -->
 				    </div>
 				   
 				    

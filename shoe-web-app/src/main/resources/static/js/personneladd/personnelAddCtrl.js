@@ -10,6 +10,7 @@ var personnelAddControllers=angular.module('personnelAddControllers',['personnel
 personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeout','loginSession','personnelAddFactory',function($scope,$state,$timeout,loginSession,personnelAddFactory){
 	$scope.addSuccess="";
 	$scope.roleAdmins = [];
+	$scope.gender = "male";
 	/**
 	 * 检测登录账号是否存在
 	 */
@@ -103,148 +104,9 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		
 	};
 	
-	/**
-	 * 当改变role清除上次的权限选择并加载对应权限
-	 */
-/*	$scope.resetCheckedRoles=function(){
-		$scope.defoutPermissionsPrompt = true;
-		
-		//清除上次的权限选择
-		//$("#authority_distribution_checked_permissions").val("");
-		
-		if($scope.selectRole) {
-			//加载对应权限
-			var roleIds = {};
-			var modules = [];
-			var getrole=$scope.selectRole.split("/");
-			var roleId=getrole[getrole.length-1];
-			var permissionIds={};
-			personnelAddFactory.searchPermissionsByRoles({roleId:roleId},function(permissionsAll){
-				if(permissionsAll._embedded==undefined){
-					permissionIds = {};
-				}else{
-					for(var i=0; i<permissionsAll._embedded.permissions.length; i++) {
-						var isNotHaveModule=true;   
-						for (var j = 0; j < modules.length; j++) {
-							if (modules[j].title == permissionsAll._embedded.permissions[i].module) {
-								isNotHaveModule= false;
-							}
-						}
-						if (isNotHaveModule) {
-							modules.push({
-								"roleId": "/roles/"+permissionsAll._embedded.permissions[i].uuid,
-								"title": permissionsAll._embedded.permissions[i].module,
-								"children":permissionsAll._embedded.permissions[i].uuid,
-								"items": []
-							});
-						}
-					}
-					
-					for(var i=0; i<permissionsAll._embedded.permissions.length; i++) {
-						for (var j = 0; j < modules.length; j++) {
-							if (modules[j].title == permissionsAll._embedded.permissions[i].module) {
-								modules[j].items.push({
-									"roleId": "/permissions/"+permissionsAll._embedded.permissions[i].uuid,
-									"title": permissionsAll._embedded.permissions[i].description,
-									"parent":modules[j].children,
-									"items": []
-								});
-							}
-						}
-					}
-					
-					$scope.authorities= modules;
-				}
-				
-			});
-		} 
-	};*/
-	
-	/**
-	 * 权限树加载完后执行：全选
-	 */
-/*	$scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-        $("input:checkbox").prop("checked",true);
-    });*/
 
-	/**
-	 * 保存选择的分组，填充到表单
-	 */
-/*	$scope.saveGroupDivide=function() {
-		$scope.group_divide_radio_name = $(".group_divide_radio:checked").val();//name
-		$scope.groups = "/groups/" + $(".group_divide_radio:checked").attr("groupuuid");//uuid
-		$("#group_divide").modal('hide');
-		
-		$scope.group_divide_radio_name
-	};
-	*/
-	/**
-	 * 省市区三级联动
-	 */
-	//1.页面渲染时load一级地址
-/*	personnelAddFactory.getFirstAddressData(function(firstAddressData){
-		$scope.firstAddress = [];
-		 if(firstAddressData._embedded==undefined){
-			 $scope.firstAddress = [];
-         }else{
-             for(var i=0;i<firstAddressData._embedded.groups.length;i++){
-                 var firstName = firstAddressData._embedded.groups[i].name;
-                 var firstCodeSplit = firstAddressData._embedded.groups[i]._links.self.href.split("/");
-                 var firstCode = firstCodeSplit[firstCodeSplit.length-1];
-                 
-                 $scope.firstAddress.push({
-                     "firstName": firstName,
-                     "firstCode": firstCode
-                 });
-             }
-         }
-	});*/
 	
-	//2.一级地址改动时，二级地址加载
-/*	$scope.loadSecondAddressData=function(){
-		$scope.thirdAddress = [];//清空原三级地址
-		var code = $scope.firstAddressCode;
-		personnelAddFactory.getNextAddressData({code:code},function(nextAddressData){
-			$scope.secondAddress = [];
-			 if(nextAddressData._embedded==undefined){
-				 return;
-	         }else{
-	             for(var i=0;i<nextAddressData._embedded.groups.length;i++){
-	                 var secondName = nextAddressData._embedded.groups[i].name;
-	                 var secondCodeSplit = nextAddressData._embedded.groups[i]._links.self.href.split("/");
-	                 var secondCode = secondCodeSplit[secondCodeSplit.length-1];
-	                 
-	                 $scope.secondAddress.push({
-	                     "secondName": secondName,
-	                     "secondCode": secondCode
-	                 });
-	             }
-	         }
-		});
-		
-	};*/
-	//3.二级地址改动时，三级地址加载
-/*	$scope.loadThirdAddressData=function(){
-		var code = $scope.secondAddressCode;
-		personnelAddFactory.getNextAddressData({code:code},function(nextAddressData){
-			$scope.thirdAddress = [];
-			 if(nextAddressData._embedded==undefined){
-				 return;
-	         }else{
-	             for(var i=0;i<nextAddressData._embedded.groups.length;i++){
-	                 var thirdName = nextAddressData._embedded.groups[i].name;
-	                 var thirdCodeSplit = nextAddressData._embedded.groups[i]._links.self.href.split("/");
-	                 var thirdCode = thirdCodeSplit[thirdCodeSplit.length-1];
-	                 
-	                 $scope.thirdAddress.push({
-	                     "thirdName": thirdName,
-	                     "thirdCode": thirdCode
-	                 });
-	             }
-	         }
-		});
-		
-	};*/
+
 	/**
 	 * 新增时清空数据
 	 */
@@ -270,18 +132,6 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		$scope.remarks=null;
 		$scope.permissions=null;
 		$scope.selectRole=null;
-/*		$scope.group_divide_radio_name=null;
-		$scope.firstAddressCode=null;
-		$scope.secondAddressCode=null;
-		$scope.thirdAddressCode=null;*/
-/*		$("input").each(function() {
-			$(this).val("");
-		});*/
-		//$("textarea").val("");
-		
-/*		$scope.firstAddressCode="";
-		$scope.secondAddressCode="";
-		$scope.thirdAddressCode="";*/
 		
 	};	
 	
@@ -298,22 +148,11 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		user.homeAddress=$scope.address;
 		user.remarks=$scope.remarks;
 		
-		user.gender=$("input[name='gender']:checked").val();
+		user.gender=$scope.gender;
 		user.birthDay=$("input[name='birthday']").val();
 		//角色
 		user.roleCodes=[];
 		user.roleCodes=$scope.selectRole;
-		//权限
-		//user.permissions = $scope.permissions;
-		
-		//分组
-		//var group = [];
-		//var groupVal = $("#group_divide_checked_uuid").val();
-		//group.push(groupVal);
-		//user.groups = group;
-		
-		//三级地址
-		//user.cityCode = $scope.thirdAddressCode;
 		
 		personnelAddFactory.create(user,function(response){
             if(response.$resolved){
@@ -325,9 +164,6 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
         		$("textarea").val("");
         		
         		$scope.selectRole="";
-        		$scope.firstAddressCode="";
-        		$scope.secondAddressCode="";
-        		$scope.thirdAddressCode="";
         		
                 $scope.addSuccess="保存成功,正在跳转..."
                 	

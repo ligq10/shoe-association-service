@@ -54,14 +54,14 @@ personnelUpdateService.factory('personnelUpdateFactory',function($resource){
         	method:'GET'
         },
         searchAllRoles:{
-        	url: '/roles',
+        	url: '/datadicts/bydatadictype/authority',
         	method: 'GET',
         	headers: {
         		'Content-Type':'application/json'
         	}
         },
        checkLoginName:{
-           url:'/security/users/checkloginname',
+           url:'/employees/checkloginname',
            params:{loginname:"loginname"},
            method:'GET'
        },
@@ -74,7 +74,7 @@ personnelUpdateService.factory('personnelUpdateFactory',function($resource){
     	   method:'GET'
        },
        personnelDetail:{
-    	   url:'/users/:uuid/view/details',
+    	   url:'/employees/:uuid',
     	   method:'GET'
        },
        getOneUser:{

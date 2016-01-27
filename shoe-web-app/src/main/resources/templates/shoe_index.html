@@ -1,39 +1,36 @@
-<!doctype html>
-<html ng-app="shoeApp" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
+<!DOCTYPE html>
+<html ng-app="shoeApp" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" id="html">
 <head>
-    <meta charset="utf-8"></meta>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>中国鞋材供应</title>
+    <link rel="shortcut icon" href="image/logo.png"/>
     <!-- Load CSS files-->
+
     <link href="../static/css/common/bootstrap.min.css" rel="stylesheet" th:href="@{/css/common/bootstrap.min.css}"/>
     <link href="../static/css/common/bootstrap-datetimepicker.min.css" rel="stylesheet" th:href="@{/css/common/bootstrap-datetimepicker.min.css}"/>
     <link href="../static/css/common/font-awesome.css" rel="stylesheet" th:href="@{/css/common/font-awesome.css}"/>
     <link href="../static/css/common/bootstrap-spinner.css" rel="stylesheet" th:href="@{/css/common/bootstrap-spinner.css}"/>
-
-    <link href="../static/css/common/ladda-themeless.css" rel="stylesheet"	th:href="@{/css/common/ladda-themeless.css}" />
-    <link href="../static/css/common/ladda.css" rel="stylesheet"	th:href="@{/css/common/ladda.css}" />
-    <link href="../static/css/common/prism.css" rel="stylesheet"	th:href="@{/css/common/prism.css}" />
-    <link href="../static/css/common/star-rating.css" rel="stylesheet"	th:href="@{/css/common/star-rating.css}" />
-
     <link href="../static/css/angular/angular-ui-tree.min.css" rel="stylesheet" th:href="@{/css/angular/angular-ui-tree.min.css}"/>
     <link href="../static/css/common/common.css" rel="stylesheet" th:href="@{/css/common/common.css}"/>
+    <link href="../static/css/common/common-admin.css" rel="stylesheet" th:href="@{/css/common/common-admin.css}"/>
     <link href="../static/css/common/style.css" rel="stylesheet" th:href="@{/css/common/style.css}"/>
+    <link href="../static/css/common/AdminLTE.min.css" rel="stylesheet" th:href="@{/css/common/AdminLTE.min.css}"/>
     <link href="../static/css/common/normalize.css" th:href="@{/css/common/normalize.css}"/>
-    <link href="../static/css/common/default.css" th:href="@{/css/common/default.css}"/>
-
-    
+    <link href="../static/css/common/default.css" th:href="@{/css/common/default.css}"/>    
     <link href="../static/css/templateCss/header/header.css" rel="stylesheet" th:href="@{/css/templateCss/header/header.css}"/>
 </head>
-<body>
+<body id="body">
     <div id="header" th:include="shoe_header::shoe-header"></div> 
     <div class="panel-body panel-center-content" data-ui-view=""></div>
-    <div id="footer" th:include="shoe_footer::shoe-footer"></div>                    
-
+    <div id="footer" th:include="shoe_footer::shoe-footer"></div>  
+	<!-- 公共提示框 -->
+	<!-- 此处bs-example-modal-lg modal-lg 样式将模态框设置为大框 ，如果为bs-example-modal-sm modal-sm即为小框-->
 	<div class="modal fade bs-example-modal-sm" id="alert_dialog" role="dialog" aria-label="myModalLabel" aria-hidden="true">
 		<div id="modal_dialog" class="modal-dialog modal-sm">
-			<div class="modal-content">
+			<div class="modal-content commom-modal-dialog">
 				<div id="dialog_header" class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>			
@@ -54,15 +51,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="clear_float"></div>
+
 <!-- Load plugin js file-->
 <script src="../static/js/plugin/jquery/jquery-1.min.js" th:src="@{/js/plugin/jquery/jquery-1.min.js}"></script>
-<script type="text/javascript" src="../static/js/plugin/common/ladda.js" th:src="@{/js/plugin/common/ladda.js}"></script>
-<script type="text/javascript" src="../static/js/plugin/common/sitedata_bas.js" th:src="@{/js/plugin/common/sitedata_bas.js}"></script>
-<script type="text/javascript" src="../static/js/plugin/common/spin.js" th:src="@{/js/plugin/common/spin.js}"></script>   
-<script type="text/javascript" src="../static/js/plugin/common/star-rating.js" th:src="@{/js/plugin/common/star-rating.js}"></script>   
+<script src="../static/js/plugin/jquery/jquery.cookie.js" th:src="@{/js/plugin/jquery/jquery.cookie.js}"></script>
 <script src="../static/js/plugin/bootstrap/bootstrap.min.js" th:src="@{/js/plugin/bootstrap/bootstrap.min.js}"></script>
 <script src="../static/js/plugin/bootstrap/bootstrap-datetimepicker.min.js" th:src="@{/js/plugin/bootstrap/bootstrap-datetimepicker.min.js}"></script>
- 
 <script src="../static/js/plugin/angular/angular.js" th:src="@{/js/plugin/angular/angular.js}"></script>
 <script src="../static/js/plugin/angular/angular-route.js" th:src="@{/js/plugin/angular/angular-route.js}"></script>
 <script src="../static/js/plugin/angular/angular-resource.js" th:src="@{/js/plugin/angular/angular-resource.js}"></script>
@@ -73,9 +68,6 @@
 <script src="../static/js/plugin/angular/angular-file-upload.min.js" th:src="@{/js/plugin/angular/angular-file-upload.min.js}"></script>
 <script src="../static/js/plugin/angular/angular-file-upload.js" th:src="@{/js/plugin/angular/angular-file-upload.js}"></script>
 <script src="../static/js/plugin/angular/angular-base64-upload.min.js" th:src="@{/js/plugin/angular/angular-base64-upload.min.js}"></script>
-<script src="../static/js/plugin/bootstrap/ui-bootstrap-tpls.js" th:src="@{/js/plugin/bootstrap/ui-bootstrap-tpls.js}"></script>
-<script src="../static/js/plugin/common/loading-overlay.min.js" th:src="@{/js/plugin/common/loading-overlay.min.js}"></script>
-
 <!-- Load custom js file -->
 
 <script src="../static/js/common/shoe/common.js" th:src="@{/js/common/shoe/common.js}"></script>

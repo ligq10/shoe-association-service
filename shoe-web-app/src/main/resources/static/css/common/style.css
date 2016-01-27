@@ -190,3 +190,7 @@ body {
 .admin-header-logo{
 	margin-top: 10px;
 }
+
+a{
+	cursor:pointer;
+}

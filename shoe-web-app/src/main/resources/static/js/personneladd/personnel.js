@@ -7,7 +7,7 @@ $(function(){
 	 */    
     $('#birthday').datetimepicker({
 		locale: 'zh-CN',
-		format: 'yyyy-mm-dd',
+		format: 'yyyy-MM-dd',
 		pickerPosition:'top-left',
 		todayHighlight:true,//如果为true, 高亮当前日期。
 		autoclose:true //当选择一个日期之后是否立即关闭此日期时间选择器。
