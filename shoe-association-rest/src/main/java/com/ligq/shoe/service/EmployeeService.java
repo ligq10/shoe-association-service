@@ -18,7 +18,6 @@ import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -50,8 +49,11 @@ import com.ligq.shoe.model.EmployeeAddRequest;
 import com.ligq.shoe.model.EmployeeResponse;
 import com.ligq.shoe.model.RegisterUser;
 import com.ligq.shoe.model.RoleResponse;
+import com.ligq.shoe.model.UpdatePasswordRequest;
+import com.ligq.shoe.model.UpdateUserRoleRequest;
 import com.ligq.shoe.model.UserResponse;
 import com.ligq.shoe.repository.EmployeeRepository;
+import com.ligq.shoe.utils.BeanUtils;
 
 @Service
 public class EmployeeService {
@@ -228,5 +230,99 @@ public class EmployeeService {
 		}
 
 		return roles;
+	}
+
+	public ResponseEntity<?> update(String uuid,
+			EmployeeAddRequest employeeAddRequest, HttpServletRequest request,
+			HttpServletResponse response) {
+		String token = request.getHeader(SECURITY_TOKEN_HEADER);
+		Employee employeeEntity = this.findOneUserById(uuid);
+		if(null == employeeEntity){
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
+		
+		if(StringUtils.isEmpty(employeeAddRequest.getPassword()) == false){
+			UpdatePasswordRequest updatePassword = new UpdatePasswordRequest();
+			updatePassword.setLoginName(employeeAddRequest.getLoginName());
+			updatePassword.setOldPassword(employeeEntity.getPassword());
+			updatePassword.setNewPassword(employeeAddRequest.getPassword());
+			try {
+				boolean isSuccess = resetPassword(updatePassword,token);
+				if(isSuccess == false){
+					logger.error("updatepassword to remote server failed!");
+		            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("updatepassword to remote server failed!",e);
+	            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		if(null != employeeAddRequest.getRoleCodes() && employeeAddRequest.getRoleCodes().isEmpty() == false){
+			UpdateUserRoleRequest updateUserRoleRequest = new UpdateUserRoleRequest();
+			updateUserRoleRequest.setLoginName(employeeAddRequest.getLoginName());
+			updateUserRoleRequest.setRoleCodes(employeeAddRequest.getRoleCodes());
+			try {
+				boolean isSuccess = updateUserRoles(updateUserRoleRequest,token);
+				if(isSuccess == false){
+					logger.error("updateUserRoles to remote server failed!");
+		            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("updateUserRoles to remote server failed!",e);
+	            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		
+		BeanUtils.copyPropertiesIgnoreNull(employeeAddRequest, employeeEntity);
+		employeeRepository.save(employeeEntity);
+        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+	
+	private boolean resetPassword(UpdatePasswordRequest updatePassword,String token) throws Exception {
+		RestTemplateResponseErrorHandler responseErrorHandler = new RestTemplateResponseErrorHandler();
+		boolean isSuccessFlag = false;
+		try{
+			MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+			headers.put("Content-Type",
+					Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
+			headers.put(SECURITY_TOKEN_HEADER, Lists.newArrayList(token));
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.setErrorHandler(responseErrorHandler);
+			ResponseEntity responseBody =restTemplate.exchange(env.getRequiredProperty("updatePassword.endpoint"),
+					HttpMethod.POST, new HttpEntity<>(updatePassword,
+							headers), ResponseEntity.class);
+			if(responseBody.getStatusCode().equals(HttpStatus.OK)){
+				isSuccessFlag = true; 
+			}
+		}catch(Exception e){
+			logger.error("update to remote server failed!",e);
+			return false;
+		}
+		return isSuccessFlag;
+	}
+	
+	private boolean updateUserRoles(UpdateUserRoleRequest updateUserRoleRequest,String token) throws Exception {
+		RestTemplateResponseErrorHandler responseErrorHandler = new RestTemplateResponseErrorHandler();
+		boolean isSuccessFlag = false;
+		try{
+			MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+			headers.put("Content-Type",
+					Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
+			headers.put(SECURITY_TOKEN_HEADER, Lists.newArrayList(token));
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.setErrorHandler(responseErrorHandler);
+			ResponseEntity responseBody =restTemplate.exchange(env.getRequiredProperty("updateUserRoles.endpoint"),
+					HttpMethod.POST, new HttpEntity<>(updateUserRoleRequest,
+							headers), ResponseEntity.class);
+			if(responseBody.getStatusCode().equals(HttpStatus.OK)){
+				isSuccessFlag = true; 
+			}
+		}catch(Exception e){
+			logger.error("updateUserRoles to remote server failed!",e);
+			return false;
+		}
+		return isSuccessFlag;
 	}
 }

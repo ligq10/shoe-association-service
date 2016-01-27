@@ -29,6 +29,8 @@ public class EmployeeResponse extends ResourceSupport{
 	private String gender;
 	
 	private Integer age;
+	
+	private String birthday;
 
 	private String loginName;
 		
@@ -163,6 +165,14 @@ public class EmployeeResponse extends ResourceSupport{
 
 	public void setRoles(List<RoleResponse> roles) {
 		this.roles = roles;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = DateUtils.composeUTCDate(birthday);
 	}
 
 }

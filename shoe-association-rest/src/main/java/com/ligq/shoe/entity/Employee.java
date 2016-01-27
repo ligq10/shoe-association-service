@@ -34,6 +34,9 @@ public class Employee {
 	@Column(name = "update_time")
 	private Date updateTime;
 	
+	@Column(name = "birthday")
+	private Date birthday;
+	
 	@Column(name = "tel")
 	private String tel;
 	
@@ -101,6 +104,14 @@ public class Employee {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 	public String getTel() {

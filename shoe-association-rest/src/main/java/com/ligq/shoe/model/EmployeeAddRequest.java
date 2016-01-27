@@ -1,6 +1,7 @@
 package com.ligq.shoe.model;
 
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,6 +17,8 @@ public class EmployeeAddRequest {
 	private String homeAddress;
 	
 	private String tel;
+	
+	private Date birthday;
 	
 	private String identityCard;
 
@@ -93,6 +96,14 @@ public class EmployeeAddRequest {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+	
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 	public String getLoginName() {

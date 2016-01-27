@@ -77,6 +77,31 @@ public class EmployeeContorller {
 		return responseEntity;
 	}
 
+	@RequestMapping(value="/employees/{uuid}",method=RequestMethod.PATCH, produces = "application/hal+json")
+	public HttpEntity<?> updateEmployee(
+			@PathVariable String uuid,
+			@RequestBody EmployeeAddRequest employeeAddRequest,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			BindingResult result){
+		
+		addEmployeeValidator.validate(employeeAddRequest, result);
+		if(result.hasErrors()){
+			logger.error("Add Employee validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
+
+		ResponseEntity<?> responseEntity =  null;		
+		try {	        
+	        responseEntity=employeeService.update(uuid,employeeAddRequest,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
+	}
+	
     @RequestMapping(value = "/employees/checkloginname", method = RequestMethod.GET)
     public HttpEntity<?> checkLoginName(
             @RequestParam(value = "loginname") String loginName) {

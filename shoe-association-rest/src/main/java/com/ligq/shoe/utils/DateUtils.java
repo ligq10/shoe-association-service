@@ -63,5 +63,19 @@ public class DateUtils {
 		}
 		return date;
 	}
+	
+	/**
+	 * 
+	 * @param Date date
+	 * @return Date yyyy-MM-dd
+	 */
+	public static String composeUTCDate(Date date) {
+		if(date==null){
+			return null;
+		}
+		Long lDate=date.getTime();
+		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(lDate);
+	}
 }
 
