@@ -54,7 +54,7 @@ personnelUpdateService.factory('personnelUpdateFactory',function($resource){
         	method:'GET'
         },
         searchAllRoles:{
-        	url: '/datadicts/bydatadictype/authority',
+        	url: '/security/roles',
         	method: 'GET',
         	headers: {
         		'Content-Type':'application/json'

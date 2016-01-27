@@ -40,31 +40,31 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
 			if(responseRole._embedded==undefined){
 				$scope.roles = [];
 			}else{
-				for(var i=0; i<responseRole._embedded.dataDictResponses.length; i++) {
+				for(var i=0; i<responseRole._embedded.roleResponses.length; i++) {
 					
 					if(selectUserRole != null && selectUserRole!= undefined && selectUserRole.length>0){
-						var isSelectUserRoleFlag = isSelectUserRole(responseRole._embedded.dataDictResponses[i].dictCode);
+						var isSelectUserRoleFlag = isSelectUserRole(responseRole._embedded.roleResponses[i].code);
 						if(isSelectUserRoleFlag){
 							$scope.roles.push({
-								uuid:responseRole._embedded.dataDictResponses[i].uuid,
-								roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
-								roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+								uuid:responseRole._embedded.roleResponses[i].uuid,
+								roleCode:responseRole._embedded.roleResponses[i].code,
+								roleDesc:responseRole._embedded.roleResponses[i].name,
 								checked:true
 							});
 							
 						}else{
 							$scope.roles.push({
-								uuid:responseRole._embedded.dataDictResponses[i].uuid,
-								roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
-								roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+								uuid:responseRole._embedded.roleResponses[i].uuid,
+								roleCode:responseRole._embedded.roleResponses[i].code,
+								roleDesc:responseRole._embedded.roleResponses[i].name,
 								checked:false
 							});
 						}
 					}else{
 						$scope.roles.push({
-							uuid:responseRole._embedded.dataDictResponses[i].uuid,
-							roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
-							roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+							uuid:responseRole._embedded.roleResponses[i].uuid,
+							roleCode:responseRole._embedded.roleResponses[i].code,
+							roleDesc:responseRole._embedded.roleResponses[i].name,
 							checked:false
 						});
 					}				

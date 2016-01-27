@@ -66,7 +66,7 @@ personnelAddService.factory('personnelAddFactory',function($resource){
            method:'GET'
        },*/
        searchAllRoles:{
-        	url: '/datadicts/bydatadictype/authority',
+        	url: '/security/roles',
         	method: 'GET',
         	headers: {
         		'Content-Type':'application/json'

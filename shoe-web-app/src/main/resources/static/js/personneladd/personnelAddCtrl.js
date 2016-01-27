@@ -39,11 +39,11 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		if(responseRole._embedded==undefined){
 			$scope.roles = [];
 		}else{
-			for(var i=0; i<responseRole._embedded.dataDictResponses.length; i++) {
+			for(var i=0; i<responseRole._embedded.roleResponses.length; i++) {
 				$scope.roles.push({
-					roleId:responseRole._embedded.dataDictResponses[i].uuid,
-					roleCode:responseRole._embedded.dataDictResponses[i].dictCode,
-					roleDesc:responseRole._embedded.dataDictResponses[i].dictDesc,
+					roleId:responseRole._embedded.roleResponses[i].uuid,
+					roleCode:responseRole._embedded.roleResponses[i].code,
+					roleDesc:responseRole._embedded.roleResponses[i].name,
 					checked:false
 				});
 			}
