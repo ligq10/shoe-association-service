@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.ligq.shoe.constants.FeedbackAuditStatus;
 import com.ligq.shoe.controller.FeedbackController;
 import com.ligq.shoe.entity.FeedbackFile;
 import com.ligq.shoe.entity.FeedbackScore;
@@ -166,5 +167,10 @@ public class FeedbackService {
 			return "http://" + header;
 		}
 		return "http://" + host + ":" + port;
+	}
+
+	public Page<FeedbackScore> findFeedbackByAudit(Integer status,Pageable pageable) {
+		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findByApproveStatus(status,pageable);
+		return feedbackScorePage;
 	}
 }

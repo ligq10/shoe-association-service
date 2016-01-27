@@ -12,4 +12,6 @@ public interface FeedbackScoreRepository extends
 	PagingAndSortingRepository<FeedbackScore, String>{
 	
 	public Page<FeedbackScore> findByCompanyId(String companyId,Pageable pageable);
+
+	public Page<FeedbackScore> findByApproveStatus(Integer status, Pageable pageable);
 }

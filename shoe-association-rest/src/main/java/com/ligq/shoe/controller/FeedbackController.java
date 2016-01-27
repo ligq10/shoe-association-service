@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ligq.shoe.constants.CheckCodeType;
+import com.ligq.shoe.constants.FeedbackAuditStatus;
 import com.ligq.shoe.entity.FeedbackScore;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.model.FeedbackAddRequest;
@@ -106,7 +107,7 @@ public class FeedbackController {
 	
 	@RequestMapping(value="/shoecompanies/{uuid}/feedbacks",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
-	public HttpEntity<?> findShoeCompany(
+	public HttpEntity<?> findFeedbackByShoeCompany(
 			@PathVariable String uuid,
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
@@ -115,6 +116,28 @@ public class FeedbackController {
 		ResponseEntity responseEntity = null;
 		Pageable pageable = new PageRequest(page, size);
 		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByCompanyId(uuid,pageable);
+		
+		try {
+			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;	
+		
+	}
+	
+	@RequestMapping(value="/feedbacks/audit",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findAuditFeedbackList(
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
+			HttpServletRequest request,
+			HttpServletResponse response){
+		ResponseEntity responseEntity = null;
+		Pageable pageable = new PageRequest(page, size);
+		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByAudit(FeedbackAuditStatus.WAITING_AUDIT.getValue(),pageable);
 		
 		try {
 			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);
