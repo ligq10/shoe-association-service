@@ -34,20 +34,24 @@
 				        </span>
 				    </div>
 				    
-				     <!-- 角色-->
+				    <!-- 角色-->
 				    <div class="form-group">
 				    	<label class="require-mark-style">*</label>
-				        <label  class="col-sm-2">角色</label>
+				        <label  class="col-sm-2">权限</label>
 				        <input type="hidden" id="authority_distribution_checked_permissions" value="" name="roles" ng-model="permissions"/>
 				        <div class="col-sm-4">
 				            <select ng-model="selectRole" multiple="multiple" size="1"
 				            	ng-options="r.roleCode as r.roleDesc for r in roleAdmins"  required name="role" class="form-control input_btn_input" id="resetCheckedRoles" ng-change="resetCheckedRoles()">
 				            	<option value="">请选择</option>
 				            </select>
-				        </div>
+<!-- 				            <button type="button" ng-disabled="personnelAddFrom.role.$invalid" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution">分配基本权限</button>
+ -->				    </div>
 				        <span class="prompt_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$invalid">请选择用户角色</span>
-						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
-				    </div>
+<!-- 						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
+ -->						<span ng-show="role">
+				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$valid"><span class="glyphicon glyphicon-ok"></span></span>
+				        </span>
+				    </div>	
 				    				    
 				    <!-- 联系电话 -->
 				    <div class="form-group">
@@ -64,10 +68,9 @@
 				    
 				    <!-- 联系邮箱 -->
 				    <div class="form-group">
-				    	<label class="require-mark-style">*</label>
 				        <label  class="col-sm-2">联系邮箱</label>
 				        <div class="col-sm-4">
-				            <input type="text" ng-pattern="/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/" id="email" maxlength="30" required  name="email" class="form-control" ng-model="email"/>
+				            <input type="text" ng-pattern="/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/" id="email" maxlength="30"  name="email" class="form-control" ng-model="email"/>
 				        </div>
 				        <span class="prompt_span" ng-show="personnelAddFrom.email.$dirty && personnelAddFrom.email.$invalid">必填，请输入正确的邮箱</span>
 				        <span ng-show="email">
@@ -76,7 +79,6 @@
 				    </div>
 				    <!-- 性别 -->
 				    <div class="form-group">
-				    	<label class="nosee_require-mark-style">*</label>
 				        <label  class="col-sm-2">性别</label>
 				        <div class="col-sm-4">
 				        	<input type="radio" value="male" name="gender" id="male" ng-model="gender" class="gender">男
@@ -88,22 +90,19 @@
 				    <!-- 出生年月 -->
 				    <div class="form-group">
 				        <label  class="col-sm-2">出生年月</label>
-						<div class="input-append date col-md-4">
+						<div class="input-append date col-sm-4" id="birthday">
 							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthDay">
 						</div>
-				    </div>
-				    
+				    </div>				   
 				    
 				    <!-- 地址 -->
-				    
 				    <div class="form-group">
 				        <label  class="col-sm-2">地址</label>
 				        <div class="col-sm-4">
 				            <input type="text" class="form-control" name="homeAddress" maxlength="100" ng-model="homeAddress"/>
 				        </div>
 				        <span class="prompt_span" ng-show="personnelAddFrom.homeAddress.$dirty && personnelAddFrom.homeAddress.$invalid">不能超过100个字符</span>
-				    </div>
-				    
+				    </div>				    
 				    <!-- 备注 -->
 				    <div class="form-group">
 				        <label  class="col-sm-2">备注</label>
@@ -120,8 +119,8 @@
 				        <div class="col-sm-2"></div>
 				        <div class="col-sm-4 btn-group">
 				        	<span class="btn_group">
-				            	<button type="submit" ng-disabled="!(personnelAddFrom.$valid && id_error_ishidden && !confirmPasswordWrong)" class="btn btn-primary">保存</button>
-						    	<button type="butto" ui-sref="personnellist" class="btn btn-default">返回</button>
+				            	<button type="submit" ng-disabled="!(personnelAddFrom.$valid && id_error_ishidden)" class="btn btn-primary">保存</button>
+						    	<button type="button" ui-sref="personnellist" class="btn btn-default">返回</button>
 						    	<span class="prompt_span">{{addSuccess}}</span>
 							</span>
 				        </div>
@@ -129,6 +128,5 @@
 				</form>
 			</div>
 		</div>
-
 	</body>
 </html>

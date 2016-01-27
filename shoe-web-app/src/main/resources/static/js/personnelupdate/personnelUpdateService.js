@@ -59,12 +59,12 @@ personnelUpdateService.factory('personnelUpdateFactory',function($resource){
         	headers: {
         		'Content-Type':'application/json'
         	}
-        },
-       checkLoginName:{
-           url:'/employees/checkloginname',
-           params:{loginname:"loginname"},
-           method:'GET'
-       },
+        }, 
+        checkLoginName:{
+            url:'/employees/checkloginname',
+            params:{loginname:"loginname"},
+            method:'GET'
+        }, 
        getFirstAddressData:{
     	   url:'/groups/100000/childrens',
     	   method:'GET'
