@@ -191,20 +191,29 @@ adminApp.factory('loginSession', function() {
 							permissions.push('PERSONNEL_ADD');
 							permissions.push('PERSONNEL_UPDATE');
 							permissions.push('PERSONNEL_ADD');
-							permissions.push('AUDIT_MANAGER');
-							permissions.push('SHOE_AUDIT_LIST');
-							permissions.push('SHOE_AUDIT');
+							permissions.push('FEEDBACK_AUDIT_MANAGER');
+							permissions.push('PRIMARY_FEEDBACK_AUDIT_LIST');
+							permissions.push('PRIMARY_FEEDBACK_AUDIT');
+							permissions.push('MIDDLE_FEEDBACK_AUDIT_LIST');	
+							permissions.push('MIDDLE_FEEDBACK_AUDIT');
+							permissions.push('COMPANY_AUDIT_MANAGER');
+							permissions.push('COMPANY_AUDIT_LIST');
+							permissions.push('COMPANY_AUDIT');
 						}
     					if(permissions.contains('primaryAuditor')){//终端管理
-							permissions.push('AUDIT_MANAGER');
-							permissions.push('SHOE_AUDIT_LIST');
-							permissions.push('SHOE_AUDIT');
+							permissions.push('FEEDBACK_AUDIT_MANAGER');
+							permissions.push('PRIMARY_FEEDBACK_AUDIT_LIST');
+							permissions.push('PRIMARY_FEEDBACK_AUDIT');
 						}
     					if(permissions.contains ('middleAuditor')){//只有最顶层管理员可以添加终端
-							permissions.push('AUDIT_MANAGER');
-							permissions.push('SHOE_AUDIT_LIST');
-							permissions.push('SHOE_AUDIT');
-
+							permissions.push('FEEDBACK_AUDIT_MANAGER');
+							permissions.push('MIDDLE_FEEDBACK_AUDIT_LIST');
+							permissions.push('MIDDLE_FEEDBACK_AUDIT');
+    					}
+    					if(permissions.contains ('companyAudit')){
+							permissions.push('COMPANY_AUDIT_MANAGER');
+							permissions.push('COMPANY_AUDIT_LIST');
+							permissions.push('COMPANY_AUDIT');    						
     					}
 /*    					if(permissions.contains('VOICE_REMINDER')){//语音提醒
     						permissions.push('VOICE_REMINDER_ADD');

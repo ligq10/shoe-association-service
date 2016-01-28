@@ -15,7 +15,13 @@ public class FeedbackResponse extends ResourceSupport{
 	
 	private String uuid;
 
+	private String companyName;
+	
+	private String companyId;
+	
 	private String scoreType;
+	
+	private String scoreTypeDesc;
 	
 	private String scoreReason;
 	
@@ -139,5 +145,39 @@ public class FeedbackResponse extends ResourceSupport{
 	public void setProofImageIds(List<String> proofImageIds) {
 		this.proofImageIds = proofImageIds;
 	}
+
+	public String getCompanyName() {
+		if(StringUtils.isEmpty(companyName)){
+			companyName = "";
+		}
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCompanyId() {
+		if(StringUtils.isEmpty(companyId)){
+			companyId = "";
+		}
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getScoreTypeDesc() {
+		if(StringUtils.isEmpty(scoreTypeDesc)){
+			scoreTypeDesc = "";
+		}
+		return scoreTypeDesc;
+	}
+
+	public void setScoreTypeDesc(String scoreTypeDesc) {
+		this.scoreTypeDesc = scoreTypeDesc;
+	}
+	
 	
 }

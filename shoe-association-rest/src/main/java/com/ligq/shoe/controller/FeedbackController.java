@@ -34,16 +34,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ligq.shoe.constants.CheckCodeType;
-import com.ligq.shoe.constants.FeedbackAuditStatus;
 import com.ligq.shoe.entity.FeedbackScore;
-import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.model.FeedbackAddRequest;
 import com.ligq.shoe.model.FeedbackResponse;
 import com.ligq.shoe.model.SendMsg;
-import com.ligq.shoe.model.ShoeCompanyAddRequest;
-import com.ligq.shoe.model.ShoeCompanyResponse;
 import com.ligq.shoe.service.FeedbackService;
-import com.ligq.shoe.service.ShoeCompanyService;
 import com.ligq.shoe.validator.AddFeedbackValidator;
 
 @Controller

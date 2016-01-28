@@ -27,13 +27,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.ligq.shoe.constants.FeedbackAuditStatus;
+import com.ligq.shoe.constants.ScoreType;
 import com.ligq.shoe.controller.FeedbackController;
 import com.ligq.shoe.entity.FeedbackFile;
 import com.ligq.shoe.entity.FeedbackScore;
+import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.model.FeedbackAddRequest;
 import com.ligq.shoe.model.FeedbackResponse;
 import com.ligq.shoe.repository.FeedbackFileRepository;
 import com.ligq.shoe.repository.FeedbackScoreRepository;
+import com.ligq.shoe.repository.ShoeCompanyRepository;
 
 @Service
 public class FeedbackService {
@@ -42,9 +45,12 @@ public class FeedbackService {
 
 	@Autowired
 	private FeedbackScoreRepository feedbackScoreRepository;
+	
 	@Autowired
 	private FeedbackFileRepository feedbackFileRepository;
 	
+	@Autowired
+	private ShoeCompanyRepository shoeCompanyRepository;
 	
 	public ResponseEntity<Object> save(FeedbackAddRequest feedBackAddRequest,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -142,6 +148,13 @@ public class FeedbackService {
 		FeedbackResponse feedbackResponse = new FeedbackResponse();
 		List<String> proofImageUrls = new ArrayList<String>();
 		List<String> proofImageIds = new ArrayList<String>();
+
+		
+		BeanUtils.copyProperties(feedbackScore, feedbackResponse);
+		ShoeCompany shoeCompany = shoeCompanyRepository.findOne(feedbackScore.getCompanyId());
+		if(null != shoeCompany){
+			feedbackResponse.setCompanyName(shoeCompany.getName());;
+		}
 		List<FeedbackFile> feedbackFileList = feedbackFileRepository.findByFeedbackId(feedbackScore.getUuid());
 		if(null != feedbackFileList && feedbackFileList.isEmpty() == false){
 			for(FeedbackFile feedbackFile : feedbackFileList){
@@ -151,8 +164,7 @@ public class FeedbackService {
 			feedbackResponse.setProofImageIds(proofImageIds);
 		    feedbackResponse.setProofImageUrls(proofImageUrls);
 		}
-		
-		BeanUtils.copyProperties(feedbackScore, feedbackResponse);
+		feedbackResponse.setScoreTypeDesc(ScoreType.getScoreTypeByValue(feedbackScore.getScoreType()).getDesc());
 	    Link selfLink = linkTo(methodOn(FeedbackController.class).findOneFeedbackById(feedbackScore.getUuid(), request, response)).withSelfRel();	    
 	    feedbackResponse.add(selfLink);
         return feedbackResponse;

@@ -13,19 +13,17 @@ auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope',
        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
        $scope.pageSize=PAGESIZE_DEFAULT;
        $scope.shoecompanyList = [];
-       
+   	   var search_keyword="";
+      
        //分页
        var refreshAuditShoeCompanyListList = function(){
     	   
     	    $scope.shoecompanyList = [];
-	    	var search_keyword="";
-	    	if($scope.search_keyword != undefined){
-	    		search_keyword = $scope.search_keyword;
-	    	}
+
 	    	auditShoeCompanyListFactory.queryAuditList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize},function(response){
     		   if(response._embedded==undefined && $scope.currentPage>0){
     			   --($scope.currentPage);
-    			   refreshPersonnelList();
+    			   
     		   }else{
     			   $scope.shoecompanyList = response._embedded.shoeCompanyResponses;
 				   $scope.numPages = function () {
@@ -41,7 +39,11 @@ auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope',
        refreshAuditShoeCompanyListList();
        // 搜索
        $scope.search=function() {
-    	   $scope.currentPage=CURRENTPAGE_INIT;
+           $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
+           $scope.pageSize=PAGESIZE_DEFAULT;
+	       if($scope.search_keyword != undefined){
+	    		search_keyword = $scope.search_keyword;
+	       } 
     	   refreshAuditShoeCompanyListList();
        }
         // 点击下一页，上一页，首页，尾页按钮

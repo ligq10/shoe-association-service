@@ -2,8 +2,8 @@
  * Created by Administrator on 15-1-28.
  */
 'use strict';
-var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers',
-                  'personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers']);
+var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers','primaryAuditFeedbackListControllers',
+                  'primaryAuditFeedbackControllers','middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers']);
 adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$rootScopeProvider){
     $httpProvider.defaults.headers.common['X-Token'] = $.cookie('X-Token');
 
@@ -46,14 +46,35 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             url:"/auditshoecompanylist",
             templateUrl:'templates/shoecompanymanager/audit_shoe_company_list.html',
             controller:'auditShoeCompanyListCtrl',
-            permission:'SHOE_AUDIT_LIST',
-            father:'AUDIT_MANAGER'            
+            permission:'COMPANY_AUDIT_LIST',
+            father:'COMPANY_AUDIT_MANAGER'            
         })
         .state('shoecompanyaudit',{
             url:"/shoecompanyaudit/:uuid",
             templateUrl:'templates/shoecompanyaudit/add-shoe-company-audit.html',
             controller:'addShoeCompanyAuditCtrl',
-            permission:'SHOE_AUDIT',
-            father:'AUDIT_MANAGER'             
+            permission:'COMPANY_AUDIT',
+            father:'COMPANY_AUDIT_MANAGER'             
+        })
+        .state('primaryauditfeedbacklist',{
+            url:"/primaryauditfeedbacklist",
+            templateUrl:'templates/feedbackaudit/primary_audit_feedback_list.html',
+            controller:'primaryAuditFeedbackListCtrl',
+            permission:'PRIMARY_FEEDBACK_AUDIT_LIST',
+            father:'FEEDBACK_AUDIT_MANAGER'             
+        })
+        .state('primaryauditfeedback',{
+            url:"/primaryauditfeedback/:uuid",
+            templateUrl:'templates/feedbackaudit/primary_audit_feedback.html',
+            controller:'primaryAuditFeedbackCtrl',
+            permission:'PRIMARY_FEEDBACK_AUDIT',
+            father:'FEEDBACK_AUDIT_MANAGER'             
+        })
+        .state('middleauditfeedbacklist',{
+            url:"/middleauditfeedbacklist",
+            templateUrl:'templates/feedbackaudit/middle_audit_feedback_list.html',
+            controller:'middleAuditFeedbackListCtrl',
+            permission:'MIDDLE_FEEDBACK_AUDIT_LIST',
+            father:'FEEDBACK_AUDIT_MANAGER'             
         });
 });
