@@ -169,8 +169,8 @@ public class FeedbackService {
 		return "http://" + host + ":" + port;
 	}
 
-	public Page<FeedbackScore> findFeedbackByAudit(Integer status,Pageable pageable) {
-		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findByApproveStatus(status,pageable);
+	public Page<FeedbackScore> findFeedbackBySearchKeywordAndAudit(String keyword,Integer status,Pageable pageable) {
+		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findFeedbackBySearchKeywordAndAudit(keyword,status,pageable);
 		return feedbackScorePage;
 	}
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
@@ -178,22 +179,24 @@ public class ShoeCompanyController {
 	@RequestMapping(value="/shoecompanies/audit",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
 	public HttpEntity<?> findShoeCompanyAudit(
-			@RequestParam(value = "keyword", required = true, defaultValue = "") String keyword,
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam(value = "auditStatus", required = false, defaultValue = "0") Integer auditStatus,
+            @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
 			 HttpServletRequest request,
 			 HttpServletResponse response){
-
+		StringBuilder queryParams = new  StringBuilder();
 		Page<ShoeCompany> shoeCompanyPage = null;
-		Sort sort = new Sort(Direction.DESC, "createTime");
-
-		
-		Pageable pageable = new PageRequest(page, size,sort);
-		shoeCompanyPage = shoeCompanyService.findAllShoeCompanyAudit(keyword,pageable);
+		if(StringUtils.isEmpty(keyword) == false){
+			queryParams.append("&keyword"+keyword);
+		}
+		if(StringUtils.isEmpty(keyword) == false){
+			queryParams.append("&auditStatus"+auditStatus);
+		}
+		shoeCompanyPage = shoeCompanyService.findAllShoeCompanyAudit(keyword,auditStatus,pageable);
 		
 		ResponseEntity responseEntity = null;
 		try {
-			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage(keyword,shoeCompanyPage, pageable, request, response);
+			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage(queryParams.toString(),shoeCompanyPage, pageable, request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("User Locations Not Found:",e);

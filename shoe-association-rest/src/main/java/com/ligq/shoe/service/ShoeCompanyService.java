@@ -144,9 +144,9 @@ public class ShoeCompanyService {
 		return shoeCompanyPage;
 	}
 
-	public Page<ShoeCompany> findAllShoeCompanyAudit(String name,Pageable pageable) {
+	public Page<ShoeCompany> findAllShoeCompanyAudit(String name,Integer auditStatus,Pageable pageable) {
 		// TODO Auto-generated method stub
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByKeywordAndAuditStatus(name,ShoeCompanyAuditStatus.WAITING_AUDIT.getValue(),pageable);
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByKeywordAndAuditStatus(name,auditStatus,pageable);
 		return shoeCompanyPage;
 	}
 	

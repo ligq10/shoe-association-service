@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
@@ -109,12 +110,10 @@ public class FeedbackController {
 	@Transactional
 	public HttpEntity<?> findFeedbackByShoeCompany(
 			@PathVariable String uuid,
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
+            @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
 			HttpServletRequest request,
 			HttpServletResponse response){
 		ResponseEntity responseEntity = null;
-		Pageable pageable = new PageRequest(page, size);
 		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByCompanyId(uuid,pageable);
 		
 		try {
@@ -131,16 +130,23 @@ public class FeedbackController {
 	@RequestMapping(value="/feedbacks/audit",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
 	public HttpEntity<?> findAuditFeedbackList(
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,			
+			@RequestParam(value = "auditStatus", required = false, defaultValue = "0") int auditStatus,
+            @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
 			HttpServletRequest request,
 			HttpServletResponse response){
-		ResponseEntity responseEntity = null;
-		Pageable pageable = new PageRequest(page, size);
-		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByAudit(FeedbackAuditStatus.WAITING_AUDIT.getValue(),pageable);
 		
+		StringBuilder queryParams = new  StringBuilder();
+		if(StringUtils.isEmpty(keyword) == false){
+			queryParams.append("&keyword"+keyword);
+		}
+		if(StringUtils.isEmpty(keyword) == false){
+			queryParams.append("&auditStatus"+auditStatus);
+		}
+		ResponseEntity responseEntity = null;
+		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackBySearchKeywordAndAudit(keyword,auditStatus,pageable);		
 		try {
-			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);
+			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage(queryParams.toString(),feedbackScorePage, pageable, request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("User Locations Not Found:",e);
