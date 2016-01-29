@@ -6,6 +6,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -182,5 +183,24 @@ public class EmployeeContorller {
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
 		}
 		return  responseEntity;			
+	}
+	
+	@RequestMapping(value="/employees/{uuid}",method = RequestMethod.DELETE)
+	@Transactional
+	public HttpEntity<?> deleteUserById(
+			 @PathVariable String uuid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+
+		
+		ResponseEntity<?> responseEntity =  null;		
+		try {	        
+	        responseEntity=employeeService.delete(uuid,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
 	}
 }

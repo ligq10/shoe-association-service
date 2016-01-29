@@ -31,9 +31,9 @@ public class SendMsgService {
 	public ResponseEntity<?> sendCheckMsg(SendMsg sendMsg,HttpServletRequest request){
 		RestTemplate restTemplate = new RestTemplate();
 		StringBuffer url = new StringBuffer();
-		BeanUtils.copyPropertiesIgnoreNull(sendMsgProperties, sendMsg);
-		String checkCode = SendMsgUtil.createRandomVcode();
-		sendMsg.setContent(checkCode);
+		//BeanUtils.copyPropertiesIgnoreNull(sendMsgProperties, sendMsg);
+		//String checkCode = SendMsgUtil.createRandomVcode();
+		//sendMsg.setContent(checkCode);
         //短信接口URL提交地址
 		url.append(sendMsgConfig.getSendMsgUrl()); 
 		url.append("?ac="+sendMsgProperties.getAc());
@@ -41,15 +41,8 @@ public class SendMsgService {
         url.append("&pwd="+sendMsgProperties.getPwd());
         url.append("&encode="+sendMsgProperties.getEncode());
         url.append("&mobile="+sendMsg.getMobile());
-        url.append("&content=尊敬的用户,您的验证码为:"+checkCode+",有效期为3分钟");
+        url.append("&content="+sendMsg.getContent());
         ResponseEntity<?> result = SendMsgUtil.sendMsg(url.toString(),restTemplate);
-        HttpSession session = request.getSession(); 
-		session.setAttribute(sendMsg.getMobile(), sendMsg);
-		session.setMaxInactiveInterval(5*60);
-		SendMsg sendMsgObject = (SendMsg) session.getAttribute(sendMsg.getMobile());
-		logger.info("发送号码:"+sendMsgObject.getMobile()+"发送验证码:"+sendMsgObject.getContent());
-		//return result;
-        return new ResponseEntity<String>("发送成功",HttpStatus.OK);
-
+		return result;
 	}
 }

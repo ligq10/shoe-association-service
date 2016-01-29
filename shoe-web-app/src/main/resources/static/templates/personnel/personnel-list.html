@@ -44,7 +44,6 @@
 	            			<td align="center">{{entry.email}}</td>
 	            			<td align="center">{{entry.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 	            			<td align="center">
-	                			<a ng-click="resetPasswordModal(entry.loginName)" data-toggle="modal"  class="personnel_list_set">重置密码</a>
 	                			<a ui-sref="personnelupdate({uuid:entry.uuid})" has-permission="PERSONNEL_UPDATE" class="personnel_list_set not_menu">修改</a>
 	                			<a ng-click="deletePersonnel(entry.loginName,entry.uuid)" class="personnel_list_set"  data-toggle="delete-personnel-dialog">删除</a>
 	            			</td>

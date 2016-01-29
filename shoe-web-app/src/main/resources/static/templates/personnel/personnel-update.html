@@ -54,7 +54,7 @@
 
  				            <button type="button" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution_dialog">分配基本权限</button>
  				    </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$invalid">请选择用户角色</span>
+				        <span class="prompt_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$invalid">请选择用户权限</span>
 <!-- 						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
  -->						<span ng-show="role">
 				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$valid"><span class="glyphicon glyphicon-ok"></span></span>
@@ -99,7 +99,7 @@
 				    <div class="form-group">
 				        <label  class="col-sm-2">出生年月</label>
 						<div class="input-append date col-sm-4" id="birthday">
-							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthDay">
+							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthday">
 						</div>
 				    </div>				   
 				    

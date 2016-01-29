@@ -16,6 +16,8 @@ public class EmployeeResponse extends ResourceSupport{
 	
 	private String name;
 	
+	private String password;
+	
 	private String householdRegisterAddress;
 	
 	private String homeAddress;
@@ -58,6 +60,17 @@ public class EmployeeResponse extends ResourceSupport{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getPassword() {
+		if(StringUtils.isEmpty(password)){
+			password = "";
+		}
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getHouseholdRegisterAddress() {
@@ -168,6 +181,9 @@ public class EmployeeResponse extends ResourceSupport{
 	}
 
 	public String getBirthday() {
+		if(StringUtils.isEmpty(birthday)){
+			birthday = "";
+		}
 		return birthday;
 	}
 

@@ -9,7 +9,8 @@ var primaryAuditFeedbackControllers=angular.module('primaryAuditFeedbackControll
  */
 primaryAuditFeedbackControllers.controller('primaryAuditFeedbackCtrl',['$scope','$stateParams','$state','loginSession','primaryAuditFeedbackFactory',
     function($scope,$stateParams,$state,loginSession,primaryAuditFeedbackFactory){
-	//var loginUser = loginSession.loginUser().userInfo;
+	var loginUser = loginSession.loginUser().userInfo;
+	$scope.result = "pass";
 	$scope.feedbackId = $stateParams.uuid;
 	$scope.proofImageUrlListIndex=[];
 
@@ -49,6 +50,40 @@ primaryAuditFeedbackControllers.controller('primaryAuditFeedbackCtrl',['$scope',
         //停止播放
        // $("#myCarousel").carousel('pause');
 
+	}
+	
+	$scope.submitAudit = function(){
+		var postEntity={
+			businessId:$scope.feedbackId,
+			businessType:"feedback",
+			auditor:loginUser.name,
+			auditorId:loginUser.uuid,
+			auditResult:$scope.result,
+			auditRemark:$scope.message
+		};
+		primaryAuditFeedbackFactory.saveAudit(postEntity,function(response){				
+			if(response.$resolved){
+				$state.go('primaryauditfeedbacklist');
+				Message.alert({
+					msg : "保存成功!",
+					title : "成功提示",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+				
+			}else{
+				Message.alert({
+					msg : "保存失败!",
+					title : "错误提示",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+			}
+	 	 },function(error){	
+				Message.alert({
+					msg : "保存失败!",
+					title : "错误提示",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+	 	 });
 	}
 	//$state.go('shoeList');
 }]);

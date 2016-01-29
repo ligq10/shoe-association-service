@@ -3,9 +3,9 @@ package com.ligq.shoe.constants;
 public enum FeedbackAuditStatus {
 
 	WAITING_AUDIT(0,"待审核"),
-	PASS_AUDIT(1,"初级审核通过"),
-	REFUSE_AUDIT(2,"初级审核不通过"),
-	PRIMARY_PASS_AUDIT(3,"终级审核通过"),
+	PRIMARY_PASS_AUDIT(1,"初级审核通过"),
+	PRIMARY_REFUSE_AUDIT(2,"初级审核不通过"),
+	MIDDLE_PASS_AUDIT(3,"终级审核通过"),
 	MIDDLE_REFUSE_AUDIT(4,"终级审核不通过");
 	
 	private Integer value;

@@ -77,5 +77,17 @@ public class DateUtils {
 		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormat.format(lDate);
 	}
+	
+	public static Date composeDate(String dateString) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd");
+		Date date;
+		try {
+			date = dateFormat.parse(dateString);
+		} catch (Exception e) {
+			date = null;
+		}
+		return date;
+	}
 }
 

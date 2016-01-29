@@ -30,11 +30,11 @@ personnelUpdateService.factory('personnelUpdateFactory',function($resource){
             	'Content-Type':'application/vnd.jiahua.commands.addUser.v1+json'
             }
         },
-        update:{
-            url:'/terminalusers/:uuid',
+        updateUser:{
+            url:'/employees/:uuid',
             method:'PATCH',
             headers:{
-                'Content-Type':'application/json'
+                Accept:'application/hal+json'
             }
         },
         delete:{
@@ -81,29 +81,7 @@ personnelUpdateService.factory('personnelUpdateFactory',function($resource){
     	   url:'/users/search',
            params:{loginname:'loginname'},
     	   method:'GET'
-       },
-       updateUser:{
-    	   url:'/users/command',
-    	   method:'POST',
-    	   headers:{
-    		   'Content-Type':'application/vnd.jiahua.commands.updateAdminUser.v1+json'
-    	   }
-       },
-       updateNormalUser:{
-           url:'/users/:userId/passwordupdate',
-           method:'POST',
-           headers:{
-               'Content-Type':'application/vnd.jiahua.commands.updateNormalUser.v1+json'
-           }
-       },
-       searchPermissionsByRoles:{
-       	url: '/roles/:roleId/permissions',
-       	method: 'GET',
-       	headers: {
-       		'Content-Type':'application/json'
-       	}
-       },
-
+       }
     });
     return personnelUpdateFactory;
 });

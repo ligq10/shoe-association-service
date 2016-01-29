@@ -121,34 +121,7 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		}
 		
 	};
-	
-	/**
-	 * 新增时清空数据
-	 */
-	$scope.resetPersonnelAddData=function(){
-		$scope.personnelAddFrom.loginName.$dirty=false;
-		$scope.personnelAddFrom.nickName.$dirty=false;
-		$scope.personnelAddFrom.password.$dirty=false;
-		$scope.confirmPasswordWrong=false;
-		$scope.personnelAddFrom.role.$dirty=false;
-		$scope.defoutPermissionsPrompt=false;
-		//$scope.personnelAddFrom.groupId.$dirty=false;
-		$scope.personnelAddFrom.tel.$dirty=false;
-		$scope.personnelAddFrom.email.$dirty=false;
-		$scope.personnelAddFrom.address.$dirty=false;
-		$scope.personnelAddFrom.remarks.$dirty=false;
 		
-		$scope.loginName=null;
-		$scope.password=null;
-		$scope.nickName=null;
-		$scope.email=null;
-		$scope.tel=null;
-		$scope.address=null;
-		$scope.remarks=null;
-		$scope.permissions=null;
-		$scope.selectRole=null;
-		
-	};	
 	
 	/**
 	 * 新增人员保存
@@ -157,7 +130,7 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		var user={};
 		user.loginName=$scope.loginName;
 		user.password=$scope.password;
-		user.name=$scope.nickName;
+		user.name=$scope.name;
 		user.email=$scope.email;
 		user.tel=$scope.tel;
 		user.homeAddress=$scope.homeAddress;
@@ -167,7 +140,7 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		user.birthday=$scope.birthday;
 		//角色
 		user.roleCodes=[];
-		user.roleCodes=selectUserRole;
+		user.roleCodes=selectUserRole;	
 		
 		personnelAddFactory.create(user,function(response){
             if(response.$resolved){

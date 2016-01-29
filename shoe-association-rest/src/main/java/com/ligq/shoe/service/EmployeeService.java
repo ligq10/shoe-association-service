@@ -241,7 +241,7 @@ public class EmployeeService {
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 		
-		if(StringUtils.isEmpty(employeeAddRequest.getPassword()) == false){
+		if(StringUtils.isEmpty(employeeAddRequest.getPassword()) == false || employeeAddRequest.getPassword().equalsIgnoreCase(employeeEntity.getPassword())== false){
 			UpdatePasswordRequest updatePassword = new UpdatePasswordRequest();
 			updatePassword.setLoginName(employeeAddRequest.getLoginName());
 			updatePassword.setOldPassword(employeeEntity.getPassword());
@@ -324,5 +324,44 @@ public class EmployeeService {
 			return false;
 		}
 		return isSuccessFlag;
+	}
+
+	public ResponseEntity<?> delete(String uuid,
+			HttpServletRequest request, HttpServletResponse response) {
+		Employee employee = employeeRepository.findOne(uuid);
+		if(null == employee){
+	        return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		boolean isSuccess = this.deleteOauthServerUser(uuid,request);
+        if(isSuccess){
+        	employeeRepository.delete(employee);
+        }
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+
+	private boolean deleteOauthServerUser(String uuid,
+			HttpServletRequest request) {
+	 	RestTemplate restTemplate = new RestTemplate();
+		String token = request.getHeader(SECURITY_TOKEN_HEADER);
+		
+	    MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.put("Content-Type", Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
+		headers.put(SECURITY_TOKEN_HEADER, Lists.newArrayList(token));
+		
+		String userAddress = env.getRequiredProperty("oauth2User.endpoint")+"/"+uuid;
+		try {
+			ResponseEntity responseEntity = restTemplate.exchange(userAddress, HttpMethod.DELETE, new HttpEntity<MultiValueMap>(headers), Object.class);
+
+			if(null != responseEntity || responseEntity.getStatusCode().equals(HttpStatus.OK)){
+				return true;
+			}
+
+		} catch (RestClientException | IllegalStateException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage(),e);
+			return false;
+		}
+
+		return false;
 	}
 }

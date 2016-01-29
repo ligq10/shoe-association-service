@@ -23,11 +23,11 @@ primaryAuditFeedbackService.factory('primaryAuditFeedbackFactory',function($reso
             	Accept:'application/hal+json'
             }
        },
-        create:{
-        	url:'/users/command',
+       saveAudit:{
+        	url:'/audits',
             method:'POST',
             headers:{
-            	'Content-Type':'application/vnd.jiahua.commands.addUser.v1+json'
+                Accept:'application/hal+json'
             }
         },
         update:{

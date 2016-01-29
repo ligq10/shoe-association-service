@@ -5,12 +5,13 @@ import java.io.UnsupportedEncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ligq.shoe.service.DataDictService;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class SendMsg extends SendMsgProperties{
 
 	private final static Logger logger = LoggerFactory.getLogger(DataDictService.class); 
-
 	
 	/**
 	 * 

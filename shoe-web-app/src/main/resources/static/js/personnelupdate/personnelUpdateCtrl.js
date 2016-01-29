@@ -88,6 +88,7 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
         	$scope.name=response.name;
         	$scope.gender = response.gender;
         	$scope.birthDay = response.birthDay;
+        	$scope.password = response.password;
         	if(response.roles != null && response.roles.length >0){
         		for(var i=0;i<response.roles.length;i++){
         			$scope.role = $scope.role +response.roles[i].name+",";
@@ -153,32 +154,6 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
     };
 	
 			
-	/**
-	 * 修改时清空数据
-	 */
-	$scope.resetPersonnelUpdateData=function(){
-		$scope.personnelAddFrom.name.$dirty=false;
-		$scope.personnelAddFrom.role.$dirty=false;
-		$scope.defoutPermissionsPrompt=false;
-		$scope.personnelAddFrom.groupId.$dirty=false;
-		$scope.personnelAddFrom.tel.$dirty=false;
-		$scope.personnelAddFrom.email.$dirty=false;
-		$scope.personnelAddFrom.homeAddress.$dirty=false;
-		$scope.personnelAddFrom.remarks.$dirty=false;
-		
-		$scope.name=null;
-		$scope.email=null;
-		$scope.tel=null;
-		$scope.homeAddress=null;
-		$scope.remarks=null;
-		$scope.selectRole=null;
-		$scope.group_divide_radio_name=null;
-		$("input[name!='loginName']").each(function() {
-			$(this).val("");
-		});
-		$("textarea").val("");
-		
-	};
 	//验证邮箱
 	$scope.mailInVaild=false;
 	$scope.mailVaild=false;
@@ -204,7 +179,7 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
 	 */
 	$scope.personnelUpdate=function(){
 		var user={};
-		user.userId=$scope.userId;
+		user.loginName = $scope.loginName;
 		user.name=$scope.name;
 		user.email=$scope.email;
 		user.tel=$scope.tel;
@@ -214,12 +189,12 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
 		user.gender = $scope.gender;
 		user.birthDay = $scope.birthDay;
 		user.remarks=$scope.remarks;
-		
+		user.password = $scope.password;
 		//角色
 		user.roleCodes=[];
-		user.roleCodes=$scope.selectRole;
+		user.roleCodes=selectUserRole;
 		
-		personnelUpdateFactory.updateUser(user,function(response){
+		personnelUpdateFactory.updateUser({uuid:$scope.uuid},user,function(response){
 			if(response.$resolved){
 				//保存成功清空
                 $("input").each(function() {

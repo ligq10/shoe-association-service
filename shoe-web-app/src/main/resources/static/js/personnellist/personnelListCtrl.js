@@ -9,18 +9,21 @@ var personnelListControllers=angular.module('personnelListControllers',['personn
  */
 personnelListControllers.controller('personnelListCtrl',['$scope','loginSession','personnelListFactory',
     function($scope,loginSession,personnelListFactory){
-	//var loginUser = loginSession.loginUser().userInfo;
+	   var loginUser = loginSession.loginUser().userInfo;
        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
        $scope.pageSize=PAGESIZE_DEFAULT;
+       $scope.personnels = [];
    	   var search_keyword="";
 
        //分页
        var refreshPersonnelList=function(){
-
+    	    $scope.personnels = [];
 	    	personnelListFactory.queryList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize,sort:'createTime,desc'},function(personnelAll){
     		   if(personnelAll._embedded==undefined && $scope.currentPage>0){
-    			   --($scope.currentPage);
-    			   refreshPersonnelList();
+    			   $scope.personnels = [];
+    		       $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
+    		       $scope.pageSize=PAGESIZE_DEFAULT;
+    		       search_keyword="";
     		   }else{
     			   makeEntry(personnelAll);
 				   $scope.numPages = function () {
@@ -57,14 +60,46 @@ personnelListControllers.controller('personnelListCtrl',['$scope','loginSession'
 	 		    	btnok: '确定',
 	 		    	btncl:'取消'
 	            	},"error","small");
+    		   return false;
+    	   }else if(loginUser.loginName == loginName){
+    		   Message.alert({
+	   		    	msg: "不能删除系统超级管理员！",
+	 		    	title:"失败提示",
+	 		    	btnok: '确定',
+	 		    	btncl:'取消'
+	            	},"error","small");
+    		   return false;
     	   }else{
-    		   $('#personnel-del-modal').modal('show');
-    		   $scope.personnelName=loginName;
-    		   $scope.deleteOk=function(){
-    			   personnelListFactory.delete({uuid:userId},function(response){
-    				   refreshPersonnelList();
-    			   });
-    		   }
+    		   Message.confirm(
+		   		  {
+		   		    msg: "确定要删除该人员？",
+		   		    title:"提示",
+		   		  })
+		   		 .on( function (e) {
+		   		    if(e){	    		   
+	    			   personnelListFactory.deleteUser({uuid:userId},function(response){
+	    		    	   if(response.$resolved){
+	    		    		   
+	    		    		   Message.alert({
+	    			   		    	msg: "删除成功！",
+	    			 		    	title:"成功提示",
+	    			 		    	btnok: '确定',
+	    			 		    	btncl:'取消'
+	    			            	},"success","small");
+	    		    		   refreshPersonnelList(); 
+	    		    	   }else{
+	    		    		   Message.alert({
+	    			   		    	msg: "删除失败！",
+	    			 		    	title:"错误提示",
+	    			 		    	btnok: '确定',
+	    			 		    	btncl:'取消'
+	    			            	},"error","small");
+	    		    	   }
+	    				   
+	    			   });		    		   
+		   		    }
+		   	   }); 
+
     	   }
        };
        
@@ -76,35 +111,18 @@ personnelListControllers.controller('personnelListCtrl',['$scope','loginSession'
            }else{
                $scope.pagingHidden=false;
                $scope.personnels = response._embedded.employeeResponses;
+               for(var i=0;i<$scope.personnels.length;i++){
+            	   var roles = $scope.personnels[i].roles;
+            	   
+            	   var roleName = "";
+            	   for(var j=0;j<roles.length;j++){
+            		   roleName = roleName + roles[j].name+",";
+            	   }
+            	   $scope.personnels[i].roleName = roleName.substring(0,roleName.length - 1);
+               }
            }
        };   
 }]);
 
-
-/**
- * 重置密码dialog
- */
-personnelListControllers.directive("resetpassword", function (){
-    var option={
-        restrict:"AEC",
-        transclude:true,
-        replace:true,
-        templateUrl:"templates/commonTemplate/resetPassword.html"
-    };
-    return option;
-});
-
-/**
- * 删除人员dialog
- */
-personnelListControllers.directive("deletepersonneldialog", function (){
-    var option={
-        restrict:"AEC",
-        transclude:true,
-        replace:true,
-        templateUrl:"templates/commonTemplate/delete-personnel-dialog.html"
-    };
-    return option;
-});
 
 

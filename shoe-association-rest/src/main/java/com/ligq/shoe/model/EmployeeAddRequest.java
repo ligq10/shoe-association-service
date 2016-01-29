@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ligq.shoe.utils.DateUtils;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class EmployeeAddRequest {
@@ -102,8 +103,8 @@ public class EmployeeAddRequest {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthday(String birthday) {
+		this.birthday = DateUtils.composeDate(birthday);
 	}
 
 	public String getLoginName() {
