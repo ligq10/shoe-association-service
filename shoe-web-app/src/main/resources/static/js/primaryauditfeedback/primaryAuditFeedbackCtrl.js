@@ -12,23 +12,43 @@ primaryAuditFeedbackControllers.controller('primaryAuditFeedbackCtrl',['$scope',
 	//var loginUser = loginSession.loginUser().userInfo;
 	$scope.feedbackId = $stateParams.uuid;
 	$scope.proofImageUrlListIndex=[];
-	$scope.proofImageUrls =[
-	                        "http://img02.tooopen.com/images/20160125/tooopen_sy_155386511951.jpg",
-	                        "http://img02.tooopen.com/images/20151231/tooopen_sy_153270994272.jpg",
-	                        "http://img05.tooopen.com/images/20151102/tooopen_sy_147374363674.jpg"	                        
-	                        ];
+
+	// 轮播图数据初始化
+	$scope.slides =[];
+    $scope.slides =[
+                    "http://img02.tooopen.com/images/20160125/tooopen_sy_155386511951.jpg",
+                    "http://img02.tooopen.com/images/20151231/tooopen_sy_153270994272.jpg"
+                             
+                    ];
 	primaryAuditFeedbackFactory.getFeedbackDetailById({uuid:$scope.feedbackId},function(response){    	
     	if(response.$resolved){
     		$scope.feedback = response;
     		
     		if(response.proofImageUrls != null && response.proofImageUrls.length >0){
-    			$scope.proofImageUrlListIndex=[];
-    			for(var i=0;i<response.proofImageUrls.length;i++){
-    				$scope.proofImageUrlListIndex.push(i);
-    			}
+    			//$scope.slides = response.proofImageUrls;
     		}
     	}
 	});
-	
+	/**
+	 * 轮播图看上一页
+	 */
+	$scope.prev = function(){
+		//$("#myCarousel").carousel('prev');
+		angular.element("#myCarousel").carousel('prev');
+	}
+	/**
+	 * 轮播图看下一页
+	 */
+	$scope.next = function(){
+        //$("#myCarousel").carousel('next');
+		angular.element("#myCarousel").carousel('next');
+
+        //播放指定图片
+        //$("#myCarousel").carousel(0);
+        //$("#myCarousel").carousel(1);
+        //停止播放
+       // $("#myCarousel").carousel('pause');
+
+	}
 	//$state.go('shoeList');
 }]);
