@@ -20,10 +20,12 @@ auditShoeCompanyListControllers.controller('auditShoeCompanyListCtrl',['$scope',
     	   
     	    $scope.shoecompanyList = [];
 
-	    	auditShoeCompanyListFactory.queryAuditList({keyword:search_keyword,page:$scope.currentPage,size:$scope.pageSize},function(response){
-    		   if(response._embedded==undefined && $scope.currentPage>0){
-    			   --($scope.currentPage);
-    			   
+	    	auditShoeCompanyListFactory.queryAuditList({keyword:search_keyword,auditStatus:0,page:$scope.currentPage,size:$scope.pageSize},function(response){
+    		   if(response._embedded==undefined && $scope.currentPage>0){   			  
+    		       $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
+    		       $scope.pageSize=PAGESIZE_DEFAULT;
+    		       $scope.shoecompanyList = [];
+    		   	   search_keyword="";
     		   }else{
     			   $scope.shoecompanyList = response._embedded.shoeCompanyResponses;
 				   $scope.numPages = function () {

@@ -2,13 +2,13 @@
  * Created by liguangqiang@changhongit.com 2015-05-15.
  */
 'use strict';
-var primaryAuditFeedbackControllers=angular.module('primaryAuditFeedbackControllers',['primaryAuditFeedbackServices']);
+var middleAuditFeedbackControllers=angular.module('middleAuditFeedbackControllers',['middleAuditFeedbackServices']);
 
 /**
  * 人员列表
  */
-primaryAuditFeedbackControllers.controller('primaryAuditFeedbackCtrl',['$scope','$stateParams','$state','loginSession','primaryAuditFeedbackFactory',
-    function($scope,$stateParams,$state,loginSession,primaryAuditFeedbackFactory){
+middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$stateParams','$state','loginSession','middleAuditFeedbackFactory',
+    function($scope,$stateParams,$state,loginSession,middleAuditFeedbackFactory){
 	var loginUser = loginSession.loginUser().userInfo;
 	$scope.result = "pass";
 	$scope.feedbackId = $stateParams.uuid;
@@ -44,7 +44,7 @@ primaryAuditFeedbackControllers.controller('primaryAuditFeedbackCtrl',['$scope',
                     "http://img02.tooopen.com/images/20151231/tooopen_sy_153270994272.jpg"
                              
                     ];*/
-	primaryAuditFeedbackFactory.getFeedbackDetailById({uuid:$scope.feedbackId},function(response){    	
+	middleAuditFeedbackFactory.getFeedbackDetailById({uuid:$scope.feedbackId},function(response){    	
     	if(response.$resolved){
     		$scope.feedback = response;
     		
@@ -99,9 +99,9 @@ primaryAuditFeedbackControllers.controller('primaryAuditFeedbackCtrl',['$scope',
 			scoreItem:$scope.scoreItem,
 			score:$scope.auditscore
 		};
-		primaryAuditFeedbackFactory.saveAudit(postEntity,function(response){				
+		middleAuditFeedbackFactory.saveAudit(postEntity,function(response){				
 			if(response.$resolved){
-				$state.go('primaryauditfeedbacklist');
+				$state.go('middleauditfeedbacklist');
 				Message.alert({
 					msg : "保存成功!",
 					title : "成功提示",

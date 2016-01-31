@@ -138,9 +138,9 @@ public class ShoeCompanyService {
 		return shoeCompany;
 	}
 
-	public Page<ShoeCompany> findAllShoeCompany(Pageable pageable) {
+	public Page<ShoeCompany> findAllShoeCompany(Integer auditStatus,Pageable pageable) {
 		// TODO Auto-generated method stub
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findAll(pageable);
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByAuditStatus(auditStatus,pageable);
 		return shoeCompanyPage;
 	}
 
@@ -150,20 +150,20 @@ public class ShoeCompanyService {
 		return shoeCompanyPage;
 	}
 	
-	public Page<ShoeCompany> findAllShoeCompanyByName(String name,
+	public Page<ShoeCompany> findAllShoeCompanyByName(String name,Integer auditStatus,
 			Pageable pageable) {
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByName(name, pageable);
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByNameAndAuditStatus(name,auditStatus, pageable);
 		return shoeCompanyPage;
 	}
 
 	public Page<ShoeCompany> findAllShoeCompanybyPhoneticize(
-			String phoneticize, Pageable pageable) {
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByNamePhoneticize(phoneticize, pageable);
+			String phoneticize,Integer auditStatus, Pageable pageable) {
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByNamePhoneticizeAndAuditStatus(phoneticize,auditStatus, pageable);
 		return shoeCompanyPage;
 	}
 	
-	public Page<ShoeCompany> findAllShoeCompanyByCreditLevel(Integer level, Pageable pageable) {
-		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByCreditLevel(level, pageable);
+	public Page<ShoeCompany> findAllShoeCompanyByCreditLevel(Integer level,Integer auditStatus, Pageable pageable) {
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByCreditLevelAndAuditStatus(level,auditStatus, pageable);
 		return shoeCompanyPage;
 	}
 	

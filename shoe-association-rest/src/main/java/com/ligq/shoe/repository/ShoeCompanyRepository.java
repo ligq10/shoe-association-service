@@ -17,18 +17,21 @@ public interface ShoeCompanyRepository extends
 	PagingAndSortingRepository<ShoeCompany, String>{
 
 	@RestResource(exported = false)
-	@Query(value = "select t from ShoeCompany t where t.name like %:name%")
-	public Page<ShoeCompany> findByName(@Param("name") String name,Pageable pageable);
+	@Query(value = "select t from ShoeCompany t where t.name like %:name% and t.auditStatus = :auditstatus")
+	public Page<ShoeCompany> findByNameAndAuditStatus(@Param("name") String name,@Param("auditstatus") Integer auditstatus,Pageable pageable);
 	
 	@RestResource(exported = false)
-	@Query(value = "select t from ShoeCompany t where t.namePhoneticize like %:namePhoneticize%")
-	public Page<ShoeCompany> findByNamePhoneticize(@Param("namePhoneticize") String namePhoneticize,Pageable pageable);
+	@Query(value = "select t from ShoeCompany t where t.namePhoneticize like %:namePhoneticize% and t.auditStatus = :auditstatus")
+	public Page<ShoeCompany> findByNamePhoneticizeAndAuditStatus(@Param("namePhoneticize") String namePhoneticize,@Param("auditstatus") Integer auditstatus,Pageable pageable);
 	
-	public Page<ShoeCompany> findByCreditLevel(Integer creditLevel,Pageable pageable);
+	public Page<ShoeCompany> findByCreditLevelAndAuditStatus(Integer creditLevel,Integer auditstatus,Pageable pageable);
 	
 	@RestResource(exported = false)
 	@Query(value = "select t from ShoeCompany t where  (t.name like %:keyword% or t.submitPerson like %:keyword%) and t.auditStatus = :auditstatus")
 	public Page<ShoeCompany> findByKeywordAndAuditStatus(@Param("keyword") String keyword,@Param("auditstatus") Integer auditstatus,Pageable pageable);
+
+	public Page<ShoeCompany> findByAuditStatus(Integer auditStatus,
+			Pageable pageable);
 
 
 }

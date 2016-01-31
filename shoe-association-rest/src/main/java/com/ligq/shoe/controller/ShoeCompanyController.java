@@ -125,6 +125,8 @@ public class ShoeCompanyController {
 			
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "20") int size,
+			@RequestParam(value = "auditStatus", required = false, defaultValue = "0") Integer auditStatus,
+
 			 HttpServletRequest request,
 			 HttpServletResponse response){
 		String name = request.getParameter("name");
@@ -146,24 +148,30 @@ public class ShoeCompanyController {
 
 		}
 		
+		if(StringUtils.isEmpty(auditStatus) == false){
+			pathParams.append("&auditStatus"+auditStatus);
+		}
+		
 		if(StringUtils.isEmpty(name) == false){
 			pageable = new PageRequest(page, size);
-			shoeCompanyPage = shoeCompanyService.findAllShoeCompanyByName(name,pageable);
+			shoeCompanyPage = shoeCompanyService.findAllShoeCompanyByName(name,auditStatus,pageable);
 			pathParams.append("&name="+name);
 		}else if(StringUtils.isEmpty(phoneticize) == false){
 			pageable = new PageRequest(page, size);
-			shoeCompanyPage = shoeCompanyService.findAllShoeCompanybyPhoneticize(phoneticize,pageable);
+			shoeCompanyPage = shoeCompanyService.findAllShoeCompanybyPhoneticize(phoneticize,auditStatus,pageable);
 			pathParams.append("&phoneticize="+phoneticize);
 		
 		}else if(StringUtils.isEmpty(level) ==false){
 			pageable = new PageRequest(page, size,sort);
-			shoeCompanyPage = shoeCompanyService.findAllShoeCompanyByCreditLevel(Integer.valueOf(level),pageable);
+			shoeCompanyPage = shoeCompanyService.findAllShoeCompanyByCreditLevel(Integer.valueOf(level),auditStatus,pageable);
 			pathParams.append("&level="+level);
 
 		}else{
 			pageable = new PageRequest(page, size,sort);
-			shoeCompanyPage = shoeCompanyService.findAllShoeCompany(pageable);
+			shoeCompanyPage = shoeCompanyService.findAllShoeCompany(auditStatus,pageable);
 		}
+
+		
 		ResponseEntity responseEntity = null;
 		try {
 			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage(pathParams.toString(),shoeCompanyPage, pageable, request, response);
@@ -189,7 +197,7 @@ public class ShoeCompanyController {
 		if(StringUtils.isEmpty(keyword) == false){
 			queryParams.append("&keyword"+keyword);
 		}
-		if(StringUtils.isEmpty(keyword) == false){
+		if(StringUtils.isEmpty(auditStatus) == false){
 			queryParams.append("&auditStatus"+auditStatus);
 		}
 		shoeCompanyPage = shoeCompanyService.findAllShoeCompanyAudit(keyword,auditStatus,pageable);

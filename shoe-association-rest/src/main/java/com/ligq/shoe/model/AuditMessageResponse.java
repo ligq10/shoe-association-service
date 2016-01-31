@@ -24,6 +24,16 @@ public class AuditMessageResponse extends ResourceSupport{
 	private String auditResult;
 
 	private String auditRemark;
+
+	private String scoreType;
+
+	private String scoreItem;
+
+	private Integer score;
+	
+	private Integer auditStatusValue;
+
+	private String auditStatusDesc;
 	
 	private String createTime;
 
@@ -114,5 +124,60 @@ public class AuditMessageResponse extends ResourceSupport{
 	public void setCreateTime(Date createTime) {
 		this.createTime = DateUtils.composeUTCTime(createTime);
 	}
-		
+
+	public String getScoreType() {
+		if(StringUtils.isEmpty(scoreType)){
+			scoreType = "";
+		}
+		return scoreType;
+	}
+
+	public void setScoreType(String scoreType) {
+		this.scoreType = scoreType;
+	}
+
+	public String getScoreItem() {
+		if(StringUtils.isEmpty(scoreItem)){
+			scoreItem = "";
+		}
+		return scoreItem;
+	}
+
+	public void setScoreItem(String scoreItem) {
+		this.scoreItem = scoreItem;
+	}
+
+	public Integer getScore() {
+		if(StringUtils.isEmpty(score)){
+			score = 0;
+		}
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public Integer getAuditStatusValue() {
+		if(StringUtils.isEmpty(auditStatusValue)){
+			auditStatusValue = 0;
+		}
+		return auditStatusValue;
+	}
+
+	public void setAuditStatusValue(Integer auditStatusValue) {
+		this.auditStatusValue = auditStatusValue;
+	}
+
+	public String getAuditStatusDesc() {
+		if(StringUtils.isEmpty(auditStatusDesc)){
+			auditStatusDesc = "";
+		}
+		return auditStatusDesc;
+	}
+
+	public void setAuditStatusDesc(String auditStatusDesc) {
+		this.auditStatusDesc = auditStatusDesc;
+	}
+	
 }

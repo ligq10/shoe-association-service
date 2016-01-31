@@ -21,6 +21,13 @@ public class AuditMessageAddRequest {
 	private String auditResult;
 
 	private String auditRemark;
+	
+	private String scoreType;
+
+	private String scoreItem;
+
+	private Integer score;
+
 
 	public String getBusinessId() {
 		return businessId;
@@ -69,5 +76,29 @@ public class AuditMessageAddRequest {
 	public void setAuditRemark(String auditRemark) {
 		this.auditRemark = auditRemark;
 	}
-		
+
+	public String getScoreType() {
+		return scoreType;
+	}
+
+	public void setScoreType(String scoreType) {
+		this.scoreType = scoreType;
+	}
+
+	public String getScoreItem() {
+		return scoreItem;
+	}
+
+	public void setScoreItem(String scoreItem) {
+		this.scoreItem = scoreItem;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+			
 }

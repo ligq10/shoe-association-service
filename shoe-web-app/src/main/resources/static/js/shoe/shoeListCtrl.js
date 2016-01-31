@@ -72,13 +72,23 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 	
 
 	/**
-	 * 刷新订单列表
+	 * 刷新企业列表
 	 */
 	var refreshShoesList = function(queryEntity){
-		
+		var queryEntity = queryEntity;
 		$scope.companyList = [];		
 		$scope.companyRowList = [];
-		
+		if(queryEntity == null || queryEntity == undefined){
+		    $scope.pageSize=PAGESIZE_DEFAULT;
+			$scope.currentPage=CURRENTPAGE_INIT;
+			queryEntity = {
+
+					page:$scope.currentPage,
+					size:$scope.pageSize,
+					auditStatus:1
+			};
+			
+		}
 		shoeListFactory.queryShoesByMultipleConditions(queryEntity,function(response){
 			
 			if(response.$resolved){
@@ -223,14 +233,3 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 		refreshShoesList(queryEntity);
     }
 }]);
-
-shoeListControllers.directive("deletegroupdialog",
-    function (){
-        var option={
-            restrict:"AEC",
-            transclude:true,
-            replace:true,
-            templateUrl:"templates/commonTemplate/delete-group-dialog.html"
-        };
-        return option;
-    });

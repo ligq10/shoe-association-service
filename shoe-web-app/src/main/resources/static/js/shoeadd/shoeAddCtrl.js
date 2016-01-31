@@ -231,14 +231,3 @@ shoeAddControllers.controller('shoeAddCtrl',['$scope','$timeout','$state','$uplo
 	}
 		
 }]);
-
-shoeListControllers.directive("deletegroupdialog",
-    function (){
-        var option={
-            restrict:"AEC",
-            transclude:true,
-            replace:true,
-            templateUrl:"templates/commonTemplate/delete-group-dialog.html"
-        };
-        return option;
-    });

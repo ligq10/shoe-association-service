@@ -3,7 +3,7 @@
  */
 'use strict';
 var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers','primaryAuditFeedbackListControllers',
-                  'primaryAuditFeedbackControllers','middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers']);
+                  'primaryAuditFeedbackControllers','middleAuditFeedbackControllers',,'middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers']);
 adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$rootScopeProvider){
     $httpProvider.defaults.headers.common['X-Token'] = $.cookie('X-Token');
 
@@ -75,6 +75,13 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             templateUrl:'templates/feedbackaudit/middle_audit_feedback_list.html',
             controller:'middleAuditFeedbackListCtrl',
             permission:'MIDDLE_FEEDBACK_AUDIT_LIST',
+            father:'FEEDBACK_AUDIT_MANAGER'             
+        })
+        .state('middleauditfeedback',{
+            url:"/middleauditfeedback/:uuid",
+            templateUrl:'templates/feedbackaudit/middle_audit_feedback.html',
+            controller:'middleAuditFeedbackCtrl',
+            permission:'MIDDLE_FEEDBACK_AUDIT',
             father:'FEEDBACK_AUDIT_MANAGER'             
         });
 });

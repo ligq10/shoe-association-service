@@ -34,6 +34,21 @@ public class AuditMessage {
 	@Column(name="audit_remark")
 	private String auditRemark;
 	
+	@Column(name="score_type")
+	private String scoreType;
+	
+	@Column(name="score_item")
+	private String scoreItem;
+	
+	@Column(name="score")
+	private Integer score;
+
+	@Column(name="audit_status_value")
+	private Integer auditStatusValue;
+	
+	@Column(name="audit_status_desc")
+	private String auditStatusDesc;
+	
 	@Column(name="create_time")
 	private Date createTime;
 
@@ -91,6 +106,46 @@ public class AuditMessage {
 
 	public void setAuditRemark(String auditRemark) {
 		this.auditRemark = auditRemark;
+	}
+	
+	public String getScoreType() {
+		return scoreType;
+	}
+
+	public void setScoreType(String scoreType) {
+		this.scoreType = scoreType;
+	}
+
+	public String getScoreItem() {
+		return scoreItem;
+	}
+
+	public void setScoreItem(String scoreItem) {
+		this.scoreItem = scoreItem;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public Integer getAuditStatusValue() {
+		return auditStatusValue;
+	}
+
+	public void setAuditStatusValue(Integer auditStatusValue) {
+		this.auditStatusValue = auditStatusValue;
+	}
+
+	public String getAuditStatusDesc() {
+		return auditStatusDesc;
+	}
+
+	public void setAuditStatusDesc(String auditStatusDesc) {
+		this.auditStatusDesc = auditStatusDesc;
 	}
 
 	public Date getCreateTime() {

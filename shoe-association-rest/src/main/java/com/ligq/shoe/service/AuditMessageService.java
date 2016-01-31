@@ -88,9 +88,17 @@ public class AuditMessageService {
 				if(auditMessage.getAuditResult().equalsIgnoreCase(AuditResult.PASS.getValue())){
 					feedbackScore.setApproveStatus(FeedbackAuditStatus.PRIMARY_PASS_AUDIT.getValue());
 					feedbackScoreRepository.save(feedbackScore);
+					auditMessage.setAuditStatusValue(FeedbackAuditStatus.PRIMARY_PASS_AUDIT.getValue());
+					auditMessage.setAuditStatusDesc(FeedbackAuditStatus.PRIMARY_PASS_AUDIT.getDesc());
+					auditMessageRepository.save(auditMessage);
+
 				}else{
 					feedbackScore.setApproveStatus(FeedbackAuditStatus.PRIMARY_REFUSE_AUDIT.getValue());
 					feedbackScoreRepository.save(feedbackScore);
+					auditMessage.setAuditStatusValue(FeedbackAuditStatus.PRIMARY_REFUSE_AUDIT.getValue());
+					auditMessage.setAuditStatusDesc(FeedbackAuditStatus.PRIMARY_REFUSE_AUDIT.getDesc());
+					auditMessageRepository.save(auditMessage);
+
 				}
 			}else if(feedbackScore.getApproveStatus() == FeedbackAuditStatus.PRIMARY_PASS_AUDIT.getValue()){
 				if(auditMessage.getAuditResult().equalsIgnoreCase(AuditResult.PASS.getValue())){
@@ -107,9 +115,17 @@ public class AuditMessageService {
 					}*/
 
 					feedbackScoreRepository.save(feedbackScore);
+					auditMessage.setAuditStatusValue(FeedbackAuditStatus.MIDDLE_PASS_AUDIT.getValue());
+					auditMessage.setAuditStatusDesc(FeedbackAuditStatus.MIDDLE_PASS_AUDIT.getDesc());
+					auditMessageRepository.save(auditMessage);
+
 				}else{
 					feedbackScore.setApproveStatus(FeedbackAuditStatus.MIDDLE_REFUSE_AUDIT.getValue());
 					feedbackScoreRepository.save(feedbackScore);
+					auditMessage.setAuditStatusValue(FeedbackAuditStatus.MIDDLE_REFUSE_AUDIT.getValue());
+					auditMessage.setAuditStatusDesc(FeedbackAuditStatus.MIDDLE_REFUSE_AUDIT.getDesc());
+					auditMessageRepository.save(auditMessage);
+
 				}				
 			}
 		}
@@ -122,6 +138,9 @@ public class AuditMessageService {
 				if(auditMessage.getAuditResult().equalsIgnoreCase(AuditResult.PASS.getValue())){
 					shoeCompany.setAuditStatus(ShoeCompanyAuditStatus.PASS_AUDIT.getValue());
 					shoeCompanyRepository.save(shoeCompany);
+					auditMessage.setAuditStatusValue(ShoeCompanyAuditStatus.PASS_AUDIT.getValue());
+					auditMessage.setAuditStatusDesc(ShoeCompanyAuditStatus.PASS_AUDIT.getDesc());
+					auditMessageRepository.save(auditMessage);
 					SendMsg sendMsg =new SendMsg();
 					sendMsg.setMobile(shoeCompany.getTel());
 					sendMsg.setContent("中国鞋材网提醒你:尊敬的"+shoeCompany.getSubmitPerson()+",你所添加的"+shoeCompany.getName()+",已经通过审核。");
@@ -132,7 +151,11 @@ public class AuditMessageService {
 					}
 				}else{
 					shoeCompany.setAuditStatus(ShoeCompanyAuditStatus.REFUSE_AUDIT.getValue());
-					shoeCompanyRepository.save(shoeCompany);					
+					shoeCompanyRepository.save(shoeCompany);
+					auditMessage.setAuditStatusValue(ShoeCompanyAuditStatus.REFUSE_AUDIT.getValue());
+					auditMessage.setAuditStatusDesc(ShoeCompanyAuditStatus.REFUSE_AUDIT.getDesc());
+					auditMessageRepository.save(auditMessage);
+
 					SendMsg sendMsg =new SendMsg();
 					sendMsg.setMobile(shoeCompany.getTel());
 					sendMsg.setContent("中国鞋材网提醒你:尊敬的"+shoeCompany.getSubmitPerson()+",你所添加的"+shoeCompany.getName()+",审核未通过,原因是:"+auditMessage.getAuditRemark());
