@@ -14,6 +14,11 @@ middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$
 	$scope.feedbackId = $stateParams.uuid;
 	$scope.proofImageUrlListIndex=[];
 	$scope.auditscore = 0;//审核评分
+	$scope.primaryAudit = {
+			scoreItem : "",
+			scoreType : "",
+			score:""			
+	};
     $scope.scoreTypeList = [
                             {
                             	scoreValue:'plus',
@@ -53,6 +58,23 @@ middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$
     		}
     	}
 	});
+
+	middleAuditFeedbackFactory.getAuditMessagesByFeedbackId({uuid:$scope.feedbackId},function(response){    	
+    	if(response.$resolved && response._embedded != undefined){
+    		for(var i=0 ; i< response._embedded.auditMessageResponses.length;i++){
+    			if(response._embedded.auditMessageResponses[i].auditStatusValue  == 1){
+    				$scope.primaryAudit = response._embedded.auditMessageResponses[i];
+    				$scope.result = response._embedded.auditMessageResponses[i].auditResult;
+    				$scope.scoreItem = response._embedded.auditMessageResponses[i].scoreItem;
+    				$scope.scoreType = response._embedded.auditMessageResponses[i].scoreType;
+    				$scope.auditscore = response._embedded.auditMessageResponses[i].score;
+    				$scope.message = response._embedded.auditMessageResponses[i].auditRemark;
+    			}
+    		}
+    	}
+	});
+
+	
 	/**
 	 * 轮播图看上一页
 	 */

@@ -39,16 +39,6 @@
 					      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 					      <span class="sr-only">Next</span>
 					   </a>					      
-					   <!-- 控制按钮 -->
-<!-- 					   <div style="text-align:center;">
-					      <input type="button" class="btn start-slide" value="Start">
-					      <input type="button" class="btn pause-slide" value="Pause">
-					      <input type="button" class="btn prev-slide" value="Previous Slide">
-					      <input type="button" class="btn next-slide" value="Next Slide">
-					      <input type="button" class="btn slide-one" value="Slide 1">
-					      <input type="button" class="btn slide-two" value="Slide 2">            
-					      <input type="button" class="btn slide-three" value="Slide 3">
-					   </div> -->
 					</div> 				    
 				  </div>
 				  <div class="form-group">
@@ -80,7 +70,37 @@
 				    <div class="col-sm-8">
 				      <p class="form-control-static">{{feedback.createTime}}</p>
 				    </div>
-				  </div>				  
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">初审结果</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{primaryAudit.auditResult}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">初审意见</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{primaryAudit.auditRemark}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">初审评分项目</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{primaryAudit.scoreItem}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">初审评分类型</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{primaryAudit.scoreType}}</p>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">初审评分分数</label>
+				    <div class="col-sm-8">
+				      <p class="form-control-static">{{primaryAudit.score}}</p>
+				    </div>
+				  </div>				  				  				  				  				  
 				  <div class="form-group">
 				    <label class="col-sm-1 control-label">审核</label>
 				    <div class="col-sm-8">
@@ -131,7 +151,7 @@
 			      <div class="form-group content-center">
 				        	<span class="btn_group">
 				            	<button type="submit" ng-disabled="!auditFrom.$valid " class="btn btn-primary">保存</button>
-						    	<button type="button" ui-sref="primaryauditfeedbacklist" class="btn btn-default">返回</button>
+						    	<button type="button" ui-sref="middleauditfeedbacklist" class="btn btn-default">返回</button>
 							</span>
 				  </div>				  				  				  				  
 				</form>

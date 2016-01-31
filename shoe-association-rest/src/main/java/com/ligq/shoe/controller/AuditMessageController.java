@@ -1,6 +1,8 @@
 package com.ligq.shoe.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,13 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ligq.shoe.entity.AuditMessage;
 import com.ligq.shoe.model.AuditMessageAddRequest;
 import com.ligq.shoe.model.AuditMessageResponse;
 import com.ligq.shoe.service.AuditMessageService;
@@ -74,4 +76,25 @@ public class AuditMessageController {
 		
 	}
 
+	@RequestMapping(value="buisness/{uuid}/audits",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findAllAuditByBusinessId(
+			 @PathVariable String uuid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+
+		ResponseEntity responseEntity = null;
+		List<AuditMessage> auditMessageList = auditMessageService.findAllAuditByBusinessId(uuid);
+		if(null == auditMessageList){
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+		}
+		try {
+			responseEntity = auditMessageService.getResponseEntityConvertAuditMessagePage("",auditMessageList, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;	
+	}
 }
