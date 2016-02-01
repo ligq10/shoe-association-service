@@ -118,24 +118,24 @@ public class AuditMessageService {
 					Integer score = 0;
 					if(null != shoeCompany){
 						if(auditMessage.getScoreItem().equalsIgnoreCase(ScoreItems.SERVE_SCORE.getValue())){
-							if(feedbackScore.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
-								score = shoeCompany.getServeScore() + feedbackScore.getScore();
+							if(auditMessage.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
+								score = shoeCompany.getServeScore() + auditMessage.getScore();
 							}else{
-								score = shoeCompany.getServeScore() - feedbackScore.getScore();						
+								score = shoeCompany.getServeScore() - auditMessage.getScore();						
 							}
 							shoeCompany.setServeScore(score);
 						}else if(auditMessage.getScoreItem().equalsIgnoreCase(ScoreItems.CREDIT_SCORE.getValue())){
-							if(feedbackScore.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
-								score = shoeCompany.getCreditScore() + feedbackScore.getScore();
+							if(auditMessage.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
+								score = shoeCompany.getCreditScore() + auditMessage.getScore();
 							}else{
-								score = shoeCompany.getCreditScore() - feedbackScore.getScore();						
+								score = shoeCompany.getCreditScore() - auditMessage.getScore();						
 							}
 							shoeCompany.setCreditScore(score);
 						}else if(auditMessage.getScoreItem().equalsIgnoreCase(ScoreItems.QUALITY_SCORE.getValue())){
-							if(feedbackScore.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
-								score = shoeCompany.getQualityScore() + feedbackScore.getScore();
+							if(auditMessage.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
+								score = shoeCompany.getQualityScore() + auditMessage.getScore();
 							}else{
-								score = shoeCompany.getQualityScore() - feedbackScore.getScore();						
+								score = shoeCompany.getQualityScore() - auditMessage.getScore();						
 							}
 							shoeCompany.setQualityScore(score);
 						}

@@ -105,11 +105,12 @@ public class FeedbackController {
 	@Transactional
 	public HttpEntity<?> findFeedbackByShoeCompany(
 			@PathVariable String uuid,
+			@RequestParam(value = "auditStatus", required = false, defaultValue = "0") int auditStatus,
             @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
 			HttpServletRequest request,
 			HttpServletResponse response){
 		ResponseEntity responseEntity = null;
-		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByCompanyId(uuid,pageable);
+		Page<FeedbackScore> feedbackScorePage = feedbackService.findFeedbackByCompanyIdAndApproveStatus(uuid,auditStatus,pageable);
 		
 		try {
 			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);

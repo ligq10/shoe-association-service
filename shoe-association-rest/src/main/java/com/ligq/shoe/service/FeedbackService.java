@@ -97,9 +97,9 @@ public class FeedbackService {
 		return feedbackResponse;
 	}
 
-	public Page<FeedbackScore> findFeedbackByCompanyId(String uuid,
+	public Page<FeedbackScore> findFeedbackByCompanyIdAndApproveStatus(String uuid,Integer auditStatus,
 			Pageable pageable) {
-		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findByCompanyId(uuid, pageable);
+		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findByCompanyIdAndApproveStatus(uuid,auditStatus,pageable);
 		return feedbackScorePage;
 	}
 

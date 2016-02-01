@@ -24,7 +24,15 @@ feedBackListControllers.controller('feedBackListCtrl',['$scope','$stateParams','
 	 * 刷新订单列表
 	 */
 	var refreshFeedbackList = function(queryEntity){
-		
+		var queryEntity = queryEntity
+		if(queryEntity==undefined){
+			queryEntity = {};
+			queryEntity.page=$scope.currentPage,
+			queryEntity.size=$scope.pageSize,
+			queryEntity.auditStatus=3
+		}else{
+			queryEntity.auditStatus=3
+		}
 		feedBackListFactory.queryFeedbackByShoeId({uuid:$scope.shoeComapnyId},queryEntity,function(response){
 			if(response.$resolved){
 	            if(response._embedded==undefined){
@@ -65,14 +73,3 @@ feedBackListControllers.controller('feedBackListCtrl',['$scope','$stateParams','
 		refreshFeedbackList(queryEntity);
     }
 }]);
-
-/*feedBackAddControllers.directive("deletegroupdialog",
-    function (){
-        var option={
-            restrict:"AEC",
-            transclude:true,
-            replace:true,
-            templateUrl:"templates/commonTemplate/delete-group-dialog.html"
-        };
-        return option;
-    });*/

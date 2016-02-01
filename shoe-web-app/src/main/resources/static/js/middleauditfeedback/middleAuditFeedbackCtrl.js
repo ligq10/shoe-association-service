@@ -14,6 +14,7 @@ middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$
 	$scope.feedbackId = $stateParams.uuid;
 	$scope.proofImageUrlListIndex=[];
 	$scope.auditscore = 0;//审核评分
+
 	$scope.primaryAudit = {
 			result:"",
 			scoreItem : "",
@@ -76,7 +77,7 @@ middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$
     				$scope.primaryAudit.scoreType = response._embedded.auditMessageResponses[i].scoreType == "plus"?"加分":"减分";
 
 					$scope.scoreItem = response._embedded.auditMessageResponses[i].scoreItem;
-    				$scope.result = response._embedded.auditMessageResponses[i].auditResult;
+    				//$scope.result = response._embedded.auditMessageResponses[i].auditResult;
     				$scope.scoreType = response._embedded.auditMessageResponses[i].scoreType;
     				$scope.auditscore = response._embedded.auditMessageResponses[i].score;
     				$scope.message = response._embedded.auditMessageResponses[i].auditRemark;

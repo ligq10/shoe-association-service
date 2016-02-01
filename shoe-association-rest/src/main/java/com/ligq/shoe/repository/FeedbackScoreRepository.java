@@ -22,4 +22,7 @@ public interface FeedbackScoreRepository extends
 	@Query(value = "select t from FeedbackScore t where  (t.submitPerson like %:keyword% or t.submitTel like %:keyword%) and t.approveStatus = :approveStatus")
 	public Page<FeedbackScore> findFeedbackBySearchKeywordAndAudit(
 			@Param("keyword") String keyword,@Param("approveStatus") Integer approveStatus,Pageable pageable);
+
+	public Page<FeedbackScore> findByCompanyIdAndApproveStatus(String uuid,
+			Integer auditStatus, Pageable pageable);
 }
