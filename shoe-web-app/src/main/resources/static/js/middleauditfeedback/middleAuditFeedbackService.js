@@ -23,6 +23,13 @@ middleAuditFeedbackService.factory('middleAuditFeedbackFactory',function($resour
             	Accept:'application/hal+json'
             }
        },
+       getAuditMessagesByFeedbackId:{
+           url:'/buisness/:uuid/audits',
+           method:'GET',
+           headers:{
+           	Accept:'application/hal+json'
+           }
+      },
        saveAudit:{
         	url:'/audits',
             method:'POST',

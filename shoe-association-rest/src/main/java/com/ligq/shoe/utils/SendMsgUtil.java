@@ -59,13 +59,13 @@ public class SendMsgUtil {
 					return new ResponseEntity<String>(result,HttpStatus.OK);
 				}
 			}else{
-				return new ResponseEntity<String>("验证码发送失败",HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<String>("发送失败",HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 
 		} catch (RestClientException e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage(),e);
-			return new ResponseEntity<String>("验证码发送失败",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("发送失败",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
     }

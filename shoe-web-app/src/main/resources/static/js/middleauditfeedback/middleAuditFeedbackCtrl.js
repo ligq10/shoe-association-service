@@ -15,6 +15,7 @@ middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$
 	$scope.proofImageUrlListIndex=[];
 	$scope.auditscore = 0;//审核评分
 	$scope.primaryAudit = {
+			result:"",
 			scoreItem : "",
 			scoreType : "",
 			score:""			
@@ -64,8 +65,18 @@ middleAuditFeedbackControllers.controller('middleAuditFeedbackCtrl',['$scope','$
     		for(var i=0 ; i< response._embedded.auditMessageResponses.length;i++){
     			if(response._embedded.auditMessageResponses[i].auditStatusValue  == 1){
     				$scope.primaryAudit = response._embedded.auditMessageResponses[i];
+    				$scope.primaryAudit.auditResult =response._embedded.auditMessageResponses[i].auditResult == "pass"?"通过":"不通过";
+    				if(response._embedded.auditMessageResponses[i].scoreItem == "creditScore"){
+    					$scope.primaryAudit.scoreItem = "诚信分";
+    				}else if(response._embedded.auditMessageResponses[i].scoreItem == "qualityScore"){
+    					$scope.primaryAudit.scoreItem = "产品质量分";
+    				}else if(response._embedded.auditMessageResponses[i].scoreItem == "serveScore"){
+    					$scope.primaryAudit.scoreItem = "服务分";
+    				}
+    				$scope.primaryAudit.scoreType = response._embedded.auditMessageResponses[i].scoreType == "plus"?"加分":"减分";
+
+					$scope.scoreItem = response._embedded.auditMessageResponses[i].scoreItem;
     				$scope.result = response._embedded.auditMessageResponses[i].auditResult;
-    				$scope.scoreItem = response._embedded.auditMessageResponses[i].scoreItem;
     				$scope.scoreType = response._embedded.auditMessageResponses[i].scoreType;
     				$scope.auditscore = response._embedded.auditMessageResponses[i].score;
     				$scope.message = response._embedded.auditMessageResponses[i].auditRemark;

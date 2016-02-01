@@ -76,7 +76,7 @@ public class AuditMessageController {
 		
 	}
 
-	@RequestMapping(value="buisness/{uuid}/audits",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@RequestMapping(value="/buisness/{uuid}/audits",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
 	public HttpEntity<?> findAllAuditByBusinessId(
 			 @PathVariable String uuid,

@@ -48,6 +48,7 @@ public class SendMsgController {
 		try {
 			String checkCode = SendMsgUtil.createRandomVcode();
 			sendMsg.setContent("尊敬的用户,您的验证码为:"+checkCode+",有效期为3分钟");
+			sendMsg.setCheckCode(checkCode);
 			responseEntity = sendMsgService.sendCheckMsg(sendMsg,request);
 			HttpStatus responseStatus = responseEntity.getStatusCode();
 			if(responseStatus.equals(HttpStatus.OK)){

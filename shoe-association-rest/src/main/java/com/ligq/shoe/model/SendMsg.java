@@ -23,6 +23,8 @@ public class SendMsg extends SendMsgProperties{
 	private String content;
 	
 	private Integer type;
+	
+	private String checkCode;
 
 	public String getMobile() {
 		return mobile;
@@ -37,13 +39,7 @@ public class SendMsg extends SendMsgProperties{
 	}
 
 	public void setContent(String content) {
-		try {
-			this.content = java.net.URLEncoder.encode(content,"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			logger.info(e.getMessage(),e);
-			this.content = content;
-		}
+		this.content = content;	
 	}
 
 	public Integer getType() {
@@ -53,5 +49,13 @@ public class SendMsg extends SendMsgProperties{
 	public void setType(Integer type) {
 		this.type = type;
 	}
-		
+
+	public String getCheckCode() {
+		return checkCode;
+	}
+
+	public void setCheckCode(String checkCode) {
+		this.checkCode = checkCode;
+	}
+	
 }

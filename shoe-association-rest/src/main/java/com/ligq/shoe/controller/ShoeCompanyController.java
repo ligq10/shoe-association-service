@@ -78,7 +78,7 @@ public class ShoeCompanyController {
 		if(null == sendMsg){
 			return new ResponseEntity<Object>("验证码无效，请检查!",HttpStatus.BAD_REQUEST);			
 		}
-		String checkCode = sendMsg.getContent();
+		String checkCode = sendMsg.getCheckCode();
 		if(sendMsg.getType().equals(CheckCodeType.REGISTER.getValue()) == false 
 				|| checkCode.equals(shoeCompanyAddRequest.getCheckCode()) == false){
 			return new ResponseEntity<Object>("验证码错误，请检查!",HttpStatus.BAD_REQUEST);			

@@ -68,8 +68,8 @@ public class FeedbackController {
 		if(null == sendMsg){
 			return new ResponseEntity<Object>("验证码无效，请检查!",HttpStatus.BAD_REQUEST);			
 		}
-		String checkCode = sendMsg.getContent();
-		if(sendMsg.getType().equals(CheckCodeType.REGISTER.getValue()) == false 
+		String checkCode = sendMsg.getCheckCode();
+		if(sendMsg.getType().equals(CheckCodeType.FEEDBACK.getValue()) == false 
 				|| checkCode.equals(feedBackAddRequest.getCheckCode()) == false){
 			return new ResponseEntity<Object>("验证码错误，请检查!",HttpStatus.BAD_REQUEST);			
 		}

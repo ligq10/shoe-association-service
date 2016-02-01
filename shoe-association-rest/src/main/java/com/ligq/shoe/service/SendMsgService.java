@@ -1,5 +1,8 @@
 package com.ligq.shoe.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,6 +37,14 @@ public class SendMsgService {
 		//BeanUtils.copyPropertiesIgnoreNull(sendMsgProperties, sendMsg);
 		//String checkCode = SendMsgUtil.createRandomVcode();
 		//sendMsg.setContent(checkCode);
+		String content = "";
+		try {
+			content = URLEncoder.encode(sendMsg.getContent(), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage(),e);
+			return new ResponseEntity<String>("发送内容有误",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
         //短信接口URL提交地址
 		url.append(sendMsgConfig.getSendMsgUrl()); 
 		url.append("?ac="+sendMsgProperties.getAc());
@@ -41,7 +52,7 @@ public class SendMsgService {
         url.append("&pwd="+sendMsgProperties.getPwd());
         url.append("&encode="+sendMsgProperties.getEncode());
         url.append("&mobile="+sendMsg.getMobile());
-        url.append("&content="+sendMsg.getContent());
+        url.append("&content="+content);
         ResponseEntity<?> result = SendMsgUtil.sendMsg(url.toString(),restTemplate);
 		return result;
 	}
