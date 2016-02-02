@@ -17,9 +17,7 @@
     <link href="../static/css/common/common.css" rel="stylesheet" th:href="@{/css/common/common.css}"/>
     <link href="../static/css/common/common-admin.css" rel="stylesheet" th:href="@{/css/common/common-admin.css}"/>
     <link href="../static/css/common/style.css" rel="stylesheet" th:href="@{/css/common/style.css}"/>
-    <link href="../static/css/common/AdminLTE.min.css" rel="stylesheet" th:href="@{/css/common/AdminLTE.min.css}"/>
-    <link href="../static/css/common/normalize.css" th:href="@{/css/common/normalize.css}"/>
-    <link href="../static/css/common/default.css" th:href="@{/css/common/default.css}"/>    
+    <link href="../static/css/common/normalize.css" rel="stylesheet" th:href="@{/css/common/normalize.css}"/>
     <link href="../static/css/templateCss/header/header.css" rel="stylesheet" th:href="@{/css/templateCss/header/header.css}"/>
 </head>
 <body id="body">
@@ -54,37 +52,38 @@
 	<div class="clear_float"></div>
 
 <!-- Load plugin js file-->
-<script src="../static/js/plugin/jquery/jquery-1.min.js" th:src="@{/js/plugin/jquery/jquery-1.min.js}"></script>
-<script src="../static/js/plugin/jquery/jquery.cookie.js" th:src="@{/js/plugin/jquery/jquery.cookie.js}"></script>
-<script src="../static/js/plugin/bootstrap/bootstrap.min.js" th:src="@{/js/plugin/bootstrap/bootstrap.min.js}"></script>
-<script src="../static/js/plugin/bootstrap/bootstrap-datetimepicker.min.js" th:src="@{/js/plugin/bootstrap/bootstrap-datetimepicker.min.js}"></script>
-<script src="../static/js/plugin/angular/angular.js" th:src="@{/js/plugin/angular/angular.js}"></script>
-<script src="../static/js/plugin/angular/angular-route.js" th:src="@{/js/plugin/angular/angular-route.js}"></script>
-<script src="../static/js/plugin/angular/angular-resource.js" th:src="@{/js/plugin/angular/angular-resource.js}"></script>
-<script src="../static/js/plugin/angular/angular-ui-router.js" th:src="@{/js/plugin/angular/angular-ui-router.js}"></script>
-<script src="../static/js/plugin/angular/angular-ui-tree.js" th:src="@{/js/plugin/angular/angular-ui-tree.js}"></script>
-<script src="../static/js/plugin/angular/angular-ui-tree.min.js" th:src="@{/js/plugin/angular/angular-ui-tree.min.js}"></script>
-<script src="../static/js/plugin/angular/angular-file-upload-shim.min.js" th:src="@{/js/plugin/angular/angular-file-upload-shim.min.js}"></script>
-<script src="../static/js/plugin/angular/angular-file-upload.min.js" th:src="@{/js/plugin/angular/angular-file-upload.min.js}"></script>
-<script src="../static/js/plugin/angular/angular-file-upload.js" th:src="@{/js/plugin/angular/angular-file-upload.js}"></script>
-<script src="../static/js/plugin/angular/angular-base64-upload.min.js" th:src="@{/js/plugin/angular/angular-base64-upload.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/common/jquery-1.min.js" th:src="@{/js/plugin/common/jquery-1.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/jquery/jquery.cookie.js" th:src="@{/js/plugin/jquery/jquery.cookie.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/bootstrap/bootstrap.min.js" th:src="@{/js/plugin/bootstrap/bootstrap.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/bootstrap/bootstrap-datetimepicker.min.js" th:src="@{/js/plugin/bootstrap/bootstrap-datetimepicker.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular.js" th:src="@{/js/plugin/angular/angular.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-route.js" th:src="@{/js/plugin/angular/angular-route.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-resource.js" th:src="@{/js/plugin/angular/angular-resource.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-ui-router.js" th:src="@{/js/plugin/angular/angular-ui-router.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-ui-tree.js" th:src="@{/js/plugin/angular/angular-ui-tree.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-ui-tree.min.js" th:src="@{/js/plugin/angular/angular-ui-tree.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-file-upload-shim.min.js" th:src="@{/js/plugin/angular/angular-file-upload-shim.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-file-upload.min.js" th:src="@{/js/plugin/angular/angular-file-upload.min.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-file-upload.js" th:src="@{/js/plugin/angular/angular-file-upload.js}"></script>
+<script type="text/javascript" src="../static/js/plugin/angular/angular-base64-upload.min.js" th:src="@{/js/plugin/angular/angular-base64-upload.min.js}"></script>
+
 <!-- Load custom js file -->
 
-<script src="../static/js/common/shoe/common.js" th:src="@{/js/common/shoe/common.js}"></script>
-<script src="../static/js/common/shoe/shoeApp.js" th:src="@{/js/common/shoe/shoeApp.js}"></script>
-<script src="../static/js/common/shoe/shoeCompanyDirective.js" th:src="@{/js/common/shoe/shoeCompanyDirective.js}"></script>
-<script src="../static/js/common/shoe/style.js" th:src="@{/js/common/shoe/style.js}"></script>
-<script src="../static/js/shoe/shoeListService.js" th:src="@{/js/shoe/shoeListService.js}"></script>
-<script src="../static/js/shoe/shoeListCtrl.js" th:src="@{/js/shoe/shoeListCtrl.js}"></script>
-<script src="../static/js/shoe/shoeList.js" th:src="@{/js/shoe/shoeList.js}"></script>
-<script src="../static/js/shoeadd/shoeAddService.js" th:src="@{/js/shoeadd/shoeAddService.js}"></script>
-<script src="../static/js/shoeadd/shoeAddCtrl.js" th:src="@{/js/shoeadd/shoeAddCtrl.js}"></script>
-<script src="../static/js/creditdetail/creditDetailService.js" th:src="@{/js/creditdetail/creditDetailService.js}"></script>
-<script src="../static/js/creditdetail/creditDetailCtrl.js" th:src="@{/js/creditdetail/creditDetailCtrl.js}"></script>
-<script src="../static/js/feedbackadd/feedBackAddService.js" th:src="@{/js/feedbackadd/feedBackAddService.js}"></script>
-<script src="../static/js/feedbackadd/feedBackAddCtrl.js" th:src="@{/js/feedbackadd/feedBackAddCtrl.js}"></script>
-<script src="../static/js/feedbacklist/feedBackListService.js" th:src="@{/js/feedbacklist/feedBackListService.js}"></script>
-<script src="../static/js/feedbacklist/feedBackListCtrl.js" th:src="@{/js/feedbacklist/feedBackListCtrl.js}"></script>
+<script type="text/javascript" src="../static/js/common/shoe/common.js" th:src="@{/js/common/shoe/common.js}"></script>
+<script type="text/javascript" src="../static/js/common/shoe/shoeApp.js" th:src="@{/js/common/shoe/shoeApp.js}"></script>
+<script type="text/javascript" src="../static/js/common/shoe/shoeCompanyDirective.js" th:src="@{/js/common/shoe/shoeCompanyDirective.js}"></script>
+<script type="text/javascript" src="../static/js/common/shoe/style.js" th:src="@{/js/common/shoe/style.js}"></script>
+<script type="text/javascript" src="../static/js/shoe/shoeListService.js" th:src="@{/js/shoe/shoeListService.js}"></script>
+<script type="text/javascript" src="../static/js/shoe/shoeListCtrl.js" th:src="@{/js/shoe/shoeListCtrl.js}"></script>
+<script type="text/javascript" src="../static/js/shoe/shoeList.js" th:src="@{/js/shoe/shoeList.js}"></script>
+<script type="text/javascript" src="../static/js/shoeadd/shoeAddService.js" th:src="@{/js/shoeadd/shoeAddService.js}"></script>
+<script type="text/javascript" src="../static/js/shoeadd/shoeAddCtrl.js" th:src="@{/js/shoeadd/shoeAddCtrl.js}"></script>
+<script type="text/javascript" src="../static/js/creditdetail/creditDetailService.js" th:src="@{/js/creditdetail/creditDetailService.js}"></script>
+<script type="text/javascript" src="../static/js/creditdetail/creditDetailCtrl.js" th:src="@{/js/creditdetail/creditDetailCtrl.js}"></script>
+<script type="text/javascript" src="../static/js/feedbackadd/feedBackAddService.js" th:src="@{/js/feedbackadd/feedBackAddService.js}"></script>
+<script type="text/javascript" src="../static/js/feedbackadd/feedBackAddCtrl.js" th:src="@{/js/feedbackadd/feedBackAddCtrl.js}"></script>
+<script type="text/javascript" src="../static/js/feedbacklist/feedBackListService.js" th:src="@{/js/feedbacklist/feedBackListService.js}"></script>
+<script type="text/javascript" src="../static/js/feedbacklist/feedBackListCtrl.js" th:src="@{/js/feedbacklist/feedBackListCtrl.js}"></script>
 
 </body>
 </html>

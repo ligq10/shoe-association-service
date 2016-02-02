@@ -39,7 +39,7 @@
 	            	        <td align="center">{{$index+1}}</td>	            			
 	            			<td align="center">{{entry.loginName}}</td>
 	            			<td align="center">{{entry.name}}</td>
-	            			<td align="center">{{entry.roleName}}</td>
+	            			<td align="center" data-toggle="tooltip" title="{{entry.roleName}}" style="text-overflow:ellipsis;white-space:nowrap;overflow : hidden;">{{entry.roleName}}</td>
 	            			<td align="center">{{entry.tel}}</td>
 	            			<td align="center">{{entry.email}}</td>
 	            			<td align="center">{{entry.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>

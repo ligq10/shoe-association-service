@@ -38,11 +38,11 @@ public class TokenAuthFilter extends GenericFilterBean {
 		ignoreURIs.add("/reputation/loading");
 		ignoreURIs.add("/reputation/errors");
 		ignoreURIs.add("/reputation/expire");
-		ignoreURIs.add("/reputation/index/css");
-		ignoreURIs.add("/reputation/index/fonts");
-		ignoreURIs.add("/reputation/index/images");
-		ignoreURIs.add("/reputation/index/js");
-		ignoreURIs.add("/reputation/index/templates");
+		ignoreURIs.add("/reputation/css");
+		ignoreURIs.add("/reputation/fonts");
+		ignoreURIs.add("/reputation/images");
+		ignoreURIs.add("/reputation/js");
+		ignoreURIs.add("/reputation/templates");
 	}
 
 	@Override

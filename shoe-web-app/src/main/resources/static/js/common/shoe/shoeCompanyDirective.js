@@ -309,40 +309,6 @@ shoeApp.directive('clearSearch', function () {
     };
 });
 
-/**
- * 侧边导航
- * 
- */
-/*shoeApp.directive('leftnav', function () {
-    return {
-        restrict: "E",
-        transclude: true,
-        replace: true,
-        templateUrl: "templates/commonTemplate/call-left-nav.html"
-    };
-});
-shoeApp.directive('searchServicePage', function () {
-    return {
-        restrict: "AEC",
-        replace: true,
-        templateUrl: "templates/commonTemplate/page.html"
-    };
-});
-shoeApp.directive('servicePage', function () {
-    return {
-        restrict: "AEC",
-        replace: true,
-        templateUrl: "templates/commonTemplate/map-search-page.html"
-    };
-});
-shoeApp.directive('orderCompanyPage', function () {
-    return {
-        restrict: "AEC",
-        replace: true,
-        templateUrl: "templates/commonTemplate/order-company-page.html"
-    };
-});
-*/
 shoeApp.directive('companyListPage', function () {
     return {
         restrict: "AEC",
@@ -351,14 +317,19 @@ shoeApp.directive('companyListPage', function () {
     };
 });
 
-/*shoeApp.directive('orderWaiterLocation', function () {
-    return {
-        restrict: "AEC",
-        replace: true,
-        templateUrl: "templates/orderList/order_waiter_location.html"
-    };
+/**
+ * 分页
+ */
+shoeApp.directive("pagetemplate", function (){
+	var option={
+			restrict:"AEC",
+			transclude:true,
+			replace:true,
+			templateUrl:"templates/commonTemplate/page.html"
+	};
+	return option;
 });
-*/
+
 /**
  * 时间控件model
  */
@@ -379,25 +350,3 @@ shoeApp.factory('poiSession', function () {
     return service;
 });
 
-/**
- * 铁通插件
- */
-/*shoeApp.directive('tietongToolbar', function () {
-	return {
-		restrict:"E",
-    	transclude:true,
-    	replace:true,
-    	templateUrl:"templates/commonTemplate/tietong-toolbar.html"
-	}
-});*/
-/**
- * 联通插件
- */
-/*shoeApp.directive('unicomToolbar', function () {
-	return {
-		restrict:"E",
-		transclude:true,
-		replace:true,
-		templateUrl:"templates/commonTemplate/unicom-toolbar.html"
-	}
-});*/

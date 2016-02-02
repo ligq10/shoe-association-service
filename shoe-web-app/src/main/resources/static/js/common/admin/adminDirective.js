@@ -302,3 +302,16 @@ adminApp.directive("authoritydistributedialog", function (){
 	};
 	return option;
 });
+
+/**
+ * 分页
+ */
+adminApp.directive("pagetemplate", function (){
+	var option={
+			restrict:"AEC",
+			transclude:true,
+			replace:true,
+			templateUrl:"templates/commonTemplate/page.html"
+	};
+	return option;
+});
