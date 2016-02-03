@@ -29,22 +29,7 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
     $scope.pageSize=PAGESIZE_DEFAULT;
 	$scope.currentPage=CURRENTPAGE_INIT;
 	
-	$scope.company = {
-			name : "雪松",
-			address : "成都市高新区",
-			enterpriseLegalPerson : "韩寒",
-			submitPerson : "韩寒",
-			tel : "13409890879",
-			createTime : "",
-			updateTime : "",
-			comprehensiveScore : "100",
-			logoUrl : "",
-			totalScore : "100",
-			creditScore : "30",
-			qualityScore : "30",
-			serveScore : "40",
-			creditLevel : "0"
-	};
+	$scope.company = {};
 	
 	$scope.companyList = [];
 	
@@ -81,13 +66,13 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
 		if(queryEntity == null || queryEntity == undefined){
 		    $scope.pageSize=PAGESIZE_DEFAULT;
 			$scope.currentPage=CURRENTPAGE_INIT;
-			queryEntity = {
-
-					page:$scope.currentPage,
-					size:$scope.pageSize,
-					auditStatus:1
-			};
+			queryEntity = {};
+			queryEntity.page = $scope.currentPage;
+			queryEntity.auditStatus=1;
+			queryEntity.size = $scope.pageSize;
 			
+		}else{
+			queryEntity.auditStatus=1;
 		}
 		shoeListFactory.queryShoesByMultipleConditions(queryEntity,function(response){
 			
@@ -104,9 +89,6 @@ shoeListControllers.controller('shoeListCtrl',['$scope','shoeListFactory',
                     $scope.numPages = function () {
                         return response.page.totalPages;
                     };
-/*                    for(var i=0;i< response._embedded.orderSummaryResponses.length;i++){
-                    	$scope.orders[i]= response._embedded.orderSummaryResponses[i];
-                    }*/
                     initCompanyList(response._embedded.shoeCompanyResponses);
                 }
 

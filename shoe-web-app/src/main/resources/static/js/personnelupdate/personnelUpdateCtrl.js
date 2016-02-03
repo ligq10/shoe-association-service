@@ -185,9 +185,9 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
 		user.tel=$scope.tel;
 		user.homeAddress=$scope.homeAddress;
 		//user.gender=$("input[name='gender']:checked").val();
-		//var birthDay=$("input[name='birthDay']").val();
+		user.birthday=$("input[name='birthday']").val();
 		user.gender = $scope.gender;
-		user.birthDay = $scope.birthDay;
+		//user.birthDay = $scope.birthDay;
 		user.remarks=$scope.remarks;
 		user.password = $scope.password;
 		//角色

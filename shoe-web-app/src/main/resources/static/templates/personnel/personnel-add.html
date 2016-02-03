@@ -93,10 +93,9 @@
 				    </div>
 				    <!-- 联系邮箱 -->
 				    <div class="form-group">
-				    	<label class="require-mark-style">*</label>
 				        <label  class="col-sm-2">联系邮箱</label>
 				        <div class="col-sm-4">
-				            <input type="text" ng-pattern="/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/" id="email" maxlength="30" required  name="email" class="form-control" ng-model="email"/>
+				            <input type="text" ng-pattern="/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/" id="email" maxlength="30"  name="email" class="form-control" ng-model="email"/>
 				        </div>
 				        <span class="prompt_span" ng-show="personnelAddFrom.email.$dirty && personnelAddFrom.email.$invalid">必填，请输入正确的邮箱</span>
 				        <span ng-show="email">
@@ -133,10 +132,9 @@
 				    </div>
 				    <!-- 备注 -->
 				    <div class="form-group">
-				    	<label class="nosee_require-mark-style">*</label>
 				        <label  class="col-sm-2">备注</label>
 				        <div class="col-sm-4">
-				            <textarea  id="" name="remarks" type="text" class="form-control" rows="6" maxlength="100" ng-model="remarks"></textarea>
+				            <textarea  id="remarks" name="remarks" type="text" class="form-control" rows="6" maxlength="100" ng-model="remarks"></textarea>
 				        </div>
 				        <span class="prompt_span personnel_prompt_textarea" ng-show="personnelAddFrom.remarks.$dirty && personnelAddFrom.remarks.$invalid">不能超过100个字符</span>
 				        <span ng-show="remarks">

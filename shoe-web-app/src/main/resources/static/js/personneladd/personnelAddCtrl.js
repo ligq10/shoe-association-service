@@ -137,7 +137,9 @@ personnelAddControllers.controller('personnelAddCtrl',['$scope','$state','$timeo
 		user.remarks=$scope.remarks;
 		
 		user.gender=$scope.gender;
-		user.birthday=$scope.birthday;
+		//user.birthday=$scope.birthday;
+		user.birthday=$("input[name='birthday']").val();
+
 		//角色
 		user.roleCodes=[];
 		user.roleCodes=selectUserRole;	
