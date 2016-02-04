@@ -33,5 +33,9 @@ public interface ShoeCompanyRepository extends
 	public Page<ShoeCompany> findByAuditStatus(Integer auditStatus,
 			Pageable pageable);
 
+	@RestResource(exported = false)
+	@Query(value = "select t from ShoeCompany t where  t.name like %:keyword% or t.submitPerson like %:keyword% or t.enterpriseLegalPerson like %:keyword% or t.tel like %:keyword%")
+	public Page<ShoeCompany> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
 
 }

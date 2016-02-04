@@ -35,6 +35,8 @@ public class EmployeeAddRequest {
 	
 	private List<String> roleCodes;
 
+	private String  remarks;
+
 	public String getName() {
 		return name;
 	}
@@ -130,6 +132,13 @@ public class EmployeeAddRequest {
 	public void setRoleCodes(List<String> roleCodes) {
 		this.roleCodes = roleCodes;
 	}
-	
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	
 }

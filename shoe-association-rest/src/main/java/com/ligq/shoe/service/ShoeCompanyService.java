@@ -3,6 +3,7 @@ package com.ligq.shoe.service;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,10 +44,12 @@ import com.ligq.shoe.constants.ShoeCompanyAuditStatus;
 import com.ligq.shoe.controller.DataDictController;
 import com.ligq.shoe.controller.FileController;
 import com.ligq.shoe.controller.ShoeCompanyController;
+import com.ligq.shoe.entity.Image;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.ShoeCompanyAddRequest;
 import com.ligq.shoe.model.ShoeCompanyResponse;
+import com.ligq.shoe.repository.ImageRepository;
 import com.ligq.shoe.repository.ShoeCompanyRepository;
 import com.ligq.shoe.repository.EmployeeRepository;
 import com.ligq.shoe.utils.Pinyin4jUtil;
@@ -60,6 +63,9 @@ public class ShoeCompanyService {
 	private ShoeCompanyRepository shoeCompanyRepository;
 	@Autowired
 	private EmployeeRepository userRepository;
+	
+	@Autowired
+	private ImageRepository imageRepository;
 	
 	public ResponseEntity<Object> save(
 			ShoeCompanyAddRequest shoeCompanyAddRequest,
@@ -81,6 +87,38 @@ public class ShoeCompanyService {
 		shoeCompany.setServeScore(30);
 		shoeCompany.setCreditLevel(0);
 		shoeCompany.setAuditStatus(ShoeCompanyAuditStatus.WAITING_AUDIT.getValue());
+		String firstPinyin = getfirstSpellByChineseCharacter(shoeCompanyAddRequest.getName());
+		shoeCompany.setNamePhoneticize(firstPinyin);
+		shoeCompany = shoeCompanyRepository.save(shoeCompany);
+		
+		HttpHeaders headers = new HttpHeaders();
+
+		URI selfUrl = linkTo(methodOn(ShoeCompanyController.class).findOneShoeCompanyById(shoeCompany.getUuid(), request, response)).toUri();
+		headers.setLocation(selfUrl);
+		return new ResponseEntity<Object>(headers,HttpStatus.CREATED);
+
+	}
+	
+	public ResponseEntity<Object> saveWithoutAudit(
+			ShoeCompanyAddRequest shoeCompanyAddRequest,
+			HttpServletRequest request, HttpServletResponse response) {
+		if(StringUtils.isEmpty(shoeCompanyAddRequest.getName())){
+			logger.error("name is empty");
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		ShoeCompany shoeCompany = new ShoeCompany();
+		BeanUtils.copyProperties(shoeCompanyAddRequest, shoeCompany);
+		Date createTime = new Date();
+		shoeCompany.setUuid(UUID.randomUUID().toString());
+		shoeCompany.setCreateTime(createTime);
+		shoeCompany.setUpdateTime(createTime);
+		shoeCompany.setCreditScore(40);
+		shoeCompany.setQualityScore(30);
+		shoeCompany.setServeScore(30);
+		shoeCompany.setCreditLevel(0);
+		shoeCompany.setAuditStatus(ShoeCompanyAuditStatus.PASS_AUDIT.getValue());
 		String firstPinyin = getfirstSpellByChineseCharacter(shoeCompanyAddRequest.getName());
 		shoeCompany.setNamePhoneticize(firstPinyin);
 		shoeCompany = shoeCompanyRepository.save(shoeCompany);
@@ -186,7 +224,7 @@ public class ShoeCompanyService {
 			    shoeCompanyResponse.setPermitImageUrl(permitImageUrl);;
 			    shoeCompanyResponse.setTotalScore(shoeCompany.getCreditScore()+shoeCompany.getQualityScore()+shoeCompany.getServeScore());
 			    shoeCompanyResponse.setCreditDesc(CreditLevel.getCreditDesc(shoeCompany.getCreditLevel()).getDesc());
-
+			    shoeCompanyResponse.setAuditStatusDesc(ShoeCompanyAuditStatus.getShoeCompanyAuditStatus(shoeCompany.getAuditStatus()).getDesc());
 			    shoeCompanyResponse.add(selfLink);
 				content.add(shoeCompanyResponse);
 			}			
@@ -227,6 +265,114 @@ public class ShoeCompanyService {
 		return "http://" + host + ":" + port;
 	}
 
+	public Page<ShoeCompany> findByAuditStatus(String keyword, Pageable pageable) {
+		// TODO Auto-generated method stub
+		Page<ShoeCompany> shoeCompanyPage = shoeCompanyRepository.findByKeyword(keyword,pageable);
+		
+		return shoeCompanyPage;
+	}
 
+	public ResponseEntity<?> delete(String uuid, HttpServletRequest request,
+			HttpServletResponse response) {
+		ShoeCompany shoeCompany = shoeCompanyRepository.findOne(uuid);
+		if(null == shoeCompany){
+			logger.info("shoeCompany is not exist");
+	        return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		String logoImageId = shoeCompany.getLogoImageId();
+		if(StringUtils.isEmpty(logoImageId) == false){
+			Image image = imageRepository.findOne(logoImageId);
+			deteleFile(image.getPath());
+		}
+		String permitImageId = shoeCompany.getPermitImageId();
+		if(StringUtils.isEmpty(permitImageId)){
+			Image image = imageRepository.findOne(permitImageId);
+			deteleFile(image.getPath());
+		}
+		shoeCompanyRepository.delete(shoeCompany);
+		return null;
+	}
 	
+	private boolean deteleFile(String filePath){
+		    boolean flag = false; 
+		    File file = new File(filePath);  
+		    // 判断目录或文件是否存在  
+		    if (!file.exists()) {  // 不存在返回 false  
+		        return flag;  
+		    } else {  
+		        // 判断是否为文件  
+		        if (file.isFile()) {  // 为文件时调用删除文件方法  
+		            return deleteFile(file);  
+		        } else {  // 为目录时调用删除目录方法  
+		            return deleteDirectory(file);  
+		        }  
+		    }
+	}
+	
+	/** 
+	 * 删除单个文件 
+	 * @param   sPath    被删除文件的文件名 
+	 * @return 单个文件删除成功返回true，否则返回false 
+	 */  
+	public boolean deleteFile(File file) {  
+	    boolean flag = false; 
+	    // 路径为文件且不为空则进行删除  
+	    if (file.isFile() && file.exists()) {  
+	        file.delete();  
+	        flag = true;  
+	    }  
+	    return flag;  
+	} 
+	
+	/** 
+	 * 删除目录（文件夹）以及目录下的文件 
+	 * @param   sPath 被删除目录的文件路径 
+	 * @return  目录删除成功返回true，否则返回false 
+	 */  
+	private boolean deleteDirectory(File  dirFile) { 
+	    boolean flag = false; 
+
+	    //如果dir对应的文件不存在，或者不是一个目录，则退出  
+	    if (!dirFile.exists() || !dirFile.isDirectory()) {  
+	        return false;  
+	    }  
+	    flag = true;  
+	    //删除文件夹下的所有文件(包括子目录)  
+	    File[] files = dirFile.listFiles();  
+	    for (int i = 0; i < files.length; i++) {  
+	        //删除子文件  
+	        if (files[i].isFile()) {  
+	            flag = deleteFile(files[i]);  
+	            if (!flag) break;  
+	        } //删除子目录  
+	        else {  
+	            flag = deleteDirectory(files[i]);  
+	            if (!flag) break;  
+	        }  
+	    }  
+	    if (!flag) return false;  
+	    //删除当前目录  
+	    if (dirFile.delete()) {  
+	        return true;  
+	    } else {  
+	        return false;  
+	    }  
+	}
+
+	public ResponseEntity<Object> update(String uuid,
+			ShoeCompanyAddRequest shoeCompanyAddRequest,
+			HttpServletRequest request, HttpServletResponse response) {
+		ShoeCompany shoeCompany = shoeCompanyRepository.findOne(uuid);
+		if(null == shoeCompany){
+			logger.error("shoeCompany is not found");
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+			
+		BeanUtils.copyProperties(shoeCompanyAddRequest, shoeCompany);
+		Date updateTime = new Date();
+		shoeCompany.setUpdateTime(updateTime);
+		shoeCompany = shoeCompanyRepository.save(shoeCompany);
+	
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
 }

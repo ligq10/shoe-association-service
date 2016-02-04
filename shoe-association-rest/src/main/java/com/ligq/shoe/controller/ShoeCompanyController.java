@@ -212,4 +212,96 @@ public class ShoeCompanyController {
 		}
 		return  responseEntity;			
 	}
+
+	@RequestMapping(value="/shoecompanies/withoutaudit",method = RequestMethod.POST, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> addShoeCompanyWithoutAudit(
+			@RequestBody ShoeCompanyAddRequest shoeCompanyAddRequest,
+			 HttpServletRequest request,
+			 HttpServletResponse response,
+			 BindingResult result){
+		addShoeCompanyValidator.validate(shoeCompanyAddRequest, result);
+		if(result.hasErrors()){
+			logger.error("Add Shoe Company validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
+
+		ResponseEntity<Object> responseEntity =  null;		
+		try {	        
+	        responseEntity=shoeCompanyService.saveWithoutAudit(shoeCompanyAddRequest,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;		
+	}
+
+	@RequestMapping(value="/shoecompanies/{uuid}",method = RequestMethod.PATCH, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> updateShoeCompanyWithoutAudit(	
+			 @PathVariable String uuid,			
+			 @RequestBody ShoeCompanyAddRequest shoeCompanyAddRequest,
+			 HttpServletRequest request,
+			 HttpServletResponse response,
+			 BindingResult result){
+		addShoeCompanyValidator.validate(shoeCompanyAddRequest, result);
+		if(result.hasErrors()){
+			logger.error("Add Shoe Company validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
+
+		ResponseEntity<Object> responseEntity =  null;		
+		try {	        
+	        responseEntity=shoeCompanyService.update(uuid,shoeCompanyAddRequest,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;		
+	}
+	
+	@RequestMapping(value="/shoecompanies/withoutaudit",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findShoeCompanyWithoutAudit(
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+            @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+		StringBuilder queryParams = new  StringBuilder();
+		Page<ShoeCompany> shoeCompanyPage = null;
+		if(StringUtils.isEmpty(keyword) == false){
+			queryParams.append("&keyword"+keyword);
+		}
+		shoeCompanyPage = shoeCompanyService.findByAuditStatus(keyword,pageable);
+		
+		ResponseEntity responseEntity = null;
+		try {
+			responseEntity = shoeCompanyService.getResponseEntityConvertShoeCompanyPage(queryParams.toString(),shoeCompanyPage, pageable, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;			
+	}
+	
+	@RequestMapping(value="/shoecompanies/{uuid}",method = RequestMethod.DELETE, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> deleteShoeCompanyById(
+			 @PathVariable String uuid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+
+		ResponseEntity<?> responseEntity =  null;		
+		try {	        
+	        responseEntity=shoeCompanyService.delete(uuid,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
+	}
 }

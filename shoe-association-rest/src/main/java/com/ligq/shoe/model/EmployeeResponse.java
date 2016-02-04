@@ -38,6 +38,8 @@ public class EmployeeResponse extends ResourceSupport{
 		
 	private String createTime;
 	
+	private String  remarks;
+
 	private List<RoleResponse> roles;
 	
 	public String getUuid() {
@@ -189,6 +191,17 @@ public class EmployeeResponse extends ResourceSupport{
 
 	public void setBirthday(Date birthday) {
 		this.birthday = DateUtils.composeUTCDate(birthday);
+	}
+
+	public String getRemarks() {
+		if(StringUtils.isEmpty(remarks)){
+			remarks = "";
+		}
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 }

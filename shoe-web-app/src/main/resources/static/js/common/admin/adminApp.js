@@ -2,7 +2,7 @@
  * Created by Administrator on 15-1-28.
  */
 'use strict';
-var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers','primaryAuditFeedbackListControllers',
+var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers','primaryAuditFeedbackListControllers','shoecompanyListControllers','shoecompanyAddControllers','shoecompanyUpdateControllers',
                   'primaryAuditFeedbackControllers','middleAuditFeedbackControllers',,'middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers']);
 adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$rootScopeProvider){
     $httpProvider.defaults.headers.common['X-Token'] = $.cookie('X-Token');
@@ -46,6 +46,27 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             url:"/auditshoecompanylist",
             templateUrl:'templates/shoecompanymanager/audit_shoe_company_list.html',
             controller:'auditShoeCompanyListCtrl',
+            permission:'COMPANY_AUDIT_LIST',
+            father:'COMPANY_AUDIT_MANAGER'            
+        })
+        .state('shoecompanylist',{
+            url:"/shoecompanylist",
+            templateUrl:'templates/shoecompanymanager/sho-company-list.html',
+            controller:'shoecompanyListCtrl',
+            permission:'COMPANY_AUDIT_LIST',
+            father:'COMPANY_AUDIT_MANAGER'            
+        })
+        .state('shoecompanyadd',{
+            url:"/shoecompanyadd",
+            templateUrl:'templates/shoecompanymanager/shoe-company-add.html',
+            controller:'shoecompanyAddCtrl',
+            permission:'COMPANY_AUDIT_LIST',
+            father:'COMPANY_AUDIT_MANAGER'            
+        })
+        .state('shoecompanyupdate',{
+            url:"/shoecompanyupdate",
+            templateUrl:'templates/shoecompanymanager/shoe-company-update.html',
+            controller:'shoecompanyUpdateCtrl',
             permission:'COMPANY_AUDIT_LIST',
             father:'COMPANY_AUDIT_MANAGER'            
         })

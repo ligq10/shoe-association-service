@@ -58,6 +58,9 @@ public class Employee {
 	@Column(name = "password")
 	private String password;
 	
+	@Column(name = "remarks")
+	private String  remarks;
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -169,5 +172,13 @@ public class Employee {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+		
 }

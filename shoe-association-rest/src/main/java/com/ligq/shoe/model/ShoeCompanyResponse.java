@@ -52,6 +52,11 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	
 	private String namePhoneticize;	
 	
+	private Integer auditStatus;
+
+	private String auditStatusDesc;
+	
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -268,7 +273,27 @@ public class ShoeCompanyResponse extends ResourceSupport{
 	public void setNamePhoneticize(String namePhoneticize) {
 		this.namePhoneticize = namePhoneticize;
 	}
-	
-	
+
+	public Integer getAuditStatus() {
+		if(StringUtils.isEmpty(auditStatus)){
+			auditStatus = 0;
+		}
+		return auditStatus;
+	}
+
+	public void setAuditStatus(Integer auditStatus) {
+		this.auditStatus = auditStatus;
+	}
+
+	public String getAuditStatusDesc() {
+		if(StringUtils.isEmpty(auditStatusDesc)){
+			auditStatusDesc = "待审核";
+		}
+		return auditStatusDesc;
+	}
+
+	public void setAuditStatusDesc(String auditStatusDesc) {
+		this.auditStatusDesc = auditStatusDesc;
+	}
 	
 }

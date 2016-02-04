@@ -24,7 +24,6 @@ public class AddShoeCompanyValidator implements Validator{
 		ValidationUtils.rejectIfEmpty(errors, "tel", "tel.empty");
 		ValidationUtils.rejectIfEmpty(errors, "logoImageId", "company.logoimageid.empty");
 		ValidationUtils.rejectIfEmpty(errors, "permitImageId", "company.permitimageid.empty");
-		ValidationUtils.rejectIfEmpty(errors, "checkCode", "checkcode.empty");
 
 	}
 
