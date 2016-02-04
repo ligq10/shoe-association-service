@@ -1,142 +1,116 @@
 <html>
 <head>
     <!-- Load CSS files-->
-    <script src="js/personneladd/personnel.js"></script>
+        <link href="css/templateCss/shoecompanyupdate/shoecompanyupdate.css" rel="stylesheet" th:href="@{/css/templateCss/shoecompanyupdate/shoecompanyupdate.css}"/>    
 </head>
 	<body>
 		<div class="main">
 			<div class="list-title">
 				<span ><img class="home-img" ng-src="images/home_icon.png"/></span>
-				<span class="navigate-header">人员管理>>人员列表>>人员修改</span>
+				<span class="navigate-header">条目管理>>条目列表>>条目修改</span>
 			</div>
 			<div class="terminal-add-total">
-				<form class="form-horizontal" name="personnelAddFrom" role="form" ng-submit="personnelUpdate()" novalidate>
-					<input type="hidden" value="{{userId}}" model="userId">
+				<form class="form-horizontal" name="shoecompanyUpdateFrom" role="form" ng-submit="saveShoeCompany()" novalidate>
 					<!-- 登录账号 -->
 				    <div class="form-group">
-                        <label class="nosee_require-mark-style">*</label>
-				        <label class="col-sm-2">登录账号</label>
+                        <label class="require-mark-style">*</label>
+				        <label class="col-sm-2">企业名称</label>
 				        <div class="col-sm-4">
-				            <input type="text" readonly class="form-control" name="loginName" required ng-pattern="/^[0-9A-Za-z_]{1,15}$/" ng-maxlength="15" ng-minlength="6" ng-model="loginName"/>
+	                 		<input type="text" required class="form-control" id="name" ng-model="shoeComapny.name" placeholder="请输入企业名称"/>
 				        </div>
-                        <span class="prompt_span" ng-show="personnelAddFrom.loginName.$dirty && personnelAddFrom.loginName.$invalid">必填，6-15位数字、字母或组合&nbsp;&nbsp;</span>
 				    </div>
-				    <!-- 用户名 -->
+				    <!-- 营业执照-->
 				    <div class="form-group">
                         <label class="require-mark-style">*</label>
-				        <label class="col-sm-2 ">用户名</label>
+				        <label class="col-sm-2 ">营业执照</label>
 				        <div class="col-sm-4">
-				            <input type="text" class="form-control" name="name" required maxlength="20" minlength="2" ng-model="name" />
+							<div class="box box-primary">
+		                        <div class="box-profile">
+		                            <div class="thumbnail">
+		                                <img style="height: 200px; width: 100%; display: block;" data-holder-rendered="true" ng-src="{{shoeComapny.permitImageUrl}}" alt="100%x200">
+		                                <div class="caption">
+		                                    <h3>营业执照预览</h3>
+		                                    <p><a role="button" target="_blank" class="btn btn-primary" ng-href="{{shoeComapny.permitImageUrl}}">查看原图</a></p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                     </div>						
 				        </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.name.$dirty && personnelAddFrom.name.$invalid">必填，2-20个字符</span>
-				        <span ng-show="name">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.name.$dirty && personnelAddFrom.name.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
+				        <div class="col-sm-4">
+	                 		<input type="file" required class="form-control clear-border" id="permitimage" ng-model="shoeComapny.permitimage"  name="permitimage" ng-file-select/>
+	               	 		<p class="help-block">上传小于100kb，尺寸为192*100像素的jpg、png、gif格式图片</p>
+				        
+				        </div>
 				    </div>
-				    <!-- 登录密码 -->
+				    <!-- 企业形象照-->
 				    <div class="form-group">
 				    	<label class="require-mark-style">*</label>
-				        <label  class="col-sm-2">登录密码</label>
+				        <label  class="col-sm-2">企业形象照</label>
+					    <div class="col-sm-4">
+							<div class="box box-primary">
+		                        <div class="box-profile">
+		                            <div class="thumbnail">
+		                                <img style="height: 200px; width: 100%;" data-holder-rendered="false" ng-src="{{shoeComapny.logoImageUrl}}" alt="企业形象照">
+		                                <div class="caption">
+		                                    <h3>形象照预览</h3>
+		                                    <p><a role="button" target="_blank" class="btn btn-primary" ng-href="{{shoeComapny.logoImageUrl}}">查看原图</a></p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>						
+					     </div>				        
 				        <div class="col-sm-4">
-				            <input type="password" class="form-control" id="firstPassword" name="password" required ng-pattern="/^[0-9A-Za-z_]{6,15}$/" maxlength="15" minlength="6" ng-model="password"/>
+	                 		 <input type="file" required class="form-control clear-border" id="logoimage" ng-model="shoeComapny.logoimage" name="logoimage" ng-file-select/>
+	               			 <p class="help-block">上传小于1M的jpg、png、gif格式图片</p>				        
 				        </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.password.$dirty && personnelAddFrom.password.$invalid">必填，6-15位数字、字母或组合</span>
-				        <span ng-show="password">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.password.$dirty && personnelAddFrom.password.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
-				    </div>				    
+				    </div>
+				    
+				    <!-- 确认密码 -->
+				    <div class="form-group">
+				    	<label class="require-mark-style">*</label>
+				        <label  class="col-sm-2">企业法人</label>
+				        <div class="col-sm-4">
+	                 		<input type="text" required class="form-control" ng-model="shoeComapny.enterpriseLegalPerson" id="enterpriseLegalPerson" placeholder="请输入企业法人"/>
+				        </div>
+				    </div>
+				    
 				    <!-- 角色-->
 				    <div class="form-group">
 				    	<label class="require-mark-style">*</label>
-				        <label  class="col-sm-2">权限</label>
+				        <label  class="col-sm-2">企业地址</label>
 				        <div class="col-sm-4">
-				            <input type="text" class="form-control" name="role" required ng-model="role" ng-readonly="true"/>
-
- 				            <button type="button" class="btn btn-default input_btn_btn" id="distribute_auth_btn" data-toggle="modal" data-target="#authority_distribution_dialog">分配基本权限</button>
- 				    </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$invalid">请选择用户权限</span>
-<!-- 						<span class="prompt_span" ng-show="personnelAddFrom.role.$valid && defoutPermissionsPrompt">不分配权限则默认继承该角色的全部权限</span>
- -->						<span ng-show="role">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.role.$dirty && personnelAddFrom.role.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
+	                 		<input type="text" required class="form-control" ng-model="shoeComapny.address" id="address" placeholder="请输入企业地址"/>
+ 				    	</div>
 				    </div>	
-				    				    
-				    <!-- 联系电话 -->
+				    <!-- 提交者姓名 -->
 				    <div class="form-group">
 				    	<label class="require-mark-style">*</label>
-				        <label  class="col-sm-2">联系电话</label>
+				        <label  class="col-sm-2">提交者姓名</label>
 				        <div class="col-sm-4">
-				            <input type="text" ng-pattern="/^[0-9]{5,12}$/" maxlength="12" required class="form-control" value="{{tel}}" ng-model="tel" name="tel"/>
+	    	                 <input type="text" required class="form-control" ng-model="shoeComapny.submitPerson" id="submitPerson" placeholder="请输入提交者姓名"/>
 				        </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.tel.$dirty && personnelAddFrom.tel.$invalid">必填，请输入正确的联系电话</span>
-				        <span ng-show="tel">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.tel.$dirty && personnelAddFrom.tel.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
-				    </div>
+				    </div>				    			   
 				    
-				    <!-- 联系邮箱 -->
+				    <!-- 提交者手机 -->
 				    <div class="form-group">
-				        <label  class="col-sm-2">联系邮箱</label>
+				    	<label class="require-mark-style">*</label>
+				        <label  class="col-sm-2">提交者手机</label>
 				        <div class="col-sm-4">
-				            <input type="text" ng-pattern="/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/" id="email" maxlength="30"  name="email" class="form-control" ng-model="email"/>
+				            <input type="text" ng-pattern="/^[0-9]{5,12}$/"  required maxlength="12" class="form-control" ng-model="shoeComapny.tel" name="tel" placeholder="请输入提交者手机"/>
 				        </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.email.$dirty && personnelAddFrom.email.$invalid">必填，请输入正确的邮箱</span>
-				        <span ng-show="email">
-				        	<span class="prompt_ok_span" ng-show="personnelAddFrom.email.$dirty && personnelAddFrom.email.$invalid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
-				    </div>
-				    <!-- 性别 -->
-				    <div class="form-group">
-				        <label  class="col-sm-2">性别</label>
-				        <div class="col-sm-4">
-				        	<input type="radio" value="male" name="gender" id="male" ng-model="gender" class="gender">男
-				        	&nbsp;&nbsp;&nbsp;
-				        	<input type="radio" value="female" name="gender" id="female" ng-model="gender" class="gender">女
-				        </div>
-				    </div>
-				    
-				    <!-- 出生年月 -->
-				    <div class="form-group">
-				        <label  class="col-sm-2">出生年月</label>
-						<div class="input-append date col-sm-4" id="birthday">
-							<input   type="text" class="add-on form-control Wdate" name="birthday" ng-model="birthday">
-						</div>
-				    </div>				   
-				    
-				    <!-- 地址 -->
-				    <div class="form-group">
-				        <label  class="col-sm-2">地址</label>
-				        <div class="col-sm-4">
-				            <input type="text" class="form-control" name="homeAddress" maxlength="100" ng-model="homeAddress"/>
-				        </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.homeAddress.$dirty && personnelAddFrom.homeAddress.$invalid">不能超过100个字符</span>
-				    </div>				    
-				    <!-- 备注 -->
-				    <div class="form-group">
-				        <label  class="col-sm-2">备注</label>
-				        <div class="col-sm-4">
-				            <textarea  id="" name="remarks" type="text" class="form-control" rows="6" maxlength="100" ng-model="remarks"></textarea>
-				        </div>
-				        <span class="prompt_span" ng-show="personnelAddFrom.remarks.$dirty && personnelAddFrom.remarks.$invalid">不能超过100个字符</span>
-				        <span ng-show="remarks">
-				        <span class="prompt_ok_span" ng-show="personnelAddFrom.remarks.$dirty && personnelAddFrom.remarks.$valid"><span class="glyphicon glyphicon-ok"></span></span>
-				        </span>
 				    </div>
 				    
 				    <div class="form-group">
 				        <div class="col-sm-2"></div>
 				        <div class="col-sm-4 btn-group">
 				        	<span class="btn_group">
-				            	<button type="submit" ng-disabled="!(personnelAddFrom.$valid && id_error_ishidden)" class="btn btn-primary">保存</button>
-						    	<button type="button" ui-sref="personnellist" class="btn btn-default">返回</button>
-						    	<span class="prompt_span">{{addSuccess}}</span>
+				            	<button type="submit" ng-disabled="!(shoecompanyUpdateFrom.$valid)" class="btn btn-primary">保存</button>
+						    	<button type="button" ui-sref="shoecompanylist" class="btn btn-default">返回</button>
 							</span>
 				        </div>
 				    </div>
 				</form>
 			</div>
 		</div>
-		<!-- 权限分配dialog -->
-		<authoritydistributedialog></authoritydistributedialog>
 	</body>
 </html>

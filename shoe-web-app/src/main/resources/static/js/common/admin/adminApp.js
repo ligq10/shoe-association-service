@@ -64,7 +64,7 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             father:'COMPANY_AUDIT_MANAGER'            
         })
         .state('shoecompanyupdate',{
-            url:"/shoecompanyupdate",
+            url:"/shoecompanyupdate/:uuid",
             templateUrl:'templates/shoecompanymanager/shoe-company-update.html',
             controller:'shoecompanyUpdateCtrl',
             permission:'COMPANY_AUDIT_LIST',

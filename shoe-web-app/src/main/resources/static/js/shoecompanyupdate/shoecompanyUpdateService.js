@@ -10,11 +10,18 @@ shoecompanyUpdateService.factory('shoecompanyUpdateFactory',function($resource){
     shoecompanyUpdateFactory=$resource(shoecompanyUpdateUrl,{},{
     	saveShoeCompany:{
             method:'PATCH',
-            url:'/shoecompanies',
+            url:'/shoecompanies/:uuid',
             headers:{
                 Accept:'application/hal+json'
             }
     	},
+    	getShoeComapnyDetailById:{
+            url:'/shoecompanies/:uuid',
+            method:'GET',
+            headers:{
+            	Accept:'application/hal+json'
+            }
+        },
         getCheckCode:{
             url:'/sendcheckcode',
             method:"POST",

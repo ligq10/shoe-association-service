@@ -4,8 +4,21 @@
 'use strict';
 var shoecompanyUpdateControllers=angular.module('shoecompanyUpdateControllers',['shoecompanyUpdateServices']);
 
-shoecompanyUpdateControllers.controller('shoeAddCtrl',['$scope','$timeout','$state','$upload','shoecompanyUpdateFactory',
-    function($scope,$timeout,$state,$upload,shoecompanyUpdateFactory) {
+shoecompanyUpdateControllers.controller('shoecompanyUpdateCtrl',['$scope','$stateParams','loginSession','$timeout','$state','$upload','shoecompanyUpdateFactory',
+    function($scope,$stateParams,loginSession,$timeout,$state,$upload,shoecompanyUpdateFactory) {
+	$scope.shoeCompanyId = $stateParams.uuid;
+	$scope.shoeComapny ={};
+	var loginUser = loginSession.loginUser().userInfo;
+
+	$scope.result = "pass";	
+	shoecompanyUpdateFactory.getShoeComapnyDetailById({uuid:$scope.shoeCompanyId},function(response){
+    	
+    	if(response.$resolved){
+    		$scope.shoeComapny = response;
+    		$scope.logoImageId = response.permitImageId;
+    		$scope.permitImageId = response.permitImageId;
+    	}
+	});
 	
 	$scope.logoImageId = "";
 	$scope.permitImageId = "";
@@ -23,33 +36,28 @@ shoecompanyUpdateControllers.controller('shoeAddCtrl',['$scope','$timeout','$sta
 		
 	var submit = function(){
 		var postEntity={};
-		postEntity.name=$scope.name;
-		postEntity.address=$scope.address;
-		postEntity.enterpriseLegalPerson=$scope.enterpriseLegalPerson;
-		postEntity.submitPerson=$scope.submitPerson;
-		postEntity.tel=$scope.tel;
+		postEntity.$scope.shoeComapny;
 		postEntity.logoImageId = $scope.logoImageId;
 		postEntity.permitImageId = $scope.permitImageId;
-		postEntity.checkCode = $scope.checkCode;
-		shoeAddFactory.saveShoeCompany(postEntity,function(response){				
+		shoecompanyUpdateFactory.saveShoeCompany(postEntity,function(response){				
 			if(response.$resolved){
-				$state.go('shoeList');
+				$state.go('shoecompanylist');
 				Message.alert({
-					msg : "新增成功!",
+					msg : "保存成功!",
 					title : "提示:",
 					btnok : '确定',btncl : '取消'
 				}, "warn", "small");
 				
 			}else{
 				Message.alert({
-					msg : "新增失败!",
+					msg : "保存失败!",
 					title : "警告:",
 					btnok : '确定',btncl : '取消'
 				}, "warn", "small");
 			}
 	 	 },function(error){	
 				Message.alert({
-					msg : "新增失败!",
+					msg : "保存失败!",
 					title : "警告:",
 					btnok : '确定',btncl : '取消'
 				}, "warn", "small");
@@ -176,7 +184,7 @@ shoecompanyUpdateControllers.controller('shoeAddCtrl',['$scope','$timeout','$sta
 	}	
 	
 	
-	$scope.submitShoeCompany = function(){
+	$scope.saveShoeCompany = function(){
 		var permitimage = $scope.permitimage[0];
 		var logoimage = $scope.logoimage[0];
 		fileUpload(permitimage,logoimage);
