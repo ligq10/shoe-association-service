@@ -34,9 +34,9 @@ shoecompanyUpdateControllers.controller('shoecompanyUpdateCtrl',['$scope','$stat
 	    return false;  
 	}; 
 		
-	var submit = function(){
+	function submit(){
 		var postEntity={};
-		postEntity.$scope.shoeComapny;
+		postEntity = $scope.shoeComapny;
 		postEntity.logoImageId = $scope.logoImageId;
 		postEntity.permitImageId = $scope.permitImageId;
 		shoecompanyUpdateFactory.saveShoeCompany(postEntity,function(response){				
@@ -185,8 +185,9 @@ shoecompanyUpdateControllers.controller('shoecompanyUpdateCtrl',['$scope','$stat
 	
 	
 	$scope.saveShoeCompany = function(){
-		var permitimage = $scope.permitimage[0];
-		var logoimage = $scope.logoimage[0];
+		var permitimage = $scope.shoeComapny.permitimage[0];
+		var logoimage = $scope.shoeComapny.logoimage[0];
+		
 		fileUpload(permitimage,logoimage);
 	}
 		

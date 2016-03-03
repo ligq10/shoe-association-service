@@ -53,7 +53,7 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             url:"/shoecompanylist",
             templateUrl:'templates/shoecompanymanager/sho-company-list.html',
             controller:'shoecompanyListCtrl',
-            permission:'COMPANY_AUDIT_LIST',
+            permission:'COMPANY_LIST',
             father:'COMPANY_AUDIT_MANAGER'            
         })
         .state('shoecompanyadd',{
