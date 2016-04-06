@@ -3,7 +3,8 @@
  */
 'use strict';
 var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers','primaryAuditFeedbackListControllers','shoecompanyListControllers','shoecompanyAddControllers','shoecompanyUpdateControllers',
-                  'primaryAuditFeedbackControllers','middleAuditFeedbackControllers',,'middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers']);
+                  'primaryAuditFeedbackControllers','middleAuditFeedbackControllers','middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers',
+                  'backgroundFeedBackListControllers','backgroundFeedBackAddControllers']);
 adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$rootScopeProvider){
     $httpProvider.defaults.headers.common['X-Token'] = $.cookie('X-Token');
 
@@ -103,6 +104,20 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             templateUrl:'templates/feedbackaudit/middle_audit_feedback.html',
             controller:'middleAuditFeedbackCtrl',
             permission:'MIDDLE_FEEDBACK_AUDIT',
+            father:'FEEDBACK_AUDIT_MANAGER'             
+        })
+        .state('backgroundfeedbacklist',{
+            url:"/backgroundfeedbacklist",
+            templateUrl:'templates/feedback/feedback-list.html',
+            controller:'backgroundFeedBackListCtrl',
+            permission:'FEEDBACK_LIST',
+            father:'FEEDBACK_AUDIT_MANAGER'             
+        })
+        .state('backgroundfeedbackadd',{
+            url:"/backgroundfeedbackadd",
+            templateUrl:'templates/feedback/feedback-add.html',
+            controller:'backgroundFeedBackAddCtrl',
+            permission:'FEEDBACK_ADD',
             father:'FEEDBACK_AUDIT_MANAGER'             
         });
 });

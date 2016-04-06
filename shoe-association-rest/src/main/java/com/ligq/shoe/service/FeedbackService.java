@@ -103,6 +103,12 @@ public class FeedbackService {
 		return feedbackScorePage;
 	}
 
+	public Page<FeedbackScore> findAll(
+			Pageable pageable) {
+		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findAll(pageable);
+		return feedbackScorePage;
+	}
+	
 	public ResponseEntity<?> getResponseEntityConvertFeedbackPage(String pathParams,
 			Page<FeedbackScore> feedbackScorePage, Pageable pageable,
 			HttpServletRequest request, HttpServletResponse response) {

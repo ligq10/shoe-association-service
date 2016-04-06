@@ -123,6 +123,26 @@ public class FeedbackController {
 		
 	}
 	
+	@RequestMapping(value="/feedbacks",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findAllFeedbacks(
+            @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
+			HttpServletRequest request,
+			HttpServletResponse response){
+		ResponseEntity responseEntity = null;
+		Page<FeedbackScore> feedbackScorePage = feedbackService.findAll(pageable);
+		
+		try {
+			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("User Locations Not Found:",e);
+            return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);			
+		}
+		return  responseEntity;	
+		
+	}
+	
 	@RequestMapping(value="/feedbacks/audit",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
 	public HttpEntity<?> findAuditFeedbackList(

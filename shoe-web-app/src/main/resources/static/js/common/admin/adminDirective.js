@@ -200,6 +200,9 @@ adminApp.factory('loginSession', function() {
 							permissions.push('COMPANY_AUDIT_LIST');
 							permissions.push('COMPANY_LIST');
 							permissions.push('COMPANY_AUDIT');
+							permissions.push('FEEDBACK_LIST');
+							permissions.push('FEEDBACK_UPDATE');
+							permissions.push('FEEDBACK_ADD');							
 						}
     					if(permissions.contains('primaryAuditor')){//评分初审
 							permissions.push('FEEDBACK_AUDIT_MANAGER');
