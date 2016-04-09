@@ -2,8 +2,10 @@
 <head>
     <!-- Load CSS files-->
     <script src="js/personneladd/personnel.js"></script>
-    <link href="css/templateCss/personneladd/personneladd.css" rel="stylesheet" th:href="@{/css/templateCss/personneladd/personneladd.css}"/>
-    <link href="css/templateCss/feedback/feedbackadd.css" rel="stylesheet" th:href="@{/css/templateCss/feedback/feedbackadd.css}"/>
+    <link href="css/templateCss/admincommon/call.css" rel="stylesheet" th:href="@{/css/templateCss/admincommon/call.css}"/>
+    <link href="css/templateCss/admincommon/call-frame.css" rel="stylesheet" th:href="@{/css/templateCss/admincommon/call-frame.css}"/>
+
+    <link href="css/templateCss/backgroundfeedbackadd/feedbackadd.css" rel="stylesheet" th:href="@{/css/templateCss/backgroundfeedbackadd/feedbackadd.css}"/>
     
     
 </head>
@@ -14,34 +16,64 @@
 				<span class="navigate-header">评分管理>>评分列表>>新增评分</span>
 			</div>
 			<div class="row">
-				<div class="col-sm-4">
-					<table class="table table-striped">
-					   <thead>
-					      <tr>
-					         <th>企业名称</th>
-					         <th>企业法人</th>					         
-					      </tr>
-					   </thead>
-					   <tbody>
-					      <tr>
-					         <td>Tanmay</td>
-					         <td>Bangalore</td>
-					      </tr>
-					   </tbody>
-					</table>
+				<div class="col-sm-3">
+					<div class="tab_content">
+						<div class="terminal_list_table">
+							<div class="group_search">
+								<input type="hidden" id="incomming-call-number" value="">
+								<span><input type="text" ng-model="search_keyword" class="" placeholder="企业名称/企业法人/联系电话"><font ng-click="searchCompany()">搜索</font></span>
+							</div>
+							<div class="search_title">
+								<div class="group_title">结果列表</div>
+							</div>
+							<div class="search_table_terminal">
+								<div>
+									<table class="table ellipsis search_table">
+										<thead class="table_thead">
+											<tr>
+												<th width="35%" title="">企业名称</th>
+												<th width="35%" title="">企业法人</th>
+												<th width="30%" title="">联系电话</th>
+											</tr>
+										</thead>
+										<tbody class="table_tbody" id="group_search_tbody">
+											<tr ng-repeat="item in entrySearch" on-finish-render-filters id="tr{{item.uuid}}" current-terminal-tr ng-click="currentCompany(item)" class="terminal_tr_one">
+						            			<td title="{{item.name}}">{{item.name}}</td>
+						            			<td title="{{item.enterpriseLegalPerson}}">{{item.enterpriseLegalPerson}}</td>
+						            			<td title="{{item.tel}}">{{item.tel}}</td>
+						        			</tr>
+					        			</tbody>
+									</table>
+								</div>
+							</div>
+							<div><call-search-page></call-search-page></div>
+						</div>
+					</div>
+
 				</div>
 				<div class="col-sm-8">
 					<div class="terminal-add-total">
-						<form class="form-horizontal" name="personnelAddFrom" role="form" ng-submit="personnelAdd()" novalidate>
-							<input type="hidden" ng-model="companyId"/>
+						<form class="form-horizontal" name="feedbackAddFrom" role="form" ng-submit="feedbackAdd()" novalidate>
+							<input type="hidden" ng-model="shoeCompanyId"/>
 							<!-- 企业名称-->
 						    <div class="form-group">
 		                        <label class="require-mark-style">*</label>
 						        <label class="col-sm-2">企业名称</label>
 						        <div class="col-sm-4">
-						            <input type="text" class="form-control" name="loginName" readonly="readonly" required  ng-model="companyName"/>
+						            <input type="text" class="form-control" name="companyName" readonly="readonly" required  ng-model="companyName"/>
 						        </div>
 						    </div>
+						    <div class="form-group">
+		                        <label class="require-mark-style">*</label>
+						        <label class="col-sm-2">评分项</label>						    
+				                <div class="col-sm-4">
+						             <select class="form-control" required
+						                     ng-model="scoreItem"
+						                     ng-options="value.scoreCode as value.scoreDesc for value in scoreItemList">
+						                   <option value="">请选择</option>
+						             </select>
+					            </div>
+				            </div>
 						    <!-- 用户名 -->
 						    <div class="form-group">
 		                        <label class="require-mark-style">*</label>
@@ -59,14 +91,15 @@
 						    	<label class="require-mark-style">*</label>
 						        <label  class="col-sm-2">分数</label>
 						        <div class="col-sm-4 spinner">
-									<input type="text" required name="score" ng-model="score" id="score" class="form-control" style="display: block;"/>
+						            <input type="text" required name="score" ng-model="score" id="score" class="form-control" style="display: block;"/>							    						            
 								    <div class="input-group-btn-vertical">
 								      <button class="btn btn-default buttom-icon" ng-click="plusScore()" type="button"><i class="glyphicon glyphicon-triangle-top"></i></button>
 								      <button class="btn btn-default buttom-icon" ng-click="reduceScore()" type="button"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
-								    </div>						        </div>
+								    </div>						        
+								</div>
 						    </div>
 						    
-						    <!-- 确认密码 -->
+						    <!-- 评分证据 -->
 						    <div class="form-group">
 						    	<label class="require-mark-style">*</label>
 						        <label  class="col-sm-2">评分证据</label>
@@ -75,34 +108,35 @@
 						        </div>
 						    </div>
 						    
-						    <!-- 角色-->
+						    <!-- 提交者姓名-->
 						    <div class="form-group">
-						    	<label class="require-mark-style">*</label>
+						    	<label class="require-mark-style"></label>
 						        <label  class="col-sm-2">提交者姓名</label>
 						        <div class="col-sm-4">
-                        			<input type="text" required class="form-control" id="submitPerson" ng-model="submitPerson" placeholder="请输入提交者姓名">
+                        			<input type="text" class="form-control" id="submitPerson" ng-model="submitPerson" placeholder="请输入提交者姓名">
 		 				    	</div>
 
 						    </div>				   
 						    
-						    <!-- 联系电话 -->
+						    <!-- 提交者手机 -->
 						    <div class="form-group">
-						    	<label class="require-mark-style">*</label>
+						    	<label class="require-mark-style"></label>
 						        <label  class="col-sm-2">提交者手机</label>
 						        <div class="col-sm-4">
-                        			<input type="text" required  class="form-control" ng-change="checkTel()" id="submitTel" ng-model="submitTel" placeholder="请输入提交者手机">
+                        			<input type="text"  class="form-control" ng-change="checkTel()" id="submitTel" name="submitTel" ng-model="submitTel" placeholder="请输入提交者手机">
 						        </div>
 						    </div>
 	
-						    <!-- 备注 -->
+						    <!-- 评分事由 -->
 						    <div class="form-group">
+						    	<label class="require-mark-style">*</label>						    
 						        <label  class="col-sm-2">评分事由</label>
 						        <div class="col-sm-4">
-                        			<input type="text" required class="form-control" id="scoreReason" ng-model="scoreReason" placeholder="请输入理由">
+                        			<input type="text" name="scoreReason" required class="form-control" id="scoreReason" ng-model="scoreReason" placeholder="请输入理由">
 						        </div>
-						        <span class="prompt_span personnel_prompt_textarea" ng-show="personnelAddFrom.remarks.$dirty && personnelAddFrom.remarks.$invalid">不能超过100个字符</span>
-						        <span ng-show="remarks">
-						        <span class="prompt_ok_span" ng-show="personnelAddFrom.remarks.$dirty && personnelAddFrom.remarks.$valid"><span class="glyphicon glyphicon-ok"></span></span>
+						        <span class="prompt_span personnel_prompt_textarea" ng-show="feedbackAddFrom.scoreReason.$dirty && feedbackAddFrom.scoreReason.$invalid">不能超过100个字符</span>
+						        <span ng-show="scoreReason">
+						        <span class="prompt_ok_span" ng-show="feedbackAddFrom.scoreReason.$dirty && feedbackAddFrom.scoreReason.$valid"><span class="glyphicon glyphicon-ok"></span></span>
 						        </span>
 						    </div>
 						    
@@ -110,8 +144,8 @@
 						        <div class="col-sm-2"></div>
 						        <div class="col-sm-4 btn-group">
 						        	<span class="btn_group">
-						            	<button type="submit" ng-disabled="!(personnelAddFrom.$valid && id_error_ishidden && !confirmPasswordWrong)" class="btn btn-primary">保存</button>
-								    	<button type="button" ui-sref="personnellist" class="btn btn-default">返回</button>
+						            	<button type="submit" ng-disabled="!feedbackAddFrom.$valid" class="btn btn-primary">保存</button>
+								    	<button type="button" ui-sref="backgroundfeedbacklist" class="btn btn-default">返回</button>
 								    	<span class="prompt_span">{{addSuccess}}</span>
 									</span>
 						        </div>

@@ -40,6 +40,7 @@ import com.ligq.shoe.model.FeedbackResponse;
 import com.ligq.shoe.model.SendMsg;
 import com.ligq.shoe.service.FeedbackService;
 import com.ligq.shoe.validator.AddFeedbackValidator;
+import com.ligq.shoe.validator.AddFeedbackWithoutAuditValidator;
 
 @Controller
 public class FeedbackController {
@@ -50,6 +51,8 @@ public class FeedbackController {
 	private FeedbackService feedbackService;
 	@Autowired
 	private AddFeedbackValidator addFeedbackValidator;
+	@Autowired
+	private AddFeedbackWithoutAuditValidator addFeedbackWithoutAuditValidator;
 	
 	@RequestMapping(value="/shoecompanies/{uuid}/feedbacks",method=RequestMethod.POST, produces = "application/hal+json")
 	public HttpEntity<?> saveFeedback(
@@ -79,6 +82,32 @@ public class FeedbackController {
 		ResponseEntity<Object> responseEntity =  null;		
 		try {	        
 	        responseEntity=feedbackService.save(feedBackAddRequest,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
+	}
+	
+	@RequestMapping(value="/shoecompanies/{uuid}/feedbacks/withoutaudit",method=RequestMethod.POST, produces = "application/hal+json")
+	public HttpEntity<?> saveFeedbackWithoutAudit(
+			@PathVariable String uuid,
+			@RequestBody FeedbackAddRequest feedBackAddRequest,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			BindingResult result){
+		
+		addFeedbackWithoutAuditValidator.validate(feedBackAddRequest, result);
+		if(result.hasErrors()){
+			logger.error("Add Feedback validation failed:"+result);
+			throw new RepositoryConstraintViolationException(result);
+		}
+
+		feedBackAddRequest.setCompanyId(uuid);
+		ResponseEntity<Object> responseEntity =  null;		
+		try {	        
+	        responseEntity=feedbackService.saveFeedbackAndUpdateCompany(feedBackAddRequest,request,response);			
 		} catch (Exception e) {			
 			logger.error(e.getMessage(),e);
 			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			

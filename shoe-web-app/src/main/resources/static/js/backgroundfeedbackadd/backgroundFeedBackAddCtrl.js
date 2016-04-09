@@ -6,7 +6,19 @@ var backgroundFeedBackAddControllers=angular.module('backgroundFeedBackAddContro
 
 backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope','$timeout','$state','$stateParams','$upload','$rootScope','backgroundFeedBackAddFactory',
     function($scope,$timeout,$state,$stateParams,$upload,$rootScope,backgroundFeedBackAddFactory) {
-    	
+    $scope.scoreItemList = [
+                            {
+                            	scoreCode:'creditScore',
+                            	scoreDesc:'诚信分'
+                            },
+                            {
+                            	scoreCode:'qualityScore',
+                            	scoreDesc:'产品质量分'
+                            },{
+                            	scoreCode:'serveScore',
+                            	scoreDesc:'服务分'
+                            }
+                            ];	
     $scope.scoreTypeList = [
             {
             	scoreValue:'plus',
@@ -20,7 +32,7 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
         
 	$scope.score = 0;
 	
-	var checkmobile = function (string) { 
+	function checkmobile(string) { 
 		if(string == null || string == undefined || string == ''){
 			return false;
 		}
@@ -43,47 +55,95 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
 			$scope.score = $scope.score-1;
 		}
 	}
-		
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~搜索查找~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    $scope.currentPageSearch=CURRENTPAGE_INIT;//当前第几页
+    $scope.pageSizeSearch=15;//默认每页条数
+    $scope.pagingHiddenSearch=true;
+    var search_keyword;
+    //request data
+ 	var refreshCompanyListSearch=function(){
+    	var search_keyword="";
+    	if($scope.search_keyword != undefined){
+    		search_keyword=$scope.search_keyword;
+    	}
+    	var queryEntity = {};
+    	queryEntity.keyword = search_keyword;
+    	queryEntity.page = $scope.currentPageSearch;
+    	queryEntity.size = $scope.pageSizeSearch;
+    	queryEntity.auditStatus = 1;
+    	backgroundFeedBackAddFactory.searchCompanyList(queryEntity,function(response){
+            makeEntrySearch(response);
+            $scope.numPagesSearch = function () {
+                return $scope.pageSearch.totalPages;
+            };
+            $scope.currentPageSearch = $scope.pageSearch.number+1;
+        });
+        
+    	
+ 	}
+ 	
+ 	
+ 	var makeEntrySearch=function(response){
+        $scope.entrySearch=[];
+        if(response._embedded==undefined){
+        	$scope.pagingHiddenSearch=true;
+         }else{
+            $scope.pagingHiddenSearch=false;
+            var allGroup = $scope.allGroup;
+            for(var i=0;i<response._embedded.shoeCompanyResponses.length;i++){
+    			$scope.entrySearch.push({
+    				name:response._embedded.shoeCompanyResponses[i].name,
+    				enterpriseLegalPerson:response._embedded.shoeCompanyResponses[i].enterpriseLegalPerson,
+    				tel:response._embedded.shoeCompanyResponses[i].tel,
+    				uuid:response._embedded.shoeCompanyResponses[i].uuid
+    			});
+            	
+            }
+            $scope.pageSearch = response.page;
+        }
+    };
+
+    // 点击下一页，上一页，首页，尾页按钮
+    $scope.pageChangedSearch=function(){
+    	refreshCompanyListSearch();
+    };
+    
+    //输入页数
+    $scope.clickBlurSearch=function(){
+		var pageIndex=$scope.currentPageSearch;
+		if(pageIndex >= 1 && pageIndex <= $scope.numPagesSearch()){
+			$scope.currentPageSearch=parseInt(pageIndex);
+			refreshCompanyListSearch();
+		}else if(pageIndex > $scope.numPagesSearch()){
+			$scope.currentPageSearch = $scope.numPagesSearch();
+			$scope.clickBlurSearch();
+		}else if(pageIndex < 1){
+			$scope.currentPageSearch = 1;
+			$scope.clickBlurSearch();
+		}else{
+			$scope.currentPageSearch = 1;
+			$scope.clickBlurSearch();
+		}
+	}
+    
+    //模糊搜索
+    $scope.searchCompany=function(){
+
+    	search_keyword = ($scope.search_keyword == undefined)?"":scope.search_keyword;
+        $scope.currentPageSearch=CURRENTPAGE_INIT;//当前第几页
+    	$scope.pageSizeSearch=15;//默认每页条数
+    	$scope.pagingHiddenSearch=true;
+    	refreshCompanyListSearch();
+    	
+    }
+	
+    $scope.currentCompany = function(item){
+    	$scope.shoeCompanyId = item.uuid;
+    	$scope.companyName = item.name;
+    }
+    
 	var submit = function(proofFileIds){
-  		if($scope.scoreType == null || $scope.scoreType == undefined || $scope.scoreType == ''){
-			Message.alert({
-				msg : "请设置评分类型!",
-				title : "警告:",
-				btnok : '确定',btncl : '取消'
-			}, "warn", "small");
-		}
-		
-		if($scope.score == null || $scope.score == undefined || $scope.score < 1){
-			Message.alert({
-				msg : "评分分数必须大于0!",
-				title : "警告:",
-				btnok : '确定',btncl : '取消'
-			}, "warn", "small");
-		}
-		
-		if($scope.scoreReason == null || $scope.scoreReason == undefined || $scope.scoreReason == ''){
-			Message.alert({
-				msg : "评分事由不能为空!",
-				title : "警告:",
-				btnok : '确定',btncl : '取消'
-			}, "warn", "small");
-		}
-		
-		if($scope.submitPerson == null || $scope.submitPerson == undefined || $scope.submitPerson == ''){
-			Message.alert({
-				msg : "提交者姓名不能为空!",
-				title : "警告:",
-				btnok : '确定',btncl : '取消'
-			}, "warn", "small");
-		}
-		
-		if($scope.submitTel == null || $scope.submitTel == undefined || $scope.submitTel == ''){
-			Message.alert({
-				msg : "提交者手机不能为空!",
-				title : "警告:",
-				btnok : '确定',btncl : '取消'
-			}, "warn", "small");
-		}
 		
 		var postEntity={};
 		postEntity.scoreType=$scope.scoreType;
@@ -92,7 +152,8 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
 		postEntity.submitPerson=$scope.submitPerson;
 		postEntity.submitTel=$scope.submitTel;
 		postEntity.proofFileIds = proofFileIds;
-		postEntity.checkCode = $scope.checkCode;
+		postEntity.scoreItem=$scope.scoreItem;
+
 		backgroundFeedBackAddFactory.saveFeedback({uuid: $scope.shoeCompanyId},postEntity,function(response){				
 			if(response.$resolved){
 				$state.go('shoeList');
@@ -165,3 +226,11 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
 	}
 	
 }]);
+
+backgroundFeedBackAddControllers.directive("callSearchPage", function () {
+	var option = {
+			restrict: "E",
+			templateUrl: "templates/commonTemplate/call-search-page.html"
+	};
+	return option;
+});

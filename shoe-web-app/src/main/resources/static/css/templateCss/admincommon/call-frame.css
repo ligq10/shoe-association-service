@@ -1,0 +1,463 @@
+@charset "utf-8";
+.command_main {
+	width: 100%;
+	height: 100%;
+	min-height: 500px;
+}
+
+.monitor {
+	width: 100%;
+	height: 100%;
+	padding-bottom: 30px;
+	position:relative;
+}
+.warings_count {
+	width: 100%;
+	height: 100%;
+	position:relative;
+}
+.monitor_table{
+	height: 100%;
+	width: 20%;
+	float:left;
+	padding:0px;
+	position: relative;
+}
+.monitor_group{
+	height:40%;
+	width: 100%;
+}
+.monitor_search{
+	height:100%;
+	width: 100%;
+	overflow: hidden;
+}
+.group_tab{
+	height:35px;
+	line-height: 35px;
+}
+.group_tab span{
+	text-align:center;
+	display:inline-block;
+	width: 50%;
+	cursor: pointer;
+	color: #b0b0b0;
+	background-color: #eeeeee;
+}
+.group_tab span:nth-child(1){
+	float:left;
+}
+.group_tab span:nth-child(2){
+	float:right;
+}
+.group_tab_active{
+	color:#6c767e !important;
+	background-color: white !important;
+}
+.tab_content{
+	height:100%;
+	padding-bottom:35px;
+	overflow: hidden;
+}
+.search_title{
+	overflow: hidden;
+}
+.group_search{
+	text-align: center;
+}
+.group_search span{
+	display:block;
+	margin-top:15px;
+	margin-bottom:2px;
+}
+.group_search span input{
+	outline:0px;
+	width:75%;
+	height: 22px;
+	padding:2px 5px;
+	border:1px solid #CCCCCC;
+	-moz-border-radius: 2px; 
+	-webkit-border-radius: 2px; 
+	border-radius: 2px;
+	/*取消内阴影*/
+	/* -webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none; */
+}
+.group_search span font{
+	margin-left:5px;
+	color:#5383ff;
+	cursor: pointer;
+}
+.group_search span font:hover{
+	color:#0018f7;
+}
+.group_title{
+	padding:8px 10px;
+	background-color: #fff;
+}
+.group_tree{
+	width:100%;
+	height:100%;
+	padding-bottom:36px;
+	background-color: #f4f5f9;
+}
+.group_tree div{
+	width:100%;
+	height:100%;
+	padding-left:5px;
+	overflow: auto;
+}
+.group_tree div ul{
+	padding-right:0px;
+}
+.monitor_terminal{
+	height: 60%;
+	width: 100%;
+	overflow: hidden;
+}
+.title_count{
+	overflow: hidden;
+}
+.terminal_title{
+	padding:8px 10px;
+	background-color: #fff;
+}
+.terminal_count{
+	padding:4px 10px;
+}
+.terminal_count div{
+	font-size:12px;
+	padding:0px 0px;
+	text-align:center;
+	word-break:keep-all;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.terminal_count img{
+	cursor: default;
+}
+.terminal_list{
+	width:100%;
+	height:100%;
+	padding-bottom:94px;
+	overflow: hidden;
+	position: relative;
+}
+.terminal_list_nocount{
+	width:100%;
+	height:100%;
+	padding-bottom:66px;
+	overflow: hidden;
+	position: relative;
+	background-color: #f4f5f9;
+}
+.terminal_list_table{
+	height:100%;
+	position: relative;
+	padding-bottom: 30px;
+}
+.terminal_list_table div:first-child{
+	width:100%;
+	overflow: auto;
+}
+.terminal_list_detail{
+	width:100%;
+	height:100%;
+	padding:2px 0px 5px 15px;
+	overflow: auto;
+}
+.search_table_terminal{
+	width:100%;
+	height:100%;
+	padding-bottom: 70px;
+}
+.search_table_terminal div{
+	width:100%;
+	height:100%;
+}
+.terminal_list_detail div{
+}
+.folder{
+	display:inline-block;
+	width:19px;
+	height:16px;
+	font-size:0px;
+	background-color:red;
+	background: url(../../img/zTreeStandard.png) no-repeat;
+	background-position: 77% -3%;
+}
+.page{
+	height:30px;
+	width:100%;
+	background: #d2ddee;
+	position: absolute;
+	bottom:36px;
+}
+.page_nocount{
+	height:30px;
+	width:100%;
+	background: #d2ddee;
+	position: absolute;
+	bottom:36px;
+}
+.page_search{
+	height:30px;
+	width:100%;
+	background: #d2ddee;
+	position: absolute;
+	bottom:0px;
+}
+
+/*实时监控*/
+.monitor_map{
+	padding:0px;
+	height: 100%;
+	width: 100%;
+	float:right;
+	border-left: 1px solid #c9c9c9;
+}
+.map{
+	width:100%;
+	height:80%;
+	background-color: #000;
+}
+.detail{
+	width:100%;
+	height:20%;
+	position: relative;
+}
+.map_home{
+	width:100%;
+	height:88%;
+	background-color: #000;
+}
+.detail_home{
+	width:100%;
+	height:12%;
+	position: relative;
+}
+.monitor_footer {
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	height: 30px;
+	width: 100%;
+	margin: 0px;
+	padding-left: 20px;
+	padding-right: 0px;
+	background: #e0e0e0;
+	color:black;
+	line-height: 30px;
+	font-size: 12px;
+	border-top: 1px solid #eeeeee;
+	border-bottom: 1px solid #eeeeee;
+}
+.logo_small{
+	width:17px;
+}
+.monitor_footer_count{
+	float:right;
+	
+}
+.cout_item{
+	float:right;
+	width:120px;
+	height:20px;
+	text-align: center;
+	margin-top:5px;
+	line-height: 20px;
+}
+.cout_item span{
+	margin-left: 10px;
+}
+.cout_item_border{
+	border-right: 2px solid #fff;
+}
+
+.map_toggle{
+	width:20px;
+	height:70px;
+	background-color: #fff;
+	position: absolute;
+	top:40%;
+	right:-20px;
+	z-index:100;
+	
+	border-bottom:1px solid #a1a1a1;
+	border-top:1px solid #a1a1a1;
+	border-right:1px solid #a1a1a1;
+	
+	-moz-border-radius: 0px 4px 4px 0px; 
+    -webkit-border-radius: 0px 4px 4px 0px; 
+    border-radius: 0px 4px 4px 0px; 
+    line-height: 70px;
+    font-size: 14px;
+    text-align: center;
+    
+    cursor: pointer;
+}
+.location_info{
+	height:100%;
+	width:100%;
+	overflow: auto;
+}
+
+.detail_title{
+	height:30px;
+	width:100%;
+	padding:5px 15px 0px 15px;
+	color:#fff;
+	background-color: #4AA6E5;
+	position: absolute;
+	top:-30px;
+}
+.detail_title_localtion{
+	display: inline-block;
+	height:25px;
+	padding:0px 10px;
+	-webkit-border-radius:4px 4px 0px 0px;
+	-moz-border-radius:4px 4px 0px 0px;
+	border-radius:4px 4px 0px 0px;
+	background-color: #fff;
+	color:#000000;
+	text-align: center;
+	line-height: 25px;
+}
+.detail_toggle_icon{
+	float:right;
+	height:20px;
+	width:30px;
+	text-align:center;
+	cursor: pointer;
+}
+
+/*报警统计*/
+.warnings_count_search_table{
+	padding:0px;
+	height: 100%;
+	width: 80%;
+	float:right;
+	border-left: 1px solid #E5E5E5;
+}
+.search_group{
+	padding:0px 15px;
+}
+.search_group div{
+	padding:0px;
+	margin-top:8px;
+}
+.search_group div div input,.search_group div div select{
+	height:26px;
+	width: 155px;
+	padding-left:5px;
+	padding-right:5px;
+		
+	-moz-border-radius: 2px; 
+	-webkit-border-radius: 2px; 
+	border-radius: 2px;
+}
+.command_search_time{
+	background:#fff url("../../../image/datePicker.png") no-repeat;
+	background-position: 98% 40%;
+	background-color:transparent !important;
+	cursor: pointer;
+	background-color: transparent;
+	font-size:10px;
+}
+.serch_button{
+	margin-top:10px !important;
+	text-align: center;
+}
+.serch_button button{
+	height: 26px;
+	width: 65px;
+	padding-top:0px;
+	padding-bottom:0px;
+	line-height: 24px;
+}
+.search_group div label{
+	width:75px;
+	float:left;
+	margin-bottom:0px;
+	text-align:right;
+	line-height:26px;
+	font-weight: normal;
+}
+
+.table_div{
+	margin-top:10px;
+}
+.localtion{
+	height:550px;
+}
+.modal_content_self{
+    margin-top: 5% !important;
+}
+.modal_body_self{
+	padding:10px !important;
+}
+.modal_header_self{
+	padding:10px;
+	font-size: 14px;
+}
+
+.terminal_list{
+	list-style: none;
+	padding:0px 0px 0px 8px;
+}
+.terminal_list li img{
+	padding-bottom: 5px;
+}
+.terminal_list li{
+	padding-left:12px;
+	width:80%;
+	height:20px;
+	word-break:break-all;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+	line-height: 20px;
+	margin-top:2px;
+	background: url("../../../image/dotted_line_s.png") no-repeat;
+	cursor: pointer;
+}
+.terminal_list li:hover{
+	color:#4691ff;
+}
+.current_terminal{
+	color:#4691ff;
+}
+
+/*group 分页*/
+.page_gray{
+	color:#bbbbbb;
+	padding:0px !important;
+	border:0px;
+	background-color: transparent;
+	outline:none;
+}
+.page_blue{
+	color:#3598db;
+	padding:0px !important;
+	border:0px;
+	background-color: transparent;
+	outline:none;
+}
+.aaaa{
+	width:100px;
+	height:200px;
+	background-color: red;
+}
+
+
+
+
+
+
+
+
+
+
+

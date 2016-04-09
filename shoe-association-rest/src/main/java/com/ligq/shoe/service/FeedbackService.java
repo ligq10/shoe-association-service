@@ -26,7 +26,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.ligq.shoe.constants.CreditLevel;
 import com.ligq.shoe.constants.FeedbackAuditStatus;
+import com.ligq.shoe.constants.ScoreItems;
 import com.ligq.shoe.constants.ScoreType;
 import com.ligq.shoe.controller.FeedbackController;
 import com.ligq.shoe.entity.FeedbackFile;
@@ -84,6 +86,31 @@ public class FeedbackService {
 		return new ResponseEntity<Object>(headers,HttpStatus.CREATED);
 	}
 
+	public FeedbackScore saveFeedbackScore(FeedbackAddRequest feedBackAddRequest,
+			HttpServletRequest request, HttpServletResponse response){
+		List<String> proofFileIds = feedBackAddRequest.getProofFileIds();
+		if(null == proofFileIds || proofFileIds.isEmpty()){
+			return null;
+		}		
+		Date createTime = new Date();
+		FeedbackScore feedbackScore = new FeedbackScore();		
+		BeanUtils.copyProperties(feedBackAddRequest, feedbackScore);
+		feedbackScore.setUuid(UUID.randomUUID().toString());
+		feedbackScore.setCreateTime(createTime);
+		//0代表初始化状态
+		feedbackScore.setApproveStatus(FeedbackAuditStatus.MIDDLE_PASS_AUDIT.getValue());
+		feedbackScore = feedbackScoreRepository.save(feedbackScore);
+		for(String proofFileId : proofFileIds){
+			FeedbackFile feedbackFile = new FeedbackFile();
+			feedbackFile.setUuid(UUID.randomUUID().toString());
+			feedbackFile.setFileId(proofFileId);
+			feedbackFile.setFeedbackId(feedbackScore.getUuid());
+			feedbackFile.setCreateTime(createTime);
+			feedbackFileRepository.save(feedbackFile);			
+		}
+		return feedbackScore;
+	}
+	
 	public FeedbackResponse findOneFeedbackById(
 			String uuid,
 			HttpServletRequest request,
@@ -190,5 +217,61 @@ public class FeedbackService {
 	public Page<FeedbackScore> findFeedbackBySearchKeywordAndAudit(String keyword,Integer status,Pageable pageable) {
 		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findFeedbackBySearchKeywordAndAudit(keyword,status,pageable);
 		return feedbackScorePage;
+	}
+
+	public ResponseEntity<Object> saveFeedbackAndUpdateCompany(
+			FeedbackAddRequest feedBackAddRequest, HttpServletRequest request,
+			HttpServletResponse response) {
+		ShoeCompany shoeCompany = shoeCompanyRepository.findOne(feedBackAddRequest.getCompanyId());
+		Integer score = 0;
+		if(null != shoeCompany){
+			if(feedBackAddRequest.getScoreItem().equalsIgnoreCase(ScoreItems.SERVE_SCORE.getValue())){
+				if(feedBackAddRequest.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
+					score = shoeCompany.getServeScore() + feedBackAddRequest.getScore();
+				}else{
+					score = shoeCompany.getServeScore() - feedBackAddRequest.getScore();						
+				}
+				shoeCompany.setServeScore(score);
+			}else if(feedBackAddRequest.getScoreItem().equalsIgnoreCase(ScoreItems.CREDIT_SCORE.getValue())){
+				if(feedBackAddRequest.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
+					score = shoeCompany.getCreditScore() + feedBackAddRequest.getScore();
+				}else{
+					score = shoeCompany.getCreditScore() - feedBackAddRequest.getScore();						
+				}
+				shoeCompany.setCreditScore(score);
+			}else if(feedBackAddRequest.getScoreItem().equalsIgnoreCase(ScoreItems.QUALITY_SCORE.getValue())){
+				if(feedBackAddRequest.getScoreType().equalsIgnoreCase(ScoreType.PLUS.getValue())){
+					score = shoeCompany.getQualityScore() + feedBackAddRequest.getScore();
+				}else{
+					score = shoeCompany.getQualityScore() - feedBackAddRequest.getScore();						
+				}
+				shoeCompany.setQualityScore(score);
+			}
+			Integer creditLevel = this.getCreditLevel(shoeCompany);
+			shoeCompany.setCreditLevel(creditLevel);
+			shoeCompanyRepository.save(shoeCompany);
+		}
+		
+		FeedbackScore feedbackScore = this.saveFeedbackScore(feedBackAddRequest, request, response);
+
+		HttpHeaders headers = new HttpHeaders();
+
+		URI selfUrl = linkTo(methodOn(FeedbackController.class).findOneFeedbackById(feedbackScore.getUuid(), request, response)).toUri();
+		headers.setLocation(selfUrl);
+		return new ResponseEntity<Object>(headers,HttpStatus.CREATED); 
+	}
+	
+	private Integer getCreditLevel(ShoeCompany shoeCompany) {
+		// TODO Auto-generated method stub
+		Integer totalScore = shoeCompany.getCreditScore()+shoeCompany.getServeScore()+shoeCompany.getQualityScore();
+		if(totalScore >= 95){
+			return CreditLevel.BEST.getValue();
+		}else if(totalScore >= 84 && totalScore < 95){
+			return CreditLevel.GENERAL.getValue();
+		}else if(totalScore >= 74 && totalScore < 84){
+			return CreditLevel.MEDIUM.getValue();
+		}else{
+			return CreditLevel.INFERIOR.getValue();
+		}
 	}
 }

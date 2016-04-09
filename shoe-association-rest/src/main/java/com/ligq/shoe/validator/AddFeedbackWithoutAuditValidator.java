@@ -6,12 +6,12 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class AddFeedbackValidator implements Validator{
+public class AddFeedbackWithoutAuditValidator implements Validator{
 
 	@Override
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
-		return AddFeedbackValidator.class.equals(clazz);
+		return AddFeedbackWithoutAuditValidator.class.equals(clazz);
 	}
 
 	@Override
@@ -20,10 +20,6 @@ public class AddFeedbackValidator implements Validator{
 		ValidationUtils.rejectIfEmpty(errors, "scoreType", "scoretype.empty");
 		ValidationUtils.rejectIfEmpty(errors, "score", "score.empty");
 		ValidationUtils.rejectIfEmpty(errors, "scoreReason", "scorereason.empty");
-		ValidationUtils.rejectIfEmpty(errors, "submitPerson", "submitperson.empty");
-		ValidationUtils.rejectIfEmpty(errors, "submitTel", "submittel.empty");
-		ValidationUtils.rejectIfEmpty(errors, "checkCode", "checkCode.empty");
-
 	}
 
 }

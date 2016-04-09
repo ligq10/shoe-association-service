@@ -27,7 +27,7 @@ public interface ShoeCompanyRepository extends
 	public Page<ShoeCompany> findByCreditLevelAndAuditStatus(Integer creditLevel,Integer auditstatus,Pageable pageable);
 	
 	@RestResource(exported = false)
-	@Query(value = "select t from ShoeCompany t where  (t.name like %:keyword% or t.submitPerson like %:keyword%) and t.auditStatus = :auditstatus")
+	@Query(value = "select t from ShoeCompany t where  (t.name like %:keyword% or t.submitPerson like %:keyword% or t.enterpriseLegalPerson like %:keyword%) and t.auditStatus = :auditstatus")
 	public Page<ShoeCompany> findByKeywordAndAuditStatus(@Param("keyword") String keyword,@Param("auditstatus") Integer auditstatus,Pageable pageable);
 
 	public Page<ShoeCompany> findByAuditStatus(Integer auditStatus,

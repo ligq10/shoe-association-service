@@ -1,0 +1,18 @@
+<div ng-hide="pagingHiddenSearch" class="page_search">
+	<div align="center" style="line-height:30px;">
+	
+	    <button ng-class="currentPageSearch==1?'page_gray':'page_blue'" ng-disabled="currentPageSearch == 1"
+	            ng-click="currentPageSearch =1;pageChangedSearch();"><span class="glyphicon glyphicon-step-backward"></span></button>
+	            
+	    <button ng-class="currentPageSearch==1?'page_gray':'page_blue'" ng-disabled="currentPageSearch == 1"
+	            ng-click="currentPageSearch = currentPageSearch - 1;pageChangedSearch();"><span class="glyphicon glyphicon-triangle-left"></span></button>
+	            
+	    <span>第</span><input id="currentPageSearch" ng-model="currentPageSearch"  ng-blur="clickBlurSearch()" style="height:25px;width:35px;line-height:21px; border:1px solid #bbbbbb;"><span>页 ,共{{numPagesSearch()}}页</span>
+	    
+	    <button ng-class="currentPageSearch==numPagesSearch()?'page_gray':'page_blue'" ng-disabled="currentPageSearch == numPagesSearch()"
+	            ng-click="currentPageSearch = currentPageSearch + 1;pageChangedSearch();"><span class="glyphicon glyphicon-triangle-right"></span></button>
+	            
+	    <button ng-class="currentPageSearch==numPagesSearch()?'page_gray':'page_blue'"ng-disabled="currentPageSearch == numPagesSearch()"
+	            ng-click="currentPageSearch =numPagesSearch();pageChangedSearch();"><span class="glyphicon glyphicon-step-forward"></span></button>
+	</div>
+</div>
