@@ -156,7 +156,7 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
 
 		backgroundFeedBackAddFactory.saveFeedback({uuid: $scope.shoeCompanyId},postEntity,function(response){				
 			if(response.$resolved){
-				$state.go('shoeList');
+				$state.go('backgroundfeedbacklist');
 				Message.alert({
 					msg : "新增成功!",
 					title : "提示:",
@@ -220,7 +220,7 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
 	    })
 	}
 
-	$scope.submitFeedback = function(){
+	$scope.feedbackAdd = function(){
 		var proofFiles = $scope.proofFile;
 		fileUpload(proofFiles);
 	}

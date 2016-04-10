@@ -4,7 +4,7 @@
 'use strict';
 var adminApp=angular.module('adminApp',['ui.router','ui.tree','angularFileUpload','personnelAddControllers','primaryAuditFeedbackListControllers','shoecompanyListControllers','shoecompanyAddControllers','shoecompanyUpdateControllers',
                   'primaryAuditFeedbackControllers','middleAuditFeedbackControllers','middleAuditFeedbackListControllers','personnelListControllers','personnelUpdateControllers','auditShoeCompanyListControllers','addShoeCompanyAuditControllers',
-                  'backgroundFeedBackListControllers','backgroundFeedBackAddControllers']);
+                  'backgroundFeedBackListControllers','backgroundFeedBackAddControllers','updateFeedbackControllers']);
 adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$rootScopeProvider){
     $httpProvider.defaults.headers.common['X-Token'] = $.cookie('X-Token');
 
@@ -118,6 +118,13 @@ adminApp.config(function($stateProvider, $urlRouterProvider, $httpProvider,$root
             templateUrl:'templates/feedback/feedback-add.html',
             controller:'backgroundFeedBackAddCtrl',
             permission:'FEEDBACK_ADD',
+            father:'FEEDBACK_AUDIT_MANAGER'             
+        })
+        .state('feedbackdetail',{
+            url:"/feedbackdetail/:uuid",
+            templateUrl:'templates/feedback/feedback-update.html',
+            controller:'updateFeedbackCtrl',
+            permission:'FEEDBACK_UPDATE',
             father:'FEEDBACK_AUDIT_MANAGER'             
         });
 });

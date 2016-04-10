@@ -33,6 +33,7 @@ import com.ligq.shoe.constants.ScoreType;
 import com.ligq.shoe.controller.FeedbackController;
 import com.ligq.shoe.entity.FeedbackFile;
 import com.ligq.shoe.entity.FeedbackScore;
+import com.ligq.shoe.entity.Image;
 import com.ligq.shoe.entity.ShoeCompany;
 import com.ligq.shoe.model.FeedbackAddRequest;
 import com.ligq.shoe.model.FeedbackResponse;
@@ -273,5 +274,16 @@ public class FeedbackService {
 		}else{
 			return CreditLevel.INFERIOR.getValue();
 		}
+	}
+
+	public ResponseEntity<?> delete(String uuid, HttpServletRequest request,
+			HttpServletResponse response) {
+		FeedbackScore feedbackScore = feedbackScoreRepository.findOne(uuid);
+		if(null == feedbackScore){
+			logger.info("feedbackScore is not exist");
+	        return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		feedbackScoreRepository.delete(feedbackScore);
+		return new ResponseEntity(HttpStatus.OK); 
 	}
 }

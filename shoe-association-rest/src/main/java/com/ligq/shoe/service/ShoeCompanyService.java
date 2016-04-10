@@ -290,7 +290,7 @@ public class ShoeCompanyService {
 			deteleFile(image.getPath());
 		}
 		shoeCompanyRepository.delete(shoeCompany);
-		return null;
+		return new ResponseEntity(HttpStatus.OK); 
 	}
 	
 	private boolean deteleFile(String filePath){

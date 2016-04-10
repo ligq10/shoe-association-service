@@ -200,4 +200,22 @@ public class FeedbackController {
 		return  responseEntity;	
 		
 	}
+	
+	@RequestMapping(value="/feedbacks/{uuid}",method = RequestMethod.DELETE, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> deleteFeedbackById(
+			 @PathVariable String uuid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+
+		ResponseEntity<?> responseEntity =  null;		
+		try {	        
+	        responseEntity=feedbackService.delete(uuid,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
+	}
 }

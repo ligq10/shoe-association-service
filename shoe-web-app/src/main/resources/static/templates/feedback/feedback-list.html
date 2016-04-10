@@ -44,7 +44,7 @@
 	            			<td align="center">{{entry.submitTel}}</td>
 	            			<td align="center">{{entry.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 	            			<td align="center">
-	                			<a ui-sref="feedbackupdate({uuid:entry.uuid})" has-permission="FEEDBACK_UPDATE" class="personnel_list_set not_menu">修改</a>
+	                			<a ui-sref="feedbackdetail({uuid:entry.uuid})" has-permission="FEEDBACK_UPDATE" class="personnel_list_set not_menu">查看</a>
 	                			<a ng-click="deleteFeedback(entry.uuid)" class="personnel_list_set"  data-toggle="delete-personnel-dialog">删除</a>
 	            			</td>
 	        			</tr>

@@ -72,4 +72,37 @@ backgroundFeedBackListControllers.controller('backgroundFeedBackListCtrl',['$sco
 		}
 		refreshFeedbackList(queryEntity);
     }
+    
+    $scope.deleteFeedback= function(uuid){
+    	
+		   Message.confirm(
+			   		  {
+			   		    msg: "确定要删除该评分？",
+			   		    title:"提示",
+			   		  })
+			   		 .on( function (e) {
+			   		    if(e){	    		   
+			   		    	backgroundFeedBackListFactory.deleteFeedback({uuid:uuid},function(response){
+		    		    	   if(response.$resolved){
+		    		    		   
+		    		    		   Message.alert({
+		    			   		    	msg: "删除成功！",
+		    			 		    	title:"成功提示",
+		    			 		    	btnok: '确定',
+		    			 		    	btncl:'取消'
+		    			            	},"success","small");
+		    		    		   refreshFeedbackList(); 
+		    		    	   }else{
+		    		    		   Message.alert({
+		    			   		    	msg: "删除失败！",
+		    			 		    	title:"错误提示",
+		    			 		    	btnok: '确定',
+		    			 		    	btncl:'取消'
+		    			            	},"error","small");
+		    		    	   }
+		    				   
+		    			   });		    		   
+			   		    }
+			   	   }); 
+    }
 }]);

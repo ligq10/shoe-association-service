@@ -58,14 +58,14 @@
 							<!-- 企业名称-->
 						    <div class="form-group">
 		                        <label class="require-mark-style">*</label>
-						        <label class="col-sm-2">企业名称</label>
+						        <label class="col-sm-2 control-label">企业名称</label>
 						        <div class="col-sm-4">
 						            <input type="text" class="form-control" name="companyName" readonly="readonly" required  ng-model="companyName"/>
 						        </div>
 						    </div>
 						    <div class="form-group">
 		                        <label class="require-mark-style">*</label>
-						        <label class="col-sm-2">评分项</label>						    
+						        <label class="col-sm-2 control-label">评分项</label>						    
 				                <div class="col-sm-4">
 						             <select class="form-control" required
 						                     ng-model="scoreItem"
@@ -77,7 +77,7 @@
 						    <!-- 用户名 -->
 						    <div class="form-group">
 		                        <label class="require-mark-style">*</label>
-						        <label class="col-sm-2 ">评分类型</label>
+						        <label class="col-sm-2 control-label">评分类型</label>
 						        <div class="col-sm-4">
 		 							<select class="form-control" required
 									    ng-model="scoreType"
@@ -87,22 +87,23 @@
 						        </div>
 						    </div>
 						    <!-- 登录密码 -->
-						    <div class="form-group">
-						    	<label class="require-mark-style">*</label>
-						        <label  class="col-sm-2">分数</label>
-						        <div class="col-sm-4 spinner">
-						            <input type="text" required name="score" ng-model="score" id="score" class="form-control" style="display: block;"/>							    						            
-								    <div class="input-group-btn-vertical" style="display: inline">
-								      <button class="btn btn-default buttom-icon" ng-click="plusScore()" type="button"><i class="glyphicon glyphicon-triangle-top"></i></button>
-								      <button class="btn btn-default buttom-icon" ng-click="reduceScore()" type="button"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
-								    </div>						        
+	    				    <div class="form-group" >
+	    				        <label class="require-mark-style">*</label>    				    
+							    <label class="col-sm-2 control-label">评分</label>
+							    <div class="col-sm-4">
+									<div class="input-group spinner">
+									<input type="text" required name="score" ng-model="score" id="score" class="form-control" style="display: block;"/>
+								    <div class="input-group-btn-vertical">
+								      <button class="btn btn-default buttom-icon spinner-padding" ng-click="plusScore()" type="button"><i class="glyphicon glyphicon-triangle-top"></i></button>
+								      <button class="btn btn-default buttom-icon spinner-padding" ng-click="reduceScore()" type="button"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+								    </div>
+								    </div>
 								</div>
-						    </div>
-						    
+							</div>
 						    <!-- 评分证据 -->
 						    <div class="form-group">
 						    	<label class="require-mark-style">*</label>
-						        <label  class="col-sm-2">评分证据</label>
+						        <label  class="col-sm-2 control-label">评分证据</label>
 						        <div class="col-sm-4">
                         			<input type="file" required class="form-control clear-border" multiple="multiple" ng-model="proofFile" id="proofFile" name="proofFile" ng-file-select/>
 						        </div>
@@ -111,7 +112,7 @@
 						    <!-- 提交者姓名-->
 						    <div class="form-group">
 						    	<label class="require-mark-style"></label>
-						        <label  class="col-sm-2">提交者姓名</label>
+						        <label  class="col-sm-2 control-label">提交者姓名</label>
 						        <div class="col-sm-4">
                         			<input type="text" class="form-control" id="submitPerson" ng-model="submitPerson" placeholder="请输入提交者姓名">
 		 				    	</div>
@@ -121,7 +122,7 @@
 						    <!-- 提交者手机 -->
 						    <div class="form-group">
 						    	<label class="require-mark-style"></label>
-						        <label  class="col-sm-2">提交者手机</label>
+						        <label  class="col-sm-2 control-label">提交者手机</label>
 						        <div class="col-sm-4">
                         			<input type="text"  class="form-control" ng-change="checkTel()" id="submitTel" name="submitTel" ng-model="submitTel" placeholder="请输入提交者手机">
 						        </div>
@@ -130,8 +131,8 @@
 						    <!-- 评分事由 -->
 						    <div class="form-group">
 						    	<label class="require-mark-style">*</label>						    
-						        <label  class="col-sm-2">评分事由</label>
-						        <div class="col-sm-4">
+						        <label  class="col-sm-2 control-label">评分事由</label>
+						        <div class="col-sm-4" style="padding-left: 8px">
                         			<input type="text" name="scoreReason" required class="form-control" id="scoreReason" ng-model="scoreReason" placeholder="请输入理由">
 						        </div>
 						        <span class="prompt_span personnel_prompt_textarea" ng-show="feedbackAddFrom.scoreReason.$dirty && feedbackAddFrom.scoreReason.$invalid">不能超过100个字符</span>

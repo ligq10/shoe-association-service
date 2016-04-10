@@ -14,7 +14,11 @@ backgroundFeedBackListService.factory('backgroundFeedBackListFactory',function($
 	         headers:{
 	                Accept:'application/hal+json'
 	         }
-	    }
+	    },
+	    deleteFeedback:{
+            url:'/feedbacks/:uuid',
+            method:'DELETE'
+        }
         // 查询树的根节点
 /*        getTreeOfParent:{
             url:'/groups/guanhutong',

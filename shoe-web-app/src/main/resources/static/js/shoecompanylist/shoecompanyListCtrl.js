@@ -56,7 +56,7 @@ shoecompanyListControllers.controller('shoecompanyListCtrl',['$scope','loginSess
 
     		   Message.confirm(
 		   		  {
-		   		    msg: "确定要删除该人员？",
+		   		    msg: "确定要删除该条目？",
 		   		    title:"提示",
 		   		  })
 		   		 .on( function (e) {
