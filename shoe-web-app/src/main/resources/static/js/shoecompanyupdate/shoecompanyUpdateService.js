@@ -8,13 +8,13 @@ var shoecompanyUpdateUrl = '';
 shoecompanyUpdateService.factory('shoecompanyUpdateFactory',function($resource){
     var shoecompanyUpdateFactory;
     shoecompanyUpdateFactory=$resource(shoecompanyUpdateUrl,{},{
-    	saveShoeCompany:{
-            method:'PATCH',
+        updateShoeCompanyById:{
             url:'/shoecompanies/:uuid',
+            method:'PATCH',
             headers:{
                 Accept:'application/hal+json'
             }
-    	},
+        },
     	getShoeComapnyDetailById:{
             url:'/shoecompanies/:uuid',
             method:'GET',

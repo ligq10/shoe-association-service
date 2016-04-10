@@ -37,7 +37,7 @@
 		                     </div>						
 				        </div>
 				        <div class="col-sm-4">
-	                 		<input type="file" required class="form-control clear-border" id="permitimage" ng-model="shoeComapny.permitimage"  name="permitimage" ng-file-select/>
+	                 		<input type="file" class="form-control clear-border" id="permitimage" ng-model="permitimage"  name="permitimage" ng-file-select="onFileSelect('permitimage',$files)"/>
 	               	 		<p class="help-block">上传小于100kb，尺寸为192*100像素的jpg、png、gif格式图片</p>
 				        
 				        </div>
@@ -60,7 +60,7 @@
 		                    </div>						
 					     </div>				        
 				        <div class="col-sm-4">
-	                 		 <input type="file" required class="form-control clear-border" id="logoimage" ng-model="shoeComapny.logoimage" name="logoimage" ng-file-select/>
+	                 		 <input type="file" class="form-control clear-border" id="logoimage" ng-model="shoeComapny.logoimage" name="logoimage" ng-file-select="onFileSelect('logoimage',$files)"/>
 	               			 <p class="help-block">上传小于1M的jpg、png、gif格式图片</p>				        
 				        </div>
 				    </div>

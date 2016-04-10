@@ -9,6 +9,8 @@ shoecompanyUpdateControllers.controller('shoecompanyUpdateCtrl',['$scope','$stat
 	$scope.shoeCompanyId = $stateParams.uuid;
 	$scope.shoeComapny ={};
 	var loginUser = loginSession.loginUser().userInfo;
+	$scope.tempLogoImageId = "";
+	$scope.tempPermitImageId = "";
 
 	$scope.result = "pass";	
 	shoecompanyUpdateFactory.getShoeComapnyDetailById({uuid:$scope.shoeCompanyId},function(response){
@@ -34,118 +36,6 @@ shoecompanyUpdateControllers.controller('shoecompanyUpdateCtrl',['$scope','$stat
 	    return false;  
 	}; 
 		
-	function submit(){
-		var postEntity={};
-		postEntity = $scope.shoeComapny;
-		postEntity.logoImageId = $scope.logoImageId;
-		postEntity.permitImageId = $scope.permitImageId;
-		shoecompanyUpdateFactory.saveShoeCompany(postEntity,function(response){				
-			if(response.$resolved){
-				$state.go('shoecompanylist');
-				Message.alert({
-					msg : "保存成功!",
-					title : "提示:",
-					btnok : '确定',btncl : '取消'
-				}, "warn", "small");
-				
-			}else{
-				Message.alert({
-					msg : "保存失败!",
-					title : "警告:",
-					btnok : '确定',btncl : '取消'
-				}, "warn", "small");
-			}
-	 	 },function(error){	
-				Message.alert({
-					msg : "保存失败!",
-					title : "警告:",
-					btnok : '确定',btncl : '取消'
-				}, "warn", "small");
-	 	 });
-	}
-	
-	var logoFileUpload = function(logoimage){
-		if(logoimage == null || logoimage == undefined){
-			Message.alert({
-				msg : "企业形象照为空!",
-				title : "警告:",
-				btnok : '确定',
-				btncl : '取消'
-			}, "warn", "small");
-			return false;
-		}
-
-		$scope.upload=$upload.upload({
-	        url:'/images',
-	        method:'POST',
-	        header:{
-	            "Content-Type":"multipart/form-data"
-	        },
-	        //data:postEntity
-	        file:logoimage
-	    }).success(function(response, status, headers, config){
-	            if(status==201){
-            		$scope.logoImageId  = response.uuid;
-            		submit();
-	            }else{
-	    	    	Message.alert({
-	    			    msg: "图片上传失败！",
-	    		    	title:"警告提示",
-	    		    	btnok: '确定',
-	    		    	btncl:'取消'
-	    	      	},"warn","small");
-	            }
-	    }).error(function(data){
-	    	Message.alert({
-			    msg: "图片上传失败！",
-		    	title:"警告提示",
-		    	btnok: '确定',
-		    	btncl:'取消'
-	      	},"warn","small");
-	    })
-		
-	}
-	
-	var fileUpload = function(permitimage,logoimage){
-		
-		if(permitimage == null || permitimage == undefined){
-			Message.alert({
-				msg : "营业执照为空!",
-				title : "警告:",
-				btnok : '确定',btncl : '取消'
-			}, "warn", "small");
-			return false;
-		}
-
-		$scope.upload=$upload.upload({
-	        url:'/images',
-	        method:'POST',
-	        header:{
-	            "Content-Type":"multipart/form-data"
-	        },
-	        //data:postEntity
-	        file:permitimage
-	    }).success(function(response, status, headers, config){
-	            if(status==201){
-            		$scope.permitImageId = response.uuid;
-            		logoFileUpload(logoimage);
-	            }else{
-	    	    	Message.alert({
-	    			    msg: "图片上传失败！",
-	    		    	title:"警告提示",
-	    		    	btnok: '确定',
-	    		    	btncl:'取消'
-	    	      	},"warn","small");
-	            }
-	    }).error(function(data){
-	    	Message.alert({
-			    msg: "图片上传失败！",
-		    	title:"警告提示",
-		    	btnok: '确定',
-		    	btncl:'取消'
-	      	},"warn","small");
-	    })
-	}
 	
 	$scope.checkTel = function(){
 		var result = checkmobile($scope.tel);
@@ -185,10 +75,68 @@ shoecompanyUpdateControllers.controller('shoecompanyUpdateCtrl',['$scope','$stat
 	
 	
 	$scope.saveShoeCompany = function(){
-		var permitimage = $scope.shoeComapny.permitimage[0];
-		var logoimage = $scope.shoeComapny.logoimage[0];
+
+		if($scope.tempLogoImageId != "" && $scope.tempLogoImageId != null){
+			$scope.logoImageId =$scope.tempLogoImageId;
+		}
 		
-		fileUpload(permitimage,logoimage);
+		if($scope.tempPermitImageId != "" && $scope.tempPermitImageId != null){
+			$scope.permitImageId =$scope.tempPermitImageId;
+		}
+		var postEntity={};
+		postEntity = $scope.shoeComapny;
+		postEntity.logoImageId = $scope.logoImageId;
+		postEntity.permitImageId = $scope.permitImageId;
+		shoecompanyUpdateFactory.updateShoeCompanyById({uuid:$scope.shoeCompanyId},postEntity,function(response){				
+			if(response.$resolved){
+				$state.go('shoecompanylist');
+				Message.alert({
+					msg : "保存成功!",
+					title : "提示:",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+				
+			}else{
+				Message.alert({
+					msg : "保存失败!",
+					title : "警告:",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+			}
+	 	 },function(error){	
+				Message.alert({
+					msg : "保存失败!",
+					title : "警告:",
+					btnok : '确定',btncl : '取消'
+				}, "warn", "small");
+	 	 });
 	}
-		
+	
+	 $scope.onFileSelect = function(type,$files) {
+		 
+		//$files: an array of files selected, each file has name, size, and type.
+		var $file = $files[0];	
+		if($file == undefined || $file == null){
+			return false;
+		}		
+		$scope.upload=$upload.upload({
+	        url:'/images',
+	        method:'POST',
+	        header:{
+	            "Content-Type":"multipart/form-data"
+	        },
+	        //data:postEntity
+	        file:$file
+	    }).success(function(response, status, headers, config){
+	            if(status==201){	            	
+	            	if(type == "logoimage"){
+	            		$scope.tempLogoImageId = response.uuid;
+	            		$scope.shoeComapny.logoImageUrl = "/images/show/"+$scope.tempLogoImageId;
+	            	}else{
+		            	$scope.tempPermitImageId = response.uuid;
+		            	$scope.shoeComapny.permitImageUrl = "/images/show/"+$scope.tempPermitImageId;
+	            	}
+	            }
+	    });
+	 }
 }]);
