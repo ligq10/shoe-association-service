@@ -1,0 +1,81 @@
+<html>
+<head>
+<!-- Load CSS files-->
+    <link href="css/templateCss/creditdetail/creditdetail.css" rel="stylesheet" th:href="@{/css/templateCss/creditdetail/creditdetail.css}"/>
+</head>
+	<body>
+		<div class="container">
+			<div class="panel row">
+			  <div class="panel-heading content-center">
+			        <h2>企业详情</h2>
+			  </div>
+			  <div class="panel-body col-md-offset-3 col-sm-6">
+                   <form class="form-horizontal">
+       				  <div class="form-group">
+					    <label class="col-sm-2 control-label">企业名称</label>	
+					    <div class="col-sm-8">
+					    	<input class="form-control" id="name" ng-model="shoeComapny.name" type="text" disabled>				    				    					    
+					  	</div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">营业执照</label>
+					    <div class="col-sm-8">
+							<div class="box box-primary">
+		                        <div class="box-profile">
+		                            <div class="thumbnail">
+		                                <img style="height: 200px; width: 100%; display: block;" data-holder-rendered="true" ng-src="{{shoeComapny.permitImageUrl}}" alt="100%x200">
+		                                <div class="caption">
+		                                    <h3>营业执照预览</h3>
+		                                    <p><a role="button" target="_blank" class="btn btn-primary" ng-href="{{shoeComapny.permitImageUrl}}">查看原图</a></p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                     </div>						
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">形象照</label>
+					    <div class="col-sm-8">
+							<div class="box box-primary">
+		                        <div class="box-profile">
+		                            <div class="thumbnail">
+		                                <img style="height: 200px; width: 100%;" data-holder-rendered="false" ng-src="{{shoeComapny.logoImageUrl}}" alt="企业形象照">
+		                                <div class="caption">
+		                                    <h3>形象照预览</h3>
+		                                    <p><a role="button" target="_blank" class="btn btn-primary" ng-href="{{shoeComapny.logoImageUrl}}">查看原图</a></p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>						
+					     </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">企业法人</label>
+					    <div class="col-sm-8">
+					      <input class="form-control" id="enterpriseLegalPerson" ng-model="shoeComapny.enterpriseLegalPerson" type="text" disabled>				    				    					    				    
+					    </div>
+					  </div>				  
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">提交者</label>
+					    <div class="col-sm-8">
+					      <input class="form-control" id="submitPerson" ng-model="shoeComapny.submitPerson" type="text" disabled>				    				    					    				    				    
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">提交者电话</label>
+					    <div class="col-sm-8">
+					      <input class="form-control" id="tel" ng-model="shoeComapny.tel" type="text" disabled>				    				    					    				    				    				    
+					    </div>
+					  </div>
+                     
+                   </form>
+                   <div class="row">
+                  	  <div class="col-md-12 content-center">
+			              <a href="javascript:void(0);" ui-sref="shoeList()" class="btn btn-lg btn-default btn-margin">返回</a>
+                  	  </div>
+                  </div>
+			  </div>
+			</div>
+		</div>
+	</body>
+</html>

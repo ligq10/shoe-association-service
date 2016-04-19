@@ -2,7 +2,7 @@
  * Created by Administrator on 15-1-28.
  */
 'use strict';
-var shoeApp=angular.module('shoeApp',['ui.router','ui.tree','angularFileUpload','shoeListControllers',
+var shoeApp=angular.module('shoeApp',['ui.router','ui.tree','angularFileUpload','shoeListControllers','shoeDetailControllers',
               'shoeAddControllers','creditDetailControllers','feedBackAddControllers','feedBackListControllers']);
 shoeApp.config(function($stateProvider,$urlRouterProvider){
 // For any unmatched url, redirect to /index
@@ -23,6 +23,11 @@ shoeApp.config(function($stateProvider,$urlRouterProvider){
             url:'/shoeAdd',
             templateUrl:'templates/shoe/shoe_add.html',
             controller:'shoeAddCtrl'
+        }).
+        state('shoeDetail',{
+            url:'/shoeDetail/:uuid',
+            templateUrl:'templates/shoe/shoe_detail.html',
+            controller:'shoeDetailCtrl'
         }).
         state('feedbackAdd',{
             url:'/feedbackAdd/:uuid',

@@ -155,11 +155,12 @@ public class FeedbackController {
 	@RequestMapping(value="/feedbacks",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
 	public HttpEntity<?> findAllFeedbacks(
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,			
             @PageableDefault(page = 0, size = 20, sort = "createTime", direction = Sort.Direction.ASC) Pageable pageable,
 			HttpServletRequest request,
 			HttpServletResponse response){
 		ResponseEntity responseEntity = null;
-		Page<FeedbackScore> feedbackScorePage = feedbackService.findAll(pageable);
+		Page<FeedbackScore> feedbackScorePage = feedbackService.findBySearchKeyword(keyword,pageable);
 		
 		try {
 			responseEntity = feedbackService.getResponseEntityConvertFeedbackPage("",feedbackScorePage, pageable, request, response);

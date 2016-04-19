@@ -10,7 +10,7 @@
 			<iframe name="my_iframe" src="about:blank" ng-hide="true"></iframe>
 			<form  target="my_iframe" action="about:blank" class="form-horizontal" name="searchFrom" role="form" ng-submit="search()" autocomplete="on" >
 				<div class="serch">
-					<input class="fl input-search form-control" id="search_input" type="text" ng-model="search_keyword" onkeypress="if (event.which==13) document.getElementById('search_button').click()" placeholder="企业名称/提交者/提交者电话">
+					<input class="fl input-search form-control" id="search_input" type="text" ng-model="search_keyword" onkeypress="if (event.which==13) document.getElementById('search_button').click()" placeholder="评分事由/提交者/提交者电话">
 					<div class="clear_div" ng-show="search_keyword">
 						<a href="javascript:void(0);" clear-search class="delete_search" id="clear_search"></a>
 					</div>

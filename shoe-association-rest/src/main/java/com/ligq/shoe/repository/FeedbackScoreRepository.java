@@ -25,4 +25,10 @@ public interface FeedbackScoreRepository extends
 
 	public Page<FeedbackScore> findByCompanyIdAndApproveStatus(String uuid,
 			Integer auditStatus, Pageable pageable);
+	
+	@RestResource(exported = false)
+	@Query(value = "select t from FeedbackScore t where  t.submitPerson like %:keyword% or t.submitTel like %:keyword% or t.scoreReason like %:keyword%")
+	public Page<FeedbackScore> findBySearchKeyword(
+			@Param("keyword") String keyword,Pageable pageable);
+
 }

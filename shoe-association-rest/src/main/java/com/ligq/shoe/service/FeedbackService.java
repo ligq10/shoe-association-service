@@ -131,9 +131,9 @@ public class FeedbackService {
 		return feedbackScorePage;
 	}
 
-	public Page<FeedbackScore> findAll(
+	public Page<FeedbackScore> findBySearchKeyword(String keyword,
 			Pageable pageable) {
-		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findAll(pageable);
+		Page<FeedbackScore> feedbackScorePage = feedbackScoreRepository.findBySearchKeyword(keyword,pageable);
 		return feedbackScorePage;
 	}
 	

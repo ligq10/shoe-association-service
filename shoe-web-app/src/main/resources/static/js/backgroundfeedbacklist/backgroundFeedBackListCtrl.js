@@ -11,7 +11,8 @@ backgroundFeedBackListControllers.controller('backgroundFeedBackListCtrl',['$sco
 	$scope.feedbackList = [];
     $scope.pageSize=PAGESIZE_DEFAULT;
 	$scope.currentPage=CURRENTPAGE_INIT;
-	
+    var search_keyword="";
+
 	var initFeedbackList = function(){
 		var queryEntity = {
 				page:$scope.currentPage,
@@ -29,9 +30,11 @@ backgroundFeedBackListControllers.controller('backgroundFeedBackListCtrl',['$sco
 			queryEntity = {};
 			queryEntity.page=$scope.currentPage,
 			queryEntity.size=$scope.pageSize,
+			queryEntity.keyword =search_keyword;
 			queryEntity.auditStatus=3
 		}else{
 			queryEntity.auditStatus=3
+			queryEntity.keyword =search_keyword;
 		}
 		backgroundFeedBackListFactory.queryAllFeedback(queryEntity,function(response){
 			if(response.$resolved){
@@ -40,6 +43,7 @@ backgroundFeedBackListControllers.controller('backgroundFeedBackListCtrl',['$sco
 	            	$scope.currentPage = 0;
 	            	$scope.numPages = 0;
 	            	$scope.pageSize = 0;
+	            	search_keyword="";
 	            	return false;
 	            }else{
 	            	$scope.feedbackList=[];
@@ -63,6 +67,16 @@ backgroundFeedBackListControllers.controller('backgroundFeedBackListCtrl',['$sco
 	}					
 
 	initFeedbackList();
+	
+    // 搜索
+    $scope.search=function() {
+        $scope.currentPage=CURRENTPAGE_INIT;//当前第几页
+        $scope.pageSize=PAGESIZE_DEFAULT;
+       if($scope.search_keyword != undefined){
+    		search_keyword = $scope.search_keyword;
+       }           
+       refreshFeedbackList();
+    }
 	
     //shoe翻页 点击下一页，上一页，首页，尾页按钮
     $scope.pageChanged=function(){

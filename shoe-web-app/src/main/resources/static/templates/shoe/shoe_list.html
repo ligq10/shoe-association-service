@@ -47,25 +47,25 @@
 			                <a class="tiaomu">			                	
 			                  <div class="row">
 			                  	<div class="col-md-12">
-			                      <img class="img-scale" ng-src="{{subitem.logoImageUrl}}"/>
+			                      <a href="javascript:void(0);" ui-sref="shoeDetail({uuid:subitem.uuid})"><img class="img-scale" ng-src="{{subitem.logoImageUrl}}"/></a>
 			                     </div>
 			                  </div>
 			                  <div class="row">
 			                  	 <div class="col-md-12">
-       			                  <h5>名称：{{subitem.name}}</h5>
+       			                  <a href="javascript:void(0);" ui-sref="shoeDetail({uuid:subitem.uuid})"><h5>名称：{{subitem.name}}</h5></a>
        			                 </div>			                  
 			                  </div>
 			                  <div class="row">
 				                  <div class="col-md-12">
-				                    <a javascript:void(0); ui-sref="creditDetail({uuid:subitem.uuid})">信誉分：{{subitem.totalScore}}分（{{subitem.creditDesc}}）</a>			                    			                    			                  				                    
+				                    <a href="javascript:void(0);" ui-sref="creditDetail({uuid:subitem.uuid})">信誉分：{{subitem.totalScore}}分（{{subitem.creditDesc}}）</a>			                    			                    			                  				                    
 				                  </div>
 			                  </div>
 			                  <div class="row row-margin">
 			                  	<div class="col-md-5">
-                					<a javascript:void(0); ui-sref="feedbackList({uuid:subitem.uuid})">评分详情</a>
+                					<a href="javascript:void(0);" ui-sref="feedbackList({uuid:subitem.uuid})">评分详情</a>
 			                  	</div>
 			                  	<div class="col-md-5">
-                					<a javascript:void(0); ui-sref="feedbackAdd({uuid:subitem.uuid})">我要评论</a>			                    			                    			                  	
+                					<a href="javascript:void(0);" ui-sref="feedbackAdd({uuid:subitem.uuid})">我要评论</a>			                    			                    			                  	
 			                  	</div>			                  			                    
 			                  </div>
 			                </a>
