@@ -130,7 +130,7 @@ backgroundFeedBackAddControllers.controller('backgroundFeedBackAddCtrl',['$scope
     //模糊搜索
     $scope.searchCompany=function(){
 
-    	search_keyword = ($scope.search_keyword == undefined)?"":scope.search_keyword;
+    	search_keyword = ($scope.search_keyword == undefined)?"":$scope.search_keyword;
         $scope.currentPageSearch=CURRENTPAGE_INIT;//当前第几页
     	$scope.pageSizeSearch=15;//默认每页条数
     	$scope.pagingHiddenSearch=true;
