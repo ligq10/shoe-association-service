@@ -48,6 +48,7 @@ import com.ligq.shoe.entity.Employee;
 import com.ligq.shoe.model.EmployeeAddRequest;
 import com.ligq.shoe.model.EmployeeResponse;
 import com.ligq.shoe.model.RegisterUser;
+import com.ligq.shoe.model.ResetPasswordRequest;
 import com.ligq.shoe.model.RoleResponse;
 import com.ligq.shoe.model.UpdatePasswordRequest;
 import com.ligq.shoe.model.UpdateUserRoleRequest;
@@ -241,13 +242,12 @@ public class EmployeeService {
             return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
 		}
 		
-		if(StringUtils.isEmpty(employeeAddRequest.getPassword()) == false || employeeAddRequest.getPassword().equalsIgnoreCase(employeeEntity.getPassword())== false){
-			UpdatePasswordRequest updatePassword = new UpdatePasswordRequest();
-			updatePassword.setLoginName(employeeAddRequest.getLoginName());
-			updatePassword.setOldPassword(employeeEntity.getPassword());
-			updatePassword.setNewPassword(employeeAddRequest.getPassword());
+		if(StringUtils.isEmpty(employeeAddRequest.getPassword()) == false && employeeAddRequest.getPassword().equalsIgnoreCase(employeeEntity.getPassword()) == false){
+			ResetPasswordRequest resetPassword = new ResetPasswordRequest();
+			resetPassword.setLoginName(employeeAddRequest.getLoginName());
+			resetPassword.setPassword(employeeAddRequest.getPassword());
 			try {
-				boolean isSuccess = resetPassword(updatePassword,token);
+				boolean isSuccess = resetPassword(resetPassword,token);
 				if(isSuccess == false){
 					logger.error("updatepassword to remote server failed!");
 		            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -280,7 +280,7 @@ public class EmployeeService {
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 	
-	private boolean resetPassword(UpdatePasswordRequest updatePassword,String token) throws Exception {
+	private boolean resetPassword(ResetPasswordRequest resetPassword,String token) throws Exception {
 		RestTemplateResponseErrorHandler responseErrorHandler = new RestTemplateResponseErrorHandler();
 		boolean isSuccessFlag = false;
 		try{
@@ -290,8 +290,8 @@ public class EmployeeService {
 			headers.put(SECURITY_TOKEN_HEADER, Lists.newArrayList(token));
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.setErrorHandler(responseErrorHandler);
-			ResponseEntity responseBody =restTemplate.exchange(env.getRequiredProperty("updatePassword.endpoint"),
-					HttpMethod.POST, new HttpEntity<>(updatePassword,
+			ResponseEntity responseBody =restTemplate.exchange(env.getRequiredProperty("resetPassword.endpoint"),
+					HttpMethod.POST, new HttpEntity<>(resetPassword,
 							headers), ResponseEntity.class);
 			if(responseBody.getStatusCode().equals(HttpStatus.OK)){
 				isSuccessFlag = true; 
