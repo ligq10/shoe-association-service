@@ -87,7 +87,7 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
         	$scope.selectRole = response.roles;
         	$scope.name=response.name;
         	$scope.gender = response.gender;
-        	$scope.birthDay = response.birthDay;
+        	$scope.birthday = response.birthday;
         	$scope.password = response.password;
         	if(response.roles != null && response.roles.length >0){
         		for(var i=0;i<response.roles.length;i++){
@@ -187,7 +187,7 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
 		//user.gender=$("input[name='gender']:checked").val();
 		user.birthday=$("input[name='birthday']").val();
 		user.gender = $scope.gender;
-		//user.birthDay = $scope.birthDay;
+		//user.birthday = $scope.birthday;
 		user.remarks=$scope.remarks;
 		user.password = $scope.password;
 		//角色
@@ -219,16 +219,3 @@ personnelUpdateControllers.controller('personnelUpdateCtrl',['$scope','$state','
     };
 	
 }]);
-
-/**
- * 权限分配dialog
- */
-/*personnelUpdateControllers.directive("authoritydistributedialog", function (){
-	var option={
-			restrict:"AEC",
-			transclude:true,
-			replace:true,
-			templateUrl:"templates/commonTemplate/authority-distribution-dialog.html"
-	};
-	return option;
-});*/
